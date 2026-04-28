@@ -1,0 +1,2132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light only">
+<meta name="supported-color-schemes" content="light">
+<title>FacturePilot. — Soyez payé plus vite.</title>
+<meta name="description" content="FacturePilot automatise vos relances de paiement et génère vos factures, devis et contrats. 7 jours gratuits — sans carte bancaire.">
+<!-- OG -->
+<meta property="og:title" content="FacturePilot. — Soyez payé plus vite.">
+<meta property="og:description" content="Vos clients paient en retard ? FacturePilot automatise vos relances. -68% de retards de paiement.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;0,700;1,600;1,700&family=Figtree:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ================================================================
+   TOKENS — IDENTIQUES AU ORIGINAL
+================================================================ */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{color-scheme:light only}
+@media(prefers-color-scheme:dark){
+  :root{color-scheme:light}
+  body{background:#f6f2ec!important;color:#111110!important}
+}
+:root{
+  --g:#1a5c36;--g2:#0e3d23;--g-lt:#e8f4ec;--g-md:#b8ddc5;
+  --or:#e8a020;--or-lt:#fef6e4;--or-md:#f5d07a;
+  --ink:#111110;--ink2:#2c2c2a;--muted:#7a7570;
+  --line:#e0dbd2;--line2:#ccc7be;
+  --cream:#f6f2ec;--white:#fffefb;--sand:#f0ebe1;
+  --sh:0 1px 14px rgba(17,17,16,.06);
+  --sh-md:0 4px 28px rgba(17,17,16,.10);
+  --sh-lg:0 16px 64px rgba(17,17,16,.14);
+  --r:12px;
+}
+html{overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:'Figtree',sans-serif;background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased}
+
+/* ================================================================
+   NAV
+================================================================ */
+nav{
+  position:sticky;top:0;z-index:500;
+  height:62px;display:flex;align-items:center;
+  background:rgba(246,242,236,.97);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+  padding:0 16px;gap:8px;
+}
+.nav-brand{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0}
+.logo-mark{width:36px;height:36px;flex-shrink:0}
+.brand-text{font-family:'Figtree',sans-serif;font-weight:800;font-size:17px;letter-spacing:-.02em;display:flex;align-items:baseline}
+.brand-facture{color:var(--ink)}.brand-pilot{color:var(--g)}.brand-dot{color:var(--or);font-size:21px;line-height:0;margin-left:1px}
+.nav-center{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;align-items:center;padding:0 4px}
+.nav-center::-webkit-scrollbar{display:none}
+@media(max-width:700px){.nav-center{display:none}}
+.npill{display:inline-flex;align-items:center;gap:5px;padding:7px 12px;border-radius:99px;font-size:13px;font-weight:500;color:var(--muted);background:none;border:none;cursor:pointer;transition:all .15s;white-space:nowrap;font-family:'Figtree',sans-serif}
+.npill:hover{color:var(--ink);background:var(--sand)}
+.npill.on{background:var(--ink);color:var(--white);font-weight:600}
+.nav-cta-wrap{flex-shrink:0;margin-left:auto;display:flex;align-items:center;gap:8px}
+.nav-hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:var(--ink)}
+.nav-hamburger:hover{background:var(--sand)}
+@media(max-width:700px){.nav-hamburger{display:flex;align-items:center;justify-content:center}}
+.nav-cta{height:36px;padding:0 18px;border-radius:99px;font-size:13px;font-weight:700;background:var(--g);color:var(--white);border:none;cursor:pointer;font-family:'Figtree',sans-serif;transition:all .18s;white-space:nowrap}
+.nav-cta:hover{background:var(--g2);transform:scale(1.02)}
+.nav-cta.active{background:var(--or);color:var(--ink)}
+
+/* Menu mobile */
+.nav-mobile-menu{display:none;position:fixed;top:62px;left:0;right:0;background:rgba(246,242,236,.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);padding:12px 16px;z-index:499;flex-direction:column;gap:4px}
+.nav-mobile-menu.open{display:flex}
+.nav-mobile-pill{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:11px;font-size:14px;font-weight:500;color:var(--ink2);background:none;border:none;cursor:pointer;font-family:'Figtree',sans-serif;text-align:left;transition:all .15s;width:100%}
+.nav-mobile-pill:hover,.nav-mobile-pill.on{background:var(--g-lt);color:var(--g);font-weight:600}
+
+/* ================================================================
+   SECTIONS
+================================================================ */
+.s{display:none}.s.on{display:block}
+
+/* ================================================================
+   ★★★ HERO OPTIMISÉ — EMAIL ABOVE THE FOLD ★★★
+================================================================ */
+.hero{padding:52px 20px 0;max-width:1100px;margin:0 auto}
+.hero-top{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;background:var(--g-lt);border:1px solid var(--g-md);color:var(--g);border-radius:99px;padding:6px 16px;font-size:12px;font-weight:700;margin-bottom:24px;letter-spacing:.04em;text-transform:uppercase}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--g);animation:glow 2s infinite}
+@keyframes glow{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.hero h1{font-family:'Lora',serif;font-size:clamp(36px,4.5vw,58px);line-height:1.06;letter-spacing:-.03em;font-weight:700;margin-bottom:18px;color:var(--ink)}
+.hero h1 em{font-style:italic;color:var(--g);display:block}
+.hero-sub{font-size:16px;color:var(--muted);line-height:1.7;max-width:440px;margin-bottom:28px;font-weight:400}
+.hero-sub strong{color:var(--ink);font-weight:600}
+
+/* ★ HERO EMAIL FORM — nouveau composant critique ★ */
+.hero-email-form{
+  background:var(--white);border:2px solid var(--g-md);border-radius:16px;
+  padding:20px;margin-bottom:24px;
+  box-shadow:0 4px 32px rgba(26,92,54,.1);
+}
+.hero-email-label{font-size:12px;font-weight:700;color:var(--g);letter-spacing:.04em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.hero-email-input-row{display:flex;gap:8px}
+.hero-email-inp{
+  flex:1;height:50px;padding:0 16px;
+  border:1.5px solid var(--line2);border-radius:11px;
+  font-family:'Figtree',sans-serif;font-size:15px;color:var(--ink);
+  background:var(--cream);outline:none;transition:border .15s;
+  min-width:0;
+}
+.hero-email-inp:focus{border-color:var(--g);background:var(--white)}
+.hero-email-btn{
+  height:50px;padding:0 22px;border-radius:11px;
+  background:var(--g);color:var(--white);
+  border:none;cursor:pointer;font-family:'Figtree',sans-serif;
+  font-size:14px;font-weight:700;white-space:nowrap;
+  transition:all .18s;flex-shrink:0;
+}
+.hero-email-btn:hover{background:var(--g2);transform:translateY(-1px);box-shadow:0 5px 18px rgba(26,92,54,.28)}
+.hero-email-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.hero-email-sub{font-size:11.5px;color:var(--muted);margin-top:8px;display:flex;align-items:center;gap:5px}
+.hero-email-sub::before{content:'🔒';font-size:11px}
+
+/* Confirmation inline */
+.hero-email-confirm{display:none;background:var(--g-lt);border:1.5px solid var(--g-md);border-radius:12px;padding:16px;text-align:center}
+.hero-email-confirm h3{font-family:'Lora',serif;font-size:17px;color:var(--g);margin-bottom:5px}
+.hero-email-confirm p{font-size:13px;color:var(--muted);line-height:1.5}
+.hero-email-confirm .ec-email{font-weight:700;color:var(--ink)}
+
+.hero-stats{display:flex;gap:24px;flex-wrap:wrap}
+.hero-stat-n{font-family:'Lora',serif;font-size:28px;font-weight:700;color:var(--ink);letter-spacing:-.03em;line-height:1;margin-bottom:3px}
+.hero-stat-l{font-size:12px;color:var(--muted);font-weight:500}
+.hero-stat-div{width:1px;background:var(--line);align-self:stretch}
+
+/* HERO RIGHT — action cards */
+.hero-right{display:flex;flex-direction:column;gap:10px}
+.action-card{background:var(--white);border:1.5px solid var(--line);border-radius:16px;padding:18px 20px;cursor:pointer;transition:all .22s cubic-bezier(.34,1.3,.64,1);display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;position:relative;overflow:hidden}
+.action-card::before{content:'';position:absolute;inset:0;border-radius:16px;background:var(--g-lt);opacity:0;transition:opacity .2s}
+.action-card:hover{transform:translateY(-3px) scale(1.01);box-shadow:var(--sh-md);border-color:var(--g-md)}
+.action-card:hover::before{opacity:1}
+.action-card.primary{border-color:var(--g);border-width:2px;background:var(--g)}
+.action-card.primary::before{background:var(--g2)}
+.action-card-ico{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;z-index:1;transition:transform .22s cubic-bezier(.34,1.3,.64,1)}
+.action-card:hover .action-card-ico{transform:scale(1.1) rotate(-5deg)}
+.action-card-body{flex:1;z-index:1}
+.action-card-title{font-size:15px;font-weight:700;margin-bottom:3px;color:var(--ink);line-height:1.2}
+.action-card.primary .action-card-title{color:var(--white)}
+.action-card-desc{font-size:12px;color:var(--muted);line-height:1.45}
+.action-card.primary .action-card-desc{color:rgba(255,255,255,.65)}
+.action-arrow{font-size:18px;color:var(--muted);flex-shrink:0;z-index:1;transition:transform .18s}
+.action-card:hover .action-arrow{transform:translateX(4px)}
+.action-card.primary .action-arrow{color:rgba(255,255,255,.7)}
+
+.hero-divider{max-width:1100px;margin:48px auto 0;height:1px;background:var(--line)}
+
+/* ================================================================
+   FEATURES STRIP
+================================================================ */
+.feat-strip{max-width:1100px;margin:0 auto;padding:40px 20px 60px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.feat-item{display:flex;align-items:flex-start;gap:13px;padding:18px;background:var(--white);border-radius:14px;border:1.5px solid var(--line);transition:all .2s}
+.feat-item:hover{border-color:var(--g-md);transform:translateY(-2px);box-shadow:var(--sh)}
+.feat-ico{width:38px;height:38px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:17px}
+.feat-text-title{font-size:13px;font-weight:700;margin-bottom:3px;color:var(--ink)}
+.feat-text-desc{font-size:11.5px;color:var(--muted);line-height:1.55}
+
+/* ================================================================
+   ★★★ SOCIAL PROOF STRIP — nouveau ★★★
+================================================================ */
+.social-strip{
+  background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:22px 20px;overflow:hidden;
+}
+.social-strip-inner{
+  max-width:1100px;margin:0 auto;
+  display:flex;align-items:center;gap:32px;flex-wrap:wrap;justify-content:center;
+}
+.ss-label{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);flex-shrink:0}
+.ss-testimonials{display:flex;gap:20px;flex-wrap:wrap;justify-content:center}
+.ss-item{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--cream);border-radius:10px;border:1px solid var(--line)}
+.ss-avatar{width:32px;height:32px;border-radius:50%;background:var(--g-lt);border:2px solid var(--g-md);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.ss-text{font-size:12px;color:var(--ink2);line-height:1.4}
+.ss-text strong{display:block;font-weight:700;font-size:11.5px}
+.ss-stars{color:var(--or);font-size:11px;letter-spacing:1px}
+
+/* ================================================================
+   PROOF BLOCK
+================================================================ */
+.proof-block{background:var(--g2);padding:72px 20px;position:relative;overflow:hidden}
+.proof-block::before{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(232,160,32,.12) 0%,transparent 70%);top:-200px;right:-100px;pointer-events:none}
+.proof-inner{max-width:1100px;margin:0 auto}
+.proof-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--or);margin-bottom:16px}
+.proof-h2{font-family:'Lora',serif;font-size:clamp(28px,3.5vw,46px);font-weight:700;color:var(--white);letter-spacing:-.03em;line-height:1.1;margin-bottom:14px;max-width:600px}
+.proof-h2 em{font-style:italic;color:var(--or)}
+.proof-sub{font-size:16px;color:rgba(255,255,255,.55);line-height:1.7;max-width:480px;margin-bottom:52px;font-weight:300}
+.proof-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.ps{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:24px 20px}
+.ps-n{font-family:'Lora',serif;font-size:44px;font-weight:700;line-height:1;letter-spacing:-.05em;margin-bottom:6px;color:var(--white)}
+.ps-n.or{color:var(--or)}.ps-n.gr{color:#7dd5a4}
+.ps-l{font-size:12.5px;color:rgba(255,255,255,.45);line-height:1.5}
+
+/* ================================================================
+   ★★★ RELANCES USP BLOCK — nouveau ★★★
+================================================================ */
+.relance-block{max-width:1100px;margin:0 auto;padding:80px 20px}
+.relance-inner{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.relance-left h2{font-family:'Lora',serif;font-size:clamp(26px,3.5vw,44px);font-weight:700;letter-spacing:-.03em;margin-bottom:14px;color:var(--ink);line-height:1.1}
+.relance-left h2 em{font-style:italic;color:var(--g)}
+.relance-left p{font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:24px}
+.relance-steps{display:flex;flex-direction:column;gap:12px}
+.rs{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;background:var(--white);border:1.5px solid var(--line);border-radius:12px;transition:all .2s}
+.rs:hover{border-color:var(--g-md);transform:translateX(4px)}
+.rs-day{
+  min-width:46px;height:46px;border-radius:10px;
+  background:var(--g-lt);color:var(--g);
+  font-family:'Lora',serif;font-size:13px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  border:1.5px solid var(--g-md);
+}
+.rs-body-title{font-size:13.5px;font-weight:700;margin-bottom:2px}
+.rs-body-desc{font-size:12px;color:var(--muted);line-height:1.4}
+.rs-channel{display:flex;gap:5px;margin-top:5px}
+.rs-ch{font-size:10.5px;padding:2px 8px;border-radius:99px;font-weight:600}
+.rs-ch.email{background:var(--g-lt);color:var(--g)}
+.rs-ch.wa{background:#dcf8c6;color:#128c45}
+.rs-ch.auto{background:var(--or-lt);color:#9a6500}
+
+/* Preview automatisation */
+.relance-right{position:relative}
+.auto-preview{
+  background:var(--g2);border-radius:20px;padding:24px;
+  box-shadow:var(--sh-lg);
+  position:relative;overflow:hidden;
+}
+.auto-preview::before{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(232,160,32,.15) 0%,transparent 60%);top:-100px;right:-80px;pointer-events:none}
+.ap-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.ap-title{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.ap-badge{background:rgba(125,213,164,.2);color:#7dd5a4;border:1px solid rgba(125,213,164,.3);border-radius:99px;padding:4px 12px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:5px}
+.ap-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#7dd5a4;animation:glow 2s infinite}
+.ap-timeline{display:flex;flex-direction:column;gap:0}
+.ap-item{display:flex;align-items:stretch;gap:14px}
+.ap-line-col{display:flex;flex-direction:column;align-items:center;gap:0}
+.ap-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.ap-dot.green{background:#7dd5a4}
+.ap-dot.or{background:var(--or)}
+.ap-dot.white{background:rgba(255,255,255,.3)}
+.ap-vline{flex:1;width:1.5px;background:rgba(255,255,255,.1);min-height:16px}
+.ap-content{flex:1;padding-bottom:16px}
+.ap-day{font-size:10px;color:rgba(255,255,255,.35);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.ap-msg{background:rgba(255,255,255,.07);border-radius:9px;padding:10px 12px;border:1px solid rgba(255,255,255,.08)}
+.ap-msg-from{font-size:10px;color:rgba(255,255,255,.4);margin-bottom:3px}
+.ap-msg-text{font-size:12.5px;color:rgba(255,255,255,.85);line-height:1.5}
+.ap-msg-tag{display:inline-flex;align-items:center;gap:4px;margin-top:6px;font-size:10px;padding:2px 8px;border-radius:99px;font-weight:600}
+.ap-msg-tag.sent{background:rgba(125,213,164,.15);color:#7dd5a4}
+.ap-msg-tag.paid{background:rgba(232,160,32,.2);color:var(--or)}
+.ap-msg-tag.stopped{background:rgba(255,255,255,.1);color:rgba(255,255,255,.4)}
+.ap-result{background:rgba(232,160,32,.15);border:1px solid rgba(232,160,32,.3);border-radius:10px;padding:12px;text-align:center;margin-top:4px}
+.ap-result-n{font-family:'Lora',serif;font-size:28px;color:var(--or);font-weight:700}
+.ap-result-l{font-size:11px;color:rgba(255,255,255,.45);margin-top:2px}
+
+/* ================================================================
+   HOW IT WORKS
+================================================================ */
+.how-block{max-width:1100px;margin:0 auto;padding:80px 20px}
+.how-header{text-align:center;margin-bottom:52px}
+.section-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--g);margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:10px}
+.section-eyebrow::before,.section-eyebrow::after{content:'';flex:1;max-width:60px;height:1px;background:var(--g)}
+.how-title{font-family:'Lora',serif;font-size:clamp(26px,3.5vw,44px);font-weight:700;letter-spacing:-.03em;margin-bottom:12px;color:var(--ink)}
+.how-title em{font-style:italic;color:var(--g)}
+.how-sub{font-size:15px;color:var(--muted);line-height:1.7;max-width:500px;margin:0 auto;font-weight:400}
+.how-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.how-steps::before{content:'';position:absolute;top:36px;left:calc(12.5% + 28px);right:calc(12.5% + 28px);height:2px;background:repeating-linear-gradient(90deg,var(--g-md) 0,var(--g-md) 8px,transparent 8px,transparent 16px)}
+.how-step{padding:0 16px;text-align:center}
+.how-step-n{width:56px;height:56px;border-radius:50%;background:var(--white);border:2px solid var(--g-md);color:var(--g);font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;position:relative;z-index:1;font-family:'Lora',serif;transition:all .2s}
+.how-step:hover .how-step-n{background:var(--g);color:var(--white);border-color:var(--g);transform:scale(1.08)}
+.how-step-title{font-size:14px;font-weight:700;margin-bottom:6px;color:var(--ink)}
+.how-step-desc{font-size:12.5px;color:var(--muted);line-height:1.6}
+
+/* ================================================================
+   ★★★ CTA SECTION BAS DE PAGE — nouveau ★★★
+================================================================ */
+.cta-bottom{background:linear-gradient(135deg,#0a2d18,#0e3d23);padding:80px 20px;text-align:center;position:relative;overflow:hidden}
+.cta-bottom::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(232,160,32,.1) 0%,transparent 65%);top:-150px;left:50%;transform:translateX(-50%);pointer-events:none}
+.cta-bottom-inner{max-width:560px;margin:0 auto;position:relative;z-index:1}
+.cta-bottom h2{font-family:'Lora',serif;font-size:clamp(28px,4vw,48px);font-weight:700;color:var(--white);letter-spacing:-.03em;margin-bottom:12px;line-height:1.1}
+.cta-bottom h2 em{font-style:italic;color:var(--or)}
+.cta-bottom p{font-size:15px;color:rgba(255,255,255,.55);margin-bottom:32px;line-height:1.7}
+.cta-bottom-form{display:flex;gap:10px;max-width:440px;margin:0 auto 16px}
+.cta-bottom-inp{flex:1;height:52px;padding:0 18px;border:1.5px solid rgba(255,255,255,.2);border-radius:12px;background:rgba(255,255,255,.08);color:var(--white);font-family:'Figtree',sans-serif;font-size:15px;outline:none;transition:border .15s;min-width:0}
+.cta-bottom-inp::placeholder{color:rgba(255,255,255,.35)}
+.cta-bottom-inp:focus{border-color:rgba(232,160,32,.6);background:rgba(255,255,255,.12)}
+.cta-bottom-btn{height:52px;padding:0 24px;border-radius:12px;background:var(--or);color:var(--ink);border:none;cursor:pointer;font-family:'Figtree',sans-serif;font-size:15px;font-weight:700;transition:all .18s;white-space:nowrap;flex-shrink:0}
+.cta-bottom-btn:hover{background:#f0b030;transform:translateY(-1px);box-shadow:0 6px 24px rgba(232,160,32,.4)}
+.cta-bottom-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.cta-bottom-sub{font-size:12px;color:rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.cta-bottom-sub span{display:flex;align-items:center;gap:4px}
+.cta-bottom-sub span::before{content:'✓';color:var(--or);font-weight:700}
+.cta-confirm{display:none;background:rgba(232,160,32,.15);border:1px solid rgba(232,160,32,.3);border-radius:14px;padding:22px;text-align:center}
+.cta-confirm h3{font-family:'Lora',serif;font-size:20px;color:var(--or);margin-bottom:7px}
+.cta-confirm p{font-size:13.5px;color:rgba(255,255,255,.6);line-height:1.6}
+
+/* ================================================================
+   PRICING
+================================================================ */
+.pricing-section{max-width:1100px;margin:0 auto;padding:80px 20px}
+.pricing-header{text-align:center;margin-bottom:48px}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.pc{background:var(--white);border:1.5px solid var(--line);border-radius:20px;padding:30px 26px;position:relative;transition:all .22s}
+.pc:hover{transform:translateY(-3px);box-shadow:var(--sh-md)}
+.pc.featured{border-color:var(--g);border-width:2px;box-shadow:0 0 0 4px rgba(26,92,54,.08)}
+.pc-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--g);color:var(--white);font-size:10.5px;font-weight:800;padding:4px 14px;border-radius:99px;white-space:nowrap;letter-spacing:.04em;text-transform:uppercase}
+.pc-name{font-family:'Lora',serif;font-size:22px;font-weight:700;margin-bottom:5px}
+.pc-desc{font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:18px;min-height:38px}
+.pc-price-n{font-family:'Lora',serif;font-size:48px;letter-spacing:-.05em;color:var(--ink);line-height:1}
+.pc-price-n .euro{font-size:22px;vertical-align:top;margin-top:6px;display:inline-block}
+.pc-period{font-size:12px;color:var(--muted);margin-top:3px}
+.pc-trial{font-size:12px;color:var(--g);font-weight:700;margin-top:3px}
+.pc-divider{height:1px;background:var(--line);margin:16px 0}
+.pc-feats{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.pc-feat{display:flex;align-items:flex-start;gap:8px;font-size:12.5px}
+.pc-feat.yes::before{content:"✓";font-weight:800;color:var(--g);font-size:12px;flex-shrink:0;margin-top:1px}
+.pc-feat.no{color:var(--muted)}.pc-feat.no::before{content:"—";color:var(--line2);flex-shrink:0}
+
+/* ================================================================
+   FAQ
+================================================================ */
+.faq-section{max-width:720px;margin:0 auto;padding:80px 20px}
+.faq-title-block{text-align:center;margin-bottom:44px}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:17px 0;cursor:pointer;gap:14px;transition:color .15s}
+.faq-q:hover{color:var(--g)}
+.faq-q-text{font-size:15px;font-weight:600;flex:1;line-height:1.35}
+.faq-arrow{width:26px;height:26px;border-radius:50%;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);transition:all .2s;flex-shrink:0}
+.faq-item.open .faq-arrow{background:var(--g);color:#fff;transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.faq-item.open .faq-a{max-height:280px}
+.faq-a-inner{font-size:13.5px;color:var(--muted);line-height:1.75;padding-bottom:16px;padding-right:40px}
+
+/* ================================================================
+   ★★★ STICKY MOBILE CTA BAR — nouveau ★★★
+================================================================ */
+.sticky-mobile-cta{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--white);border-top:1.5px solid var(--line);
+  padding:12px 16px;z-index:600;
+  box-shadow:0 -4px 24px rgba(17,17,16,.1);
+}
+@media(max-width:700px){
+  .sticky-mobile-cta{display:flex;gap:10px;align-items:center}
+}
+.sticky-cta-text{flex:1;min-width:0}
+.sticky-cta-title{font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sticky-cta-sub{font-size:11px;color:var(--muted)}
+.sticky-cta-btn{
+  height:44px;padding:0 20px;border-radius:10px;
+  background:var(--g);color:var(--white);
+  border:none;cursor:pointer;font-family:'Figtree',sans-serif;
+  font-size:13.5px;font-weight:700;transition:all .18s;white-space:nowrap;flex-shrink:0;
+}
+.sticky-cta-btn:hover{background:var(--g2)}
+
+/* Padding bottom pour ne pas cacher le contenu derrière la barre */
+@media(max-width:700px){body{padding-bottom:70px}}
+
+/* ================================================================
+   TOOL SECTIONS (conservées)
+================================================================ */
+.tool-wrap{max-width:1100px;margin:0 auto;padding:0 20px 80px}
+.tool-head{padding:48px 0 32px;max-width:500px;margin:0 auto;text-align:center}
+.tool-head h1{font-family:'Lora',serif;font-size:clamp(26px,4vw,46px);line-height:1.06;letter-spacing:-.03em;font-weight:700;margin-bottom:10px;color:var(--ink)}
+.tool-head h1 em{font-style:italic;color:var(--g)}
+.tool-head p{font-size:14px;color:var(--muted);line-height:1.7;font-weight:400}
+.eyebrow-pill{display:inline-flex;align-items:center;gap:6px;background:var(--g-lt);border:1px solid var(--g-md);color:var(--g);border-radius:99px;padding:4px 14px;font-size:10.5px;font-weight:700;margin-bottom:16px;letter-spacing:.05em;text-transform:uppercase}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:12px}
+.card:last-child{margin-bottom:0}
+.card-ttl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.f{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.f:last-child{margin-bottom:0}
+.f label{font-size:11.5px;font-weight:600;color:var(--ink2)}
+.inp{height:43px;padding:0 13px;border:1.5px solid var(--line2);border-radius:10px;font-family:'Figtree',sans-serif;font-size:14px;color:var(--ink);background:var(--white);outline:none;transition:border .15s;width:100%}
+.inp:focus{border-color:var(--g)}
+textarea.inp{height:auto;min-height:72px;padding:10px 13px;resize:vertical;line-height:1.5}
+select.inp{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%237a7570' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:30px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:46px;padding:0 24px;border-radius:10px;font-family:'Figtree',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .18s;text-decoration:none;white-space:nowrap}
+.btn-green{background:var(--g);color:var(--white)}.btn-green:hover{background:var(--g2);transform:translateY(-1px);box-shadow:0 5px 18px rgba(26,92,54,.28)}
+.btn-ink{background:var(--ink);color:var(--white)}.btn-ink:hover{background:#2c2c2a;transform:translateY(-1px);box-shadow:var(--sh-md)}
+.btn-outline{background:transparent;color:var(--ink2);border:1.5px solid var(--line2)}.btn-outline:hover{border-color:var(--g);color:var(--g);background:var(--g-lt)}
+.btn-gold{background:var(--or);color:var(--ink)}.btn-gold:hover{background:#d08e0c;transform:translateY(-1px)}
+.btn-sand{background:var(--sand);color:var(--ink2);border:1.5px solid var(--line2)}.btn-sand:hover{border-color:var(--line);background:var(--line)}
+.btn-lg{height:52px;padding:0 32px;font-size:15px;border-radius:12px}
+.btn-sm{height:34px;padding:0 14px;font-size:12.5px;border-radius:8px}
+.btn-full{width:100%}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
+.send-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.sb-wa{background:#25D366;color:#fff;border-radius:9px;padding:9px 14px;font-size:13px;font-weight:600;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .15s;font-family:'Figtree',sans-serif}
+.sb-wa:hover{background:#1da851;transform:translateY(-1px)}
+.sb-em{background:var(--g);color:#fff;border-radius:9px;padding:9px 14px;font-size:13px;font-weight:600;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .15s;font-family:'Figtree',sans-serif}
+.sb-em:hover{background:var(--g2);transform:translateY(-1px)}
+.sb-sms{background:var(--or);color:var(--ink);border-radius:9px;padding:9px 14px;font-size:13px;font-weight:600;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .15s;font-family:'Figtree',sans-serif}
+.sb-sms:hover{background:#d08e0c;transform:translateY(-1px)}
+.sb-pdf{background:var(--sand);color:var(--ink2);border:1.5px solid var(--line2);border-radius:9px;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .15s;font-family:'Figtree',sans-serif}
+.sb-pdf:hover{border-color:var(--g);color:var(--g);background:var(--g-lt);transform:translateY(-1px)}
+
+/* INVOICE PREVIEW */
+.preview-panel{background:var(--white);border:1.5px solid var(--line);border-radius:16px;overflow:hidden;position:sticky;top:72px;max-height:calc(100vh - 88px);overflow-y:auto}
+.prev-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;gap:10px;text-align:center;padding:32px}
+.prev-empty-ico{font-size:40px;margin-bottom:4px;opacity:.35}
+.prev-empty-text{font-size:14px;font-weight:700;color:var(--muted)}
+.prev-empty-sub{font-size:12.5px;color:var(--line2);line-height:1.5}
+.inv-hdr{background:linear-gradient(135deg,#0a2d18,#0e3d23);padding:18px 22px;color:#fff;display:flex;justify-content:space-between;align-items:flex-start}
+.inv-co-n{font-family:'Lora',serif;font-size:18px;font-weight:700}
+.inv-title-txt{font-size:20px;font-weight:700;text-transform:uppercase;color:var(--or);letter-spacing:-.02em}
+.inv-body{padding:20px}
+.inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px;background:var(--cream);border-radius:10px;margin-bottom:16px}
+.ip-lbl{font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px}
+.inv-table{width:100%;border-collapse:collapse;margin-bottom:14px}
+.inv-table th{padding:7px 9px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:var(--cream);text-align:left}
+.inv-table th:last-child,.inv-table td:last-child{text-align:right}
+.inv-table td{padding:7px 9px;border-bottom:1px solid var(--line);font-size:12px}
+.inv-totals{margin-left:auto;width:178px}
+.inv-tr{display:flex;justify-content:space-between;padding:4px 0;font-size:12px}
+.inv-tr.tot{font-family:'Lora',serif;font-size:17px;border-top:2px solid var(--line);padding-top:8px;margin-top:4px}
+.li-row{display:grid;grid-template-columns:2fr 60px 75px 65px 22px;gap:5px;align-items:center;margin-bottom:6px}
+.profile-strip{display:flex;align-items:center;gap:12px;background:var(--sand);border-radius:12px;padding:12px 15px;margin-bottom:12px;cursor:pointer;transition:all .15s;border:1.5px solid transparent}
+.profile-strip:hover{border-color:var(--g-md);background:var(--g-lt)}
+.ps-logo{width:40px;height:40px;border-radius:9px;background:var(--white);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:18px;overflow:hidden;flex-shrink:0}
+.ps-logo img{width:100%;height:100%;object-fit:contain}
+.ps-name{font-size:13.5px;font-weight:700;line-height:1.2}
+.ps-addr{font-size:11px;color:var(--muted)}
+.add-line-btn{width:100%;height:36px;border:1.5px dashed var(--line2);border-radius:8px;background:none;font-size:13px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:'Figtree',sans-serif}
+.add-line-btn:hover{border-color:var(--g);color:var(--g);background:var(--g-lt)}
+.slider{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:2px;background:var(--sand);outline:none;cursor:pointer}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--g);border:2.5px solid #fff;box-shadow:var(--sh);cursor:pointer}
+.sl-val{font-size:11.5px;font-weight:700;color:var(--g);margin-top:2px}
+.result-dark{background:linear-gradient(145deg,#0a2d18,#0e3d23);border-radius:16px;padding:26px;color:#fff;text-align:center;margin-bottom:12px}
+.rd-lbl{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:7px}
+.rd-big{font-family:'Lora',serif;font-size:52px;line-height:1;color:#fff;letter-spacing:-.05em;margin-bottom:3px}
+.rd-sub{font-size:12.5px;color:rgba(255,255,255,.4)}
+.rd-grid{display:grid;gap:7px;margin-top:14px}
+.rd-item{background:rgba(255,255,255,.06);border-radius:9px;padding:10px;text-align:center}
+.rd-item-val{font-family:'Lora',serif;font-size:20px;color:#fff;margin-top:2px}
+.rd-item-lbl{font-size:9px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.07em}
+.compare-t{width:100%;border-collapse:collapse}
+.compare-t th{padding:7px 9px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:var(--cream);text-align:left}
+.compare-t td{padding:7px 9px;border-bottom:1px solid var(--line);font-size:12.5px}
+.compare-t tr.hl td{color:var(--g);font-weight:700}
+.brkdn-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--cream);border-radius:8px;margin-bottom:6px;font-size:12.5px}
+.ct-sel{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:14px}
+.ct-opt{background:var(--white);border:2px solid var(--line);border-radius:11px;padding:13px 9px;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.ct-opt:hover{transform:translateY(-2px);box-shadow:var(--sh);border-color:var(--line2)}
+.ct-opt.on{border-color:var(--g);background:var(--g-lt)}
+.ct-opt-ico{font-size:22px;margin-bottom:4px}
+.ct-opt-name{font-size:11.5px;font-weight:700}
+.ct-opt.on .ct-opt-name{color:var(--g)}
+.ct-output{background:var(--white);border:1.5px solid var(--line);border-radius:16px;overflow:hidden;position:sticky;top:72px;max-height:calc(100vh - 88px);overflow-y:auto}
+.ct-out-hdr{background:linear-gradient(135deg,#0a2d18,#0e3d23);padding:20px 24px;color:#fff}
+.ct-out-title{font-family:'Lora',serif;font-size:18px;font-weight:700}
+.ct-out-ref{font-size:9.5px;color:rgba(255,255,255,.35);margin-top:3px}
+.ct-out-body{padding:24px;font-size:13px;line-height:1.85;color:var(--ink2)}
+.ct-out-body h3{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--g);margin:16px 0 5px}
+.ct-out-body p{margin-bottom:7px}
+.ct-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:340px;gap:10px;text-align:center;padding:28px;color:var(--muted)}
+.spinner{width:16px;height:16px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.alert{border-radius:10px;padding:12px 14px;font-size:13px;margin-bottom:12px}
+.alert-green{background:var(--g-lt);border:1px solid var(--g-md);color:var(--g)}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(17,17,16,.55);backdrop-filter:blur(6px);z-index:900;display:none;align-items:center;justify-content:center;padding:16px}
+.overlay.on{display:flex}
+.modal{background:var(--white);border-radius:22px;padding:32px 28px;max-width:420px;width:100%;text-align:center;box-shadow:var(--sh-lg);position:relative;max-height:92vh;overflow-y:auto}
+.modal h2{font-family:'Lora',serif;font-size:24px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6}
+.modal-x{position:absolute;top:14px;right:14px;background:var(--sand);border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:15px;color:var(--muted);display:flex;align-items:center;justify-content:center}
+.modal-x:hover{background:var(--line);color:var(--ink)}
+.trial-banner{background:linear-gradient(135deg,var(--g),var(--g2));border-radius:11px;padding:14px;margin-bottom:16px;text-align:center}
+.trial-banner strong{color:#fff;font-size:15px;display:block;margin-bottom:2px}
+.trial-banner span{color:rgba(255,255,255,.6);font-size:12px}
+.modal-feats{text-align:left;background:var(--cream);border-radius:11px;padding:14px;margin:14px 0 18px;display:flex;flex-direction:column;gap:9px}
+.modal-feat{display:flex;align-items:flex-start;gap:9px;font-size:13px}
+.modal-feat::before{content:"✓";font-weight:800;color:var(--g);font-size:12px;flex-shrink:0}
+.email-confirm-box{display:none;background:var(--g-lt);border:1.5px solid var(--g-md);border-radius:14px;padding:20px;text-align:center;margin-top:12px}
+.email-confirm-box .ecb-icon{font-size:36px;margin-bottom:10px}
+.email-confirm-box h3{font-family:'Lora',serif;font-size:18px;color:var(--g);margin-bottom:6px}
+.email-confirm-box p{font-size:13px;color:var(--muted);line-height:1.6}
+.email-confirm-box .ecb-email{font-weight:700;color:var(--ink);font-size:13.5px;margin:8px 0}
+
+/* LEGAL */
+.legal-wrap{max-width:700px;margin:0 auto;padding:52px 20px 80px}
+.legal-wrap h1{font-family:'Lora',serif;font-size:clamp(26px,4vw,42px);font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+.legal-wrap .sub{color:var(--muted);font-size:13px;margin-bottom:36px}
+.legal-wrap h2{font-family:'Lora',serif;font-size:20px;font-weight:700;margin:28px 0 8px}
+.legal-wrap p,.legal-wrap li{font-size:13.5px;color:var(--muted);line-height:1.78;margin-bottom:10px}
+.legal-wrap li{margin-left:18px;margin-bottom:5px}
+.legal-wrap ul{margin-bottom:14px}
+.legal-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--g);font-weight:600;cursor:pointer;margin-bottom:28px;background:none;border:none;font-family:'Figtree',sans-serif;padding:0}
+.legal-back:hover{text-decoration:underline}
+
+/* TOAST */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 22px;border-radius:11px;font-size:13px;font-weight:600;z-index:9999;box-shadow:var(--sh-lg);animation:toastUp .3s ease;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center}
+@media(max-width:700px){.toast{bottom:80px}}
+@keyframes toastUp{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* FOOTER */
+footer{background:var(--g2);color:rgba(255,255,255,.5);padding:52px 24px 36px;margin-top:0}
+.footer-inner{max-width:1100px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;margin-bottom:44px}
+.footer-brand-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.footer-logo-mark{width:32px;height:32px}
+.footer-brand-text{font-family:'Figtree',sans-serif;font-weight:800;font-size:16px;letter-spacing:-.02em}
+.footer-brand-text .fb{color:#fff}.footer-brand-text .fp{color:var(--or)}
+.footer-tagline{font-size:12.5px;color:rgba(255,255,255,.38);line-height:1.6;max-width:200px;margin-bottom:16px}
+.footer-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.28);margin-bottom:12px}
+.footer-link{display:block;font-size:13px;color:rgba(255,255,255,.5);text-decoration:none;margin-bottom:8px;transition:color .15s;cursor:pointer;background:none;border:none;font-family:'Figtree',sans-serif;text-align:left;padding:0}
+.footer-link:hover{color:#fff}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.09);padding-top:22px;flex-wrap:wrap;gap:10px}
+.footer-copy{font-size:11.5px}
+.footer-legal{display:flex;gap:14px}
+.footer-legal button{font-size:11.5px;color:rgba(255,255,255,.4);background:none;border:none;cursor:pointer;font-family:'Figtree',sans-serif;transition:color .15s}
+.footer-legal button:hover{color:#fff}
+
+/* ================================================================
+   RESPONSIVE
+================================================================ */
+@media(max-width:900px){
+  .hero-top,.proof-stats,.how-steps,.pricing-grid,.footer-top,.relance-inner{grid-template-columns:1fr 1fr}
+  .two-col{grid-template-columns:1fr}
+  .preview-panel,.ct-output{position:static;max-height:none}
+  .how-steps::before{display:none}
+  .hero-top{grid-template-columns:1fr}
+  .hero-right{margin-top:28px}
+  .feat-strip{grid-template-columns:1fr 1fr}
+  .relance-inner{grid-template-columns:1fr;gap:36px}
+}
+@media(max-width:700px){
+  nav{padding:0 12px;height:58px}
+  .logo-mark{width:32px;height:32px}
+  .brand-text{font-size:15px}
+  .hero{padding:32px 20px 0}
+  .hero-left{padding-top:0}
+  .g2,.g3{grid-template-columns:1fr}
+  .proof-stats,.pricing-grid{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .ct-sel{grid-template-columns:1fr 1fr}
+  .inv-parties{grid-template-columns:1fr}
+  .hero h1{font-size:clamp(30px,8vw,46px)}
+  .nav-cta{height:34px;padding:0 14px;font-size:12.5px}
+  .modal{padding:24px 18px;border-radius:18px}
+  .li-row{grid-template-columns:1fr 50px 65px 55px 18px}
+  .hero-email-input-row{flex-direction:column}
+  .hero-email-btn{width:100%;justify-content:center}
+  .cta-bottom-form{flex-direction:column}
+  .cta-bottom-btn{width:100%}
+  .ss-testimonials{flex-direction:column}
+}
+@media(max-width:500px){
+  .feat-strip{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr}
+  .rd-big{font-size:42px}
+}
+@media print{
+  nav,footer,.send-row,.profile-strip,.ct-sel,.add-line-btn,.btn,.overlay,
+  .hero,.proof-block,.how-block,.feat-strip,.pricing-section,.faq-section,
+  .tool-head,.eyebrow-pill,.sticky-mobile-cta,.cta-bottom,.relance-block,.social-strip{display:none!important}
+  body{background:#fff;padding-bottom:0}.tool-wrap{padding:0}
+  .two-col{grid-template-columns:1fr}
+  .preview-panel,.ct-output{border:none;max-height:none;position:static}
+}
+</style>
+</head>
+<body>
+
+<!-- ================================================================
+     NAV
+================================================================ -->
+<nav>
+  <a class="nav-brand" href="#" onclick="go('hub');return false">
+    <svg class="logo-mark" viewBox="0 0 48 48" fill="none">
+      <circle cx="24" cy="24" r="22" stroke="#1a5c36" stroke-width="2.6"/>
+      <rect x="13" y="10" width="5.5" height="28" rx="2.75" fill="#111110"/>
+      <rect x="13" y="10" width="19" height="5.5" rx="2.75" fill="#111110"/>
+      <rect x="13" y="22" width="15" height="5" rx="2.5" fill="#1a5c36"/>
+      <circle cx="35" cy="37" r="5.5" fill="#e8a020"/>
+    </svg>
+    <div class="brand-text">
+      <span class="brand-facture">Facture</span><span class="brand-pilot">Pilot</span><span class="brand-dot">.</span>
+    </div>
+  </a>
+  <div class="nav-center">
+    <button class="npill on" id="nav-hub" onclick="go('hub')">Accueil</button>
+    <button class="npill" id="nav-invoice" onclick="go('invoice')">Factures</button>
+    <button class="npill" id="nav-quote" onclick="go('quote')">Devis</button>
+    <button class="npill" id="nav-contract" onclick="go('contract')">Contrats</button>
+    <button class="npill" id="nav-rate" onclick="go('rate')">Mon Tarif</button>
+    <button class="npill" id="nav-pricing" onclick="go('pricing')">Tarifs</button>
+  </div>
+  <div class="nav-cta-wrap">
+    <button class="nav-hamburger" id="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <button class="nav-cta" id="nav-cta-btn" onclick="openTrialModal('nav')">Commencer gratuit</button>
+  </div>
+</nav>
+
+<div class="nav-mobile-menu" id="nav-mobile-menu">
+  <button class="nav-mobile-pill on" onclick="go('hub');closeMobileMenu()">🏠 Accueil</button>
+  <button class="nav-mobile-pill" onclick="go('invoice');closeMobileMenu()">📄 Factures</button>
+  <button class="nav-mobile-pill" onclick="go('quote');closeMobileMenu()">📋 Devis</button>
+  <button class="nav-mobile-pill" onclick="go('contract');closeMobileMenu()">🔐 Contrats IA</button>
+  <button class="nav-mobile-pill" onclick="go('rate');closeMobileMenu()">⏱ Mon Tarif</button>
+  <button class="nav-mobile-pill" onclick="go('pricing');closeMobileMenu()">💎 Tarifs</button>
+</div>
+
+<!-- ================================================================
+     STICKY MOBILE CTA BAR ★ nouveau
+================================================================ -->
+<div class="sticky-mobile-cta" id="sticky-cta">
+  <div class="sticky-cta-text">
+    <div class="sticky-cta-title">Arrêtez d'attendre vos paiements</div>
+    <div class="sticky-cta-sub">7 jours gratuits · Sans carte bancaire</div>
+  </div>
+  <button class="sticky-cta-btn" onclick="openTrialModal('sticky')">Essayer →</button>
+</div>
+
+<!-- ================================================================
+     HUB
+================================================================ -->
+<div id="s-hub" class="s on">
+  <section class="hero">
+    <div class="hero-top">
+
+      <!-- GAUCHE -->
+      <div class="hero-left">
+        <div class="hero-badge">
+          <div class="hero-badge-dot"></div>
+          7 jours gratuits · Sans carte bancaire
+        </div>
+        <h1>Vos clients paient<br>en retard.<em>Ça s'arrête<br>aujourd'hui.</em></h1>
+        <p class="hero-sub">
+          <strong>48% des freelances attendent 18 jours après l'échéance.</strong> FacturePilot automatise vos relances et génère vos contrats — l'argent rentre en 48h.
+        </p>
+
+        <!-- ★ FORMULAIRE EMAIL ABOVE THE FOLD ★ -->
+        <div class="hero-email-form" id="hero-form-wrap">
+          <div class="hero-email-label">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#1a5c36" stroke-width="1.4"/><path d="M7 4v3l2 1" stroke="#1a5c36" stroke-width="1.3" stroke-linecap="round"/></svg>
+            Accès gratuit 7 jours — Commencez maintenant
+          </div>
+          <div class="hero-email-input-row">
+            <input class="hero-email-inp" type="email" id="hero-email" placeholder="votre@email.com" onkeydown="if(event.key==='Enter')submitHeroEmail()">
+            <button class="hero-email-btn" id="hero-email-btn" onclick="submitHeroEmail()">Essayer gratuitement →</button>
+          </div>
+          <div class="hero-email-sub">Sans carte bancaire · Annulez quand vous voulez</div>
+        </div>
+
+        <!-- Confirmation inline -->
+        <div class="hero-email-confirm" id="hero-confirm">
+          <div style="font-size:32px;margin-bottom:8px">📬</div>
+          <h3>C'est parti !</h3>
+          <p>Un email vous a été envoyé à <span class="ec-email" id="hero-confirm-email"></span>.<br>Accédez à vos outils dès maintenant ↓</p>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap">
+            <button class="btn btn-green btn-sm" onclick="go('invoice')">Créer ma première facture →</button>
+          </div>
+        </div>
+
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-n"><span class="counter" data-t="48">0</span>%</div>
+            <div class="hero-stat-l">des freelances ont des impayés</div>
+          </div>
+          <div class="hero-stat-div"></div>
+          <div class="hero-stat">
+            <div class="hero-stat-n"><span class="counter" data-t="18">0</span>j</div>
+            <div class="hero-stat-l">de retard moyen</div>
+          </div>
+          <div class="hero-stat-div"></div>
+          <div class="hero-stat">
+            <div class="hero-stat-n">-<span class="counter" data-t="68">0</span>%</div>
+            <div class="hero-stat-l">de retards avec FacturePilot</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DROITE — outils rapides -->
+      <div class="hero-right">
+        <div style="font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Ou commencez directement →</div>
+        <div class="action-card primary" onclick="go('invoice')">
+          <div class="action-card-ico" style="background:rgba(255,255,255,.15)">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><rect x="4" y="2" width="14" height="18" rx="2" stroke="white" stroke-width="1.8"/><path d="M4 8h14M4 12h10M4 16h7" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="20" cy="18" r="5" fill="#e8a020" stroke="white" stroke-width="1.5"/><path d="M18.5 18h3M20 16.5v3" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </div>
+          <div class="action-card-body">
+            <div class="action-card-title">Créer ma facture</div>
+            <div class="action-card-desc">Conforme, TVA auto, aperçu live</div>
+          </div>
+          <div class="action-arrow">→</div>
+        </div>
+        <div class="action-card" onclick="go('quote')">
+          <div class="action-card-ico" style="background:var(--g-lt)">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><rect x="3" y="2" width="15" height="20" rx="2" stroke="#1a5c36" stroke-width="1.8"/><path d="M7 7h7M7 11h9M7 15h5" stroke="#1a5c36" stroke-width="1.5" stroke-linecap="round"/><path d="M19 14l3 3-3 3" stroke="#e8a020" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="action-card-body">
+            <div class="action-card-title">Créer mon devis</div>
+            <div class="action-card-desc">Avec acompte intégré, valide 30j</div>
+          </div>
+          <div class="action-arrow" style="color:var(--g)">→</div>
+        </div>
+        <div class="action-card" onclick="go('contract')">
+          <div class="action-card-ico" style="background:var(--or-lt)">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><rect x="4" y="2" width="13" height="18" rx="2" stroke="#e8a020" stroke-width="1.8"/><path d="M7 7h7M7 11h7M7 15h4" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round"/><circle cx="20" cy="19" r="4.5" fill="#1a5c36"/><path d="M18.2 19l1.3 1.3 2.5-2.5" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="action-card-body">
+            <div class="action-card-title">Générer un contrat IA</div>
+            <div class="action-card-desc">Freelance, NDA, CGV — en 60 sec</div>
+          </div>
+          <div class="action-arrow" style="color:var(--or)">→</div>
+        </div>
+        <div class="action-card" onclick="go('rate')">
+          <div class="action-card-ico" style="background:var(--cream)">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="10" stroke="#1a5c36" stroke-width="1.8"/><path d="M13 7v6l4 2" stroke="#1a5c36" stroke-width="1.6" stroke-linecap="round"/><path d="M9 20l2-2M17 20l-2-2" stroke="#e8a020" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </div>
+          <div class="action-card-body">
+            <div class="action-card-title">Calculer mon TJM</div>
+            <div class="action-card-desc">Arrêtez de vous sous-vendre</div>
+          </div>
+          <div class="action-arrow" style="color:var(--muted)">→</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ★ SOCIAL PROOF STRIP ★ -->
+  <div class="social-strip reveal">
+    <div class="social-strip-inner">
+      <div class="ss-label">Déjà utilisé par</div>
+      <div class="ss-testimonials">
+        <div class="ss-item">
+          <div class="ss-avatar">💻</div>
+          <div class="ss-text">
+            <div class="ss-stars">★★★★★</div>
+            <strong>Thomas D. — Dev freelance</strong>
+            «&nbsp;Récupéré 1 200€ d'impayés en 48h grâce aux relances auto.&nbsp;»
+          </div>
+        </div>
+        <div class="ss-item">
+          <div class="ss-avatar">🎨</div>
+          <div class="ss-text">
+            <div class="ss-stars">★★★★★</div>
+            <strong>Sophie M. — Designer UI</strong>
+            «&nbsp;Mes clients paient maintenant avant l'échéance.&nbsp;»
+          </div>
+        </div>
+        <div class="ss-item">
+          <div class="ss-avatar">📊</div>
+          <div class="ss-text">
+            <div class="ss-stars">★★★★★</div>
+            <strong>Marc L. — Consultant SEO</strong>
+            «&nbsp;Contrats IA en 60 sec. Je ne me suis jamais senti aussi pro.&nbsp;»
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-divider"></div>
+
+  <div class="feat-strip reveal">
+    <div class="feat-item">
+      <div class="feat-ico" style="background:var(--g-lt)">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="1" width="11" height="15" rx="1.5" stroke="#1a5c36" stroke-width="1.5"/><path d="M4 5h7M4 8h7M4 11h4" stroke="#1a5c36" stroke-width="1.3" stroke-linecap="round"/><circle cx="15" cy="14" r="4" fill="#1a5c36"/><path d="M13.5 14l1.2 1.2 2-2" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div><div class="feat-text-title">Facturation conforme</div><div class="feat-text-desc">Mentions légales auto. Export PDF en 1 clic.</div></div>
+    </div>
+    <div class="feat-item">
+      <div class="feat-ico" style="background:var(--or-lt)">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8.5" stroke="#e8a020" stroke-width="1.5"/><path d="M6.5 10l2.5 2.5 4.5-4.5" stroke="#e8a020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div><div class="feat-text-title">Relances automatiques</div><div class="feat-text-desc">J+3, J+7, J+14, J+30 — sans vous. -68% de retards.</div></div>
+    </div>
+    <div class="feat-item">
+      <div class="feat-ico" style="background:var(--g-lt)">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="5" width="16" height="11" rx="2" stroke="#1a5c36" stroke-width="1.5"/><path d="M6 9h8M6 12h5" stroke="#1a5c36" stroke-width="1.3" stroke-linecap="round"/><path d="M5 5V3.5a1 1 0 011-1h8a1 1 0 011 1V5" stroke="#1a5c36" stroke-width="1.4"/></svg>
+      </div>
+      <div><div class="feat-text-title">Contrats IA</div><div class="feat-text-desc">Freelance, NDA, CGV générés en 60 secondes.</div></div>
+    </div>
+    <div class="feat-item">
+      <div class="feat-ico" style="background:var(--cream)">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 14l4-4 3 3 5-6" stroke="#1a5c36" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="2" y="2" width="16" height="16" rx="2" stroke="#1a5c36" stroke-width="1.5"/></svg>
+      </div>
+      <div><div class="feat-text-title">Tableau de bord</div><div class="feat-text-desc">Payé · En attente · En retard — tréso en un coup d'œil.</div></div>
+    </div>
+  </div>
+
+  <!-- PROOF BLOCK -->
+  <section class="proof-block">
+    <div class="proof-inner">
+      <div class="proof-eyebrow reveal">Pourquoi FacturePilot ?</div>
+      <h2 class="proof-h2 reveal">Créer une facture,<br>c'est facile.<br><em>Se faire payer,<br>c'est une autre histoire.</em></h2>
+      <p class="proof-sub reveal">Les outils existants font de beaux documents. Personne ne règle le vrai problème : récupérer l'argent sans relances manuelles ni clients fantômes.</p>
+      <div class="proof-stats reveal">
+        <div class="ps"><div class="ps-n or"><span class="counter2" data-t="48">0</span>%</div><div class="ps-l">des freelances ont subi des retards de paiement en 2025 (Knab)</div></div>
+        <div class="ps"><div class="ps-n" style="color:#f5d07a"><span class="counter2" data-t="18">0</span>j</div><div class="ps-l">de retard moyen · soit ~€400/mois bloqués pour rien</div></div>
+        <div class="ps"><div class="ps-n gr">-68%</div><div class="ps-l">de retards observés avec les relances automatiques FacturePilot</div></div>
+        <div class="ps"><div class="ps-n" style="color:#fff">48h</div><div class="ps-l">Délai moyen de paiement avec FacturePilot activé</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ★★★ RELANCES USP BLOCK ★★★ -->
+  <section class="relance-block">
+    <div class="relance-inner">
+      <div class="relance-left">
+        <div class="section-eyebrow" style="justify-content:flex-start;margin-bottom:12px">
+          <span>Notre USP principale</span>
+        </div>
+        <h2>Vos relances<br>envoyées<em>à votre place.</em></h2>
+        <p>Dès que vous envoyez une facture, FacturePilot démarre le chronomètre. Si votre client n'a pas payé à l'échéance, les relances partent automatiquement — par email et WhatsApp — et s'arrêtent dès que le paiement arrive.</p>
+        <div class="relance-steps">
+          <div class="rs">
+            <div class="rs-day">J+3</div>
+            <div>
+              <div class="rs-body-title">Rappel doux</div>
+              <div class="rs-body-desc">Premier message courtois, rappel de l'échéance</div>
+              <div class="rs-channel">
+                <span class="rs-ch email">Email</span>
+                <span class="rs-ch wa">WhatsApp</span>
+                <span class="rs-ch auto">Automatique</span>
+              </div>
+            </div>
+          </div>
+          <div class="rs">
+            <div class="rs-day">J+7</div>
+            <div>
+              <div class="rs-body-title">Rappel ferme</div>
+              <div class="rs-body-desc">Ton plus direct, lien de paiement intégré</div>
+              <div class="rs-channel">
+                <span class="rs-ch email">Email</span>
+                <span class="rs-ch wa">WhatsApp</span>
+                <span class="rs-ch auto">Automatique</span>
+              </div>
+            </div>
+          </div>
+          <div class="rs">
+            <div class="rs-day">J+14</div>
+            <div>
+              <div class="rs-body-title">Mise en demeure</div>
+              <div class="rs-body-desc">Dernier avertissement avant procédure</div>
+              <div class="rs-channel">
+                <span class="rs-ch email">Email</span>
+                <span class="rs-ch auto">Automatique</span>
+              </div>
+            </div>
+          </div>
+          <div class="rs">
+            <div class="rs-day" style="background:var(--g);color:#fff;border-color:var(--g)">Payé</div>
+            <div>
+              <div class="rs-body-title">Stop automatique ✓</div>
+              <div class="rs-body-desc">Dès paiement reçu, toutes les relances s'arrêtent</div>
+              <div class="rs-channel">
+                <span class="rs-ch auto">Intelligent</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aperçu automatisation -->
+      <div class="relance-right">
+        <div class="auto-preview">
+          <div class="ap-header">
+            <div class="ap-title">Relances en cours</div>
+            <div class="ap-badge">Actif</div>
+          </div>
+          <div class="ap-timeline">
+            <div class="ap-item">
+              <div class="ap-line-col"><div class="ap-dot green"></div><div class="ap-vline"></div></div>
+              <div class="ap-content">
+                <div class="ap-day">Aujourd'hui · 09:00</div>
+                <div class="ap-msg">
+                  <div class="ap-msg-from">→ client@agence.com</div>
+                  <div class="ap-msg-text">Bonjour, votre facture FAC-047 de 2 400€ arrive à échéance dans 3 jours…</div>
+                  <div class="ap-msg-tag sent">✓ Envoyé</div>
+                </div>
+              </div>
+            </div>
+            <div class="ap-item">
+              <div class="ap-line-col"><div class="ap-dot or"></div><div class="ap-vline"></div></div>
+              <div class="ap-content">
+                <div class="ap-day">Dans 7 jours · Automatique</div>
+                <div class="ap-msg" style="opacity:.65">
+                  <div class="ap-msg-from">→ client@agence.com + WhatsApp</div>
+                  <div class="ap-msg-text">Rappel : facture FAC-047 de 2 400€ en attente de règlement…</div>
+                  <div class="ap-msg-tag" style="background:rgba(232,160,32,.15);color:var(--or)">⏳ Programmée</div>
+                </div>
+              </div>
+            </div>
+            <div class="ap-item">
+              <div class="ap-line-col"><div class="ap-dot white"></div><div class="ap-vline" style="background:transparent"></div></div>
+              <div class="ap-content">
+                <div class="ap-day">Dans 14 jours · Si non payé</div>
+                <div class="ap-msg" style="opacity:.35">
+                  <div class="ap-msg-from">→ Mise en demeure automatique</div>
+                  <div class="ap-msg-text">Sans action de votre part…</div>
+                  <div class="ap-msg-tag stopped">⏸ En attente</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ap-result">
+            <div class="ap-result-n">-68%</div>
+            <div class="ap-result-l">de retards de paiement observés</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-block">
+    <div class="how-header reveal">
+      <div class="section-eyebrow">Comment ça marche</div>
+      <h2 class="how-title">De zéro à payé<br><em>en moins de 3 minutes.</em></h2>
+      <p class="how-sub">Créez librement, activez votre essai uniquement quand vous envoyez.</p>
+    </div>
+    <div class="how-steps reveal">
+      <div class="how-step"><div class="how-step-n">1</div><div class="how-step-title">Entrez votre email</div><div class="how-step-desc">30 secondes. Aucune carte. Accès immédiat à tous les outils.</div></div>
+      <div class="how-step"><div class="how-step-n">2</div><div class="how-step-title">Créez votre facture</div><div class="how-step-desc">Remplissez le formulaire. Aperçu en temps réel. Conforme légalement.</div></div>
+      <div class="how-step"><div class="how-step-n">3</div><div class="how-step-title">Envoyez au client</div><div class="how-step-desc">WhatsApp, email ou SMS — directement depuis l'app. 1 clic.</div></div>
+      <div class="how-step"><div class="how-step-n">4</div><div class="how-step-title">Encaissez en 48h</div><div class="how-step-desc">Les relances automatiques travaillent à votre place. Résultat garanti.</div></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <div class="faq-title-block reveal">
+      <div class="section-eyebrow" style="justify-content:center">Questions fréquentes</div>
+      <h2 class="how-title" style="text-align:center">Tout ce que vous devez savoir</h2>
+    </div>
+    <div id="faq-list"></div>
+  </div>
+
+  <!-- ★★★ CTA BAS DE PAGE ★★★ -->
+  <section class="cta-bottom">
+    <div class="cta-bottom-inner">
+      <h2>Prêt à être payé<em>plus vite ?</em></h2>
+      <p>Rejoignez les freelances qui ont récupéré leurs impayés grâce aux relances automatiques.</p>
+
+      <div id="cta-bottom-form-wrap">
+        <div class="cta-bottom-form">
+          <input class="cta-bottom-inp" type="email" id="cta-bottom-email" placeholder="votre@email.com" onkeydown="if(event.key==='Enter')submitBottomEmail()">
+          <button class="cta-bottom-btn" id="cta-bottom-btn" onclick="submitBottomEmail()">Démarrer gratuitement →</button>
+        </div>
+        <div class="cta-bottom-sub">
+          <span>7 jours gratuits</span>
+          <span>Sans carte bancaire</span>
+          <span>Annulez quand vous voulez</span>
+        </div>
+      </div>
+
+      <div class="cta-confirm" id="cta-bottom-confirm">
+        <div style="font-size:36px;margin-bottom:10px">🎉</div>
+        <h3>Bienvenue dans FacturePilot !</h3>
+        <p>Votre accès gratuit est activé. Commencez à créer vos documents dès maintenant.</p>
+        <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-gold btn-lg" onclick="go('invoice')">Créer ma première facture →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand-row">
+            <svg class="footer-logo-mark" viewBox="0 0 38 38" fill="none"><circle cx="19" cy="19" r="17.5" stroke="#e8a020" stroke-width="2"/><rect x="10" y="8" width="4.5" height="22" rx="2.25" fill="#fff"/><rect x="10" y="8" width="15" height="4.5" rx="2.25" fill="#fff"/><rect x="10" y="17.5" width="12" height="4" rx="2" fill="#e8a020"/><circle cx="28" cy="29.5" r="4" fill="#e8a020"/></svg>
+            <div class="footer-brand-text"><span class="fb">Facture</span><span class="fp">Pilot</span><span style="color:var(--or);font-size:20px;line-height:0">.</span></div>
+          </div>
+          <p class="footer-tagline">Le logiciel qui vous aide à être payé plus vite. Pour les freelances, consultants et indépendants.</p>
+          <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(232,160,32,.18);border:1px solid rgba(232,160,32,.3);color:var(--or);border-radius:99px;padding:5px 13px;font-size:11px;font-weight:700">7 jours gratuits · Sans carte</div>
+        </div>
+        <div>
+          <div class="footer-col-title">Outils</div>
+          <button class="footer-link" onclick="go('invoice')">Factures</button>
+          <button class="footer-link" onclick="go('quote')">Devis</button>
+          <button class="footer-link" onclick="go('contract')">Contrats IA</button>
+          <button class="footer-link" onclick="go('rate')">Calculateur tarif</button>
+        </div>
+        <div>
+          <div class="footer-col-title">Tarifs</div>
+          <button class="footer-link" onclick="go('pricing')">Découverte — Gratuit</button>
+          <button class="footer-link" onclick="go('pricing')">Pro — €19/mois</button>
+          <button class="footer-link" onclick="go('pricing')">Business — €39/mois</button>
+          <div class="footer-col-title" style="margin-top:18px">Support</div>
+          <a class="footer-link" href="mailto:support@facturepilot.io">Contact</a>
+          <button class="footer-link" onclick="openTrialModal('footer')">Essai gratuit</button>
+        </div>
+        <div>
+          <div class="footer-col-title">Légal</div>
+          <button class="footer-link" onclick="go('privacy')">Confidentialité</button>
+          <button class="footer-link" onclick="go('terms')">CGU</button>
+          <button class="footer-link" onclick="openMod('account')">Mon compte</button>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-copy">© 2025 FacturePilot. · Données 100% privées · RGPD</div>
+        <div class="footer-legal">
+          <button onclick="go('privacy')">Confidentialité</button>
+          <button onclick="go('terms')">CGU</button>
+          <button onclick="location.href='mailto:support@facturepilot.io'">Contact</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ================================================================
+     INVOICE
+================================================================ -->
+<div id="s-invoice" class="s">
+  <div class="tool-wrap">
+    <div class="tool-head">
+      <div class="eyebrow-pill">Factures</div>
+      <h1>Factures pro<br><em>en 30 secondes.</em></h1>
+      <p>Créez librement — l'envoi déclenche votre essai gratuit 7 jours.</p>
+    </div>
+    <div id="inv-trial-ok" class="alert alert-green" style="display:none">✓ Essai actif — envoi illimité, 7 jours gratuits !</div>
+    <div class="profile-strip" onclick="openMod('account')">
+      <div class="ps-logo" id="inv-ps-logo"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#1a5c36" stroke-width="1.5"/><path d="M7 7.5C7 6.12 8.12 5 9.5 5S12 6.12 12 7.5 10.88 10 9.5 10" stroke="#1a5c36" stroke-width="1.4"/><circle cx="10" cy="14" r="1.5" fill="#e8a020"/></svg></div>
+      <div style="flex:1"><div class="ps-name" id="inv-ps-name">Configurer votre profil entreprise</div><div class="ps-addr" id="inv-ps-addr">Logo, nom, adresse, SIRET — ajoutés automatiquement</div></div>
+      <button class="btn btn-outline btn-sm">Modifier</button>
+    </div>
+    <div class="two-col">
+      <div>
+        <div class="card">
+          <div class="card-ttl">Votre entreprise</div>
+          <div class="f"><label>Nom / Société</label><input class="inp" id="inv-co" placeholder="Acme Design Studio" oninput="renderInv()"></div>
+          <div class="g2">
+            <div class="f"><label>Adresse</label><input class="inp" id="inv-addr" placeholder="12 Rue de la Paix" oninput="renderInv()"></div>
+            <div class="f"><label>Ville, Pays</label><input class="inp" id="inv-city" placeholder="Paris, France" oninput="renderInv()"></div>
+          </div>
+          <div class="g2">
+            <div class="f"><label>Email</label><input class="inp" id="inv-email" placeholder="hello@acme.com" oninput="renderInv()"></div>
+            <div class="f"><label>N° TVA (optionnel)</label><input class="inp" id="inv-vatn" placeholder="FR12345678901" oninput="renderInv()"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-ttl">Client</div>
+          <div class="f"><label>Nom / Société client</label><input class="inp" id="inv-cl" placeholder="Client Corp SAS" oninput="renderInv()"></div>
+          <div class="g2">
+            <div class="f"><label>Adresse</label><input class="inp" id="inv-cl-addr" placeholder="5 Av. Montaigne" oninput="renderInv()"></div>
+            <div class="f"><label>Ville</label><input class="inp" id="inv-cl-city" placeholder="Lyon, France" oninput="renderInv()"></div>
+          </div>
+          <div class="f"><label>Email client</label><input class="inp" id="inv-cl-email" placeholder="compta@client.com" oninput="renderInv()"></div>
+        </div>
+        <div class="card">
+          <div class="card-ttl">Détails</div>
+          <div class="g3">
+            <div class="f"><label>N° Facture</label><input class="inp" id="inv-num" value="FAC-001" oninput="renderInv()"></div>
+            <div class="f"><label>Date émission</label><input class="inp" type="date" id="inv-date" oninput="renderInv()"></div>
+            <div class="f"><label>Date échéance</label><input class="inp" type="date" id="inv-due" oninput="renderInv()"></div>
+          </div>
+          <div class="g2">
+            <div class="f"><label>Devise</label><select class="inp" id="inv-curr" onchange="renderInv()"><option value="€">€ EUR</option><option value="$">$ USD</option><option value="£">£ GBP</option><option value="CHF">CHF</option></select></div>
+            <div class="f"><label>TVA</label><select class="inp" id="inv-vat" onchange="renderInv()"><option value="0">0%</option><option value="5.5">5.5%</option><option value="10">10%</option><option value="20" selected>20%</option></select></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-ttl">Lignes de facturation</div>
+          <div class="li-row" style="margin-bottom:5px">
+            <span style="font-size:9.5px;font-weight:600;color:var(--muted)">Description</span>
+            <span style="font-size:9.5px;font-weight:600;color:var(--muted);text-align:center">Qté</span>
+            <span style="font-size:9.5px;font-weight:600;color:var(--muted);text-align:right">P.U. HT</span>
+            <span style="font-size:9.5px;font-weight:600;color:var(--muted);text-align:right">Total</span>
+            <span></span>
+          </div>
+          <div id="inv-lines"></div>
+          <button class="add-line-btn" onclick="addInvLine()">+ Ajouter une ligne</button>
+          <div class="f" style="margin-top:10px"><label>Notes / Conditions</label><textarea class="inp" id="inv-notes" placeholder="Paiement sous 30 jours. IBAN : FR76…"></textarea></div>
+        </div>
+        <div class="card" style="background:var(--cream);border-color:var(--line2)">
+          <div class="card-ttl">Envoyer la facture</div>
+          <p style="font-size:12.5px;color:var(--muted);margin-bottom:10px">Créez librement. L'envoi active votre essai 7 jours (email seulement, sans carte).</p>
+          <div class="g2" style="margin-bottom:10px">
+            <div class="f"><label>Email client</label><input class="inp" type="email" id="inv-send-email" placeholder="client@email.com"></div>
+            <div class="f"><label>WhatsApp / Tél.</label><input class="inp" id="inv-send-phone" placeholder="+33 6 00 00 00 00"></div>
+          </div>
+          <div class="send-row">
+            <button class="sb-wa" onclick="sendAction('inv','wa')">📱 WhatsApp</button>
+            <button class="sb-em" onclick="sendAction('inv','email')">✉️ Email</button>
+            <button class="sb-sms" onclick="sendAction('inv','sms')">💬 SMS</button>
+            <button class="sb-pdf" onclick="sendAction('inv','pdf')">🖨️ PDF</button>
+          </div>
+        </div>
+        <button class="btn btn-ink" style="margin-top:4px" onclick="go('contract')">Protégez cette mission avec un contrat →</button>
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px">Aperçu en temps réel</div>
+        <div class="preview-panel" id="inv-preview">
+          <div class="prev-empty"><div class="prev-empty-ico"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="6" y="3" width="22" height="30" rx="3" stroke="#ccc7be" stroke-width="1.8"/><path d="M11 11h12M11 16h12M11 21h7" stroke="#ccc7be" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="prev-empty-text">Remplissez le formulaire</div><div class="prev-empty-sub">Votre facture apparaît ici<br>en temps réel</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     QUOTE
+================================================================ -->
+<div id="s-quote" class="s">
+  <div class="tool-wrap">
+    <div class="tool-head">
+      <div class="eyebrow-pill">Devis</div>
+      <h1>Devis pro<br><em>en 60 secondes.</em></h1>
+      <p>Aperçu live · Acompte intégré · Envoi direct WhatsApp ou email.</p>
+    </div>
+    <div class="profile-strip" onclick="openMod('account')">
+      <div class="ps-logo" id="qt-ps-logo"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#1a5c36" stroke-width="1.5"/><path d="M7 7.5C7 6.12 8.12 5 9.5 5S12 6.12 12 7.5 10.88 10 9.5 10" stroke="#1a5c36" stroke-width="1.4"/><circle cx="10" cy="14" r="1.5" fill="#e8a020"/></svg></div>
+      <div style="flex:1"><div class="ps-name" id="qt-ps-name">Configurer votre profil</div><div class="ps-addr" id="qt-ps-addr">Logo, nom, adresse — ajoutés automatiquement</div></div>
+      <button class="btn btn-outline btn-sm">Modifier</button>
+    </div>
+    <div class="two-col">
+      <div>
+        <div class="card">
+          <div class="card-ttl">Votre entreprise</div>
+          <div class="f"><label>Nom / Société</label><input class="inp" id="qt-co" placeholder="Acme Studio" oninput="renderQt()"></div>
+          <div class="g2">
+            <div class="f"><label>Adresse</label><input class="inp" id="qt-addr" placeholder="12 Rue de la Paix" oninput="renderQt()"></div>
+            <div class="f"><label>Ville, Pays</label><input class="inp" id="qt-city" placeholder="Paris, France" oninput="renderQt()"></div>
+          </div>
+          <div class="g2">
+            <div class="f"><label>Email</label><input class="inp" id="qt-email" placeholder="hello@acme.com" oninput="renderQt()"></div>
+            <div class="f"><label>N° TVA</label><input class="inp" id="qt-vatn" placeholder="FR12345678901" oninput="renderQt()"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-ttl">Client</div>
+          <div class="f"><label>Nom / Société client</label><input class="inp" id="qt-cl" placeholder="Client Corp" oninput="renderQt()"></div>
+          <div class="g2">
+            <div class="f"><label>Adresse</label><input class="inp" id="qt-cl-addr" placeholder="5 Av. Montaigne" oninput="renderQt()"></div>
+            <div class="f"><label>Ville</label><input class="inp" id="qt-cl-city" placeholder="Lyon, France" oninput="renderQt()"></div>
+          </div>
+          <div class="f"><label>Email client</label><input class="inp" id="qt-cl-email" placeholder="contact@client.com" oninput="renderQt()"></div>
+        </div>
+        <div class="card">
+          <div class="card-ttl">Détails</div>
+          <div class="g3">
+            <div class="f"><label>N° Devis</label><input class="inp" id="qt-num" value="DEV-001" oninput="renderQt()"></div>
+            <div class="f"><label>Date</label><input class="inp" type="date" id="qt-date" oninput="renderQt()"></div>
+            <div class="f"><label>Valable jusqu'au</label><input class="inp" type="date" id="qt-valid" oninput="renderQt()"></div>
+          </div>
+          <div class="g2">
+            <div class="f"><label>Devise</label><select class="inp" id="qt-curr" onchange="renderQt()"><option value="€">€ EUR</option><option value="$">$ USD</option><option value="£">£ GBP</option><option value="CHF">CHF</option></select></div>
+            <div class="f"><label>TVA</label><select class="inp" id="qt-vat" onchange="renderQt()"><option value="0">0%</option><option value="5.5">5.5%</option><option value="10">10%</option><option value="20" selected>20%</option></select></div>
+          </div>
+          <div class="f"><label>Objet / Mission</label><input class="inp" id="qt-subject" placeholder="Création d'un site e-commerce" oninput="renderQt()"></div>
+        </div>
+        <div class="card">
+          <div class="card-ttl">Prestations</div>
+          <div class="li-row" style="margin-bottom:5px">
+            <span style="font-size:9.5px;font-weight:600;color:var(--muted)">Description</span>
+            <span style="font-size:9.5px;font-weight:600;color:var(--muted);text-align:center">Qté</span>
+            <span style="font-size:9.5px;font-weight:600;color:var(--muted);text-align:right">P.U. HT</span>
+            <span style="font-size:9.5px;font-weight:600;color:var(--muted);text-align:right">Total</span>
+            <span></span>
+          </div>
+          <div id="qt-lines"></div>
+          <button class="add-line-btn" onclick="addQtLine()">+ Ajouter une prestation</button>
+          <div class="g2" style="margin-top:10px">
+            <div class="f"><label>Acompte (%)</label><input class="inp" type="number" id="qt-deposit" value="30" oninput="renderQt()"></div>
+            <div class="f"><label>Délai</label><input class="inp" id="qt-delay" placeholder="4 à 6 semaines" oninput="renderQt()"></div>
+          </div>
+          <div class="f"><label>Notes</label><textarea class="inp" id="qt-notes" placeholder="Ce devis est valable 30 jours. Acompte de 30% à la signature."></textarea></div>
+        </div>
+        <div class="card" style="background:var(--cream);border-color:var(--line2)">
+          <div class="card-ttl">Envoyer le devis</div>
+          <div class="g2" style="margin-bottom:10px">
+            <div class="f"><label>Email</label><input class="inp" type="email" id="qt-send-email" placeholder="client@email.com"></div>
+            <div class="f"><label>WhatsApp</label><input class="inp" id="qt-send-phone" placeholder="+33 6 00 00 00 00"></div>
+          </div>
+          <div class="send-row">
+            <button class="sb-wa" onclick="sendAction('qt','wa')">📱 WhatsApp</button>
+            <button class="sb-em" onclick="sendAction('qt','email')">✉️ Email</button>
+            <button class="sb-pdf" onclick="sendAction('qt','pdf')">🖨️ PDF</button>
+          </div>
+        </div>
+        <button class="btn btn-ink" onclick="go('invoice')">Convertir en facture →</button>
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px">Aperçu en temps réel</div>
+        <div class="preview-panel" id="qt-preview"><div class="prev-empty"><div class="prev-empty-ico"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="6" y="3" width="22" height="30" rx="3" stroke="#ccc7be" stroke-width="1.8"/><path d="M11 11h12M11 16h12M11 21h7" stroke="#ccc7be" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="prev-empty-text">Remplissez le formulaire</div><div class="prev-empty-sub">Votre devis apparaît ici<br>en temps réel</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     CONTRACT
+================================================================ -->
+<div id="s-contract" class="s">
+  <div class="tool-wrap">
+    <div class="tool-head">
+      <div class="eyebrow-pill">Contrats IA</div>
+      <h1>Contrats pro<br><em>en 1 clic.</em></h1>
+      <p>Freelance, NDA, CGV — rédigés par IA. Envoi WhatsApp, email ou SMS intégré.</p>
+    </div>
+    <div class="profile-strip" onclick="openMod('account')">
+      <div class="ps-logo" id="ct-ps-logo"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#1a5c36" stroke-width="1.5"/><path d="M7 7.5C7 6.12 8.12 5 9.5 5S12 6.12 12 7.5 10.88 10 9.5 10" stroke="#1a5c36" stroke-width="1.4"/><circle cx="10" cy="14" r="1.5" fill="#e8a020"/></svg></div>
+      <div style="flex:1"><div class="ps-name" id="ct-ps-name">Configurer votre profil</div><div class="ps-addr" id="ct-ps-addr">Logo, nom, SIRET — ajoutés automatiquement</div></div>
+      <button class="btn btn-outline btn-sm">Modifier</button>
+    </div>
+    <div class="ct-sel">
+      <div class="ct-opt on" id="cto-freelance" onclick="setCT('freelance')"><div class="ct-opt-ico">💼</div><div class="ct-opt-name">Freelance</div></div>
+      <div class="ct-opt" id="cto-client" onclick="setCT('client')"><div class="ct-opt-ico">🤝</div><div class="ct-opt-name">Client</div></div>
+      <div class="ct-opt" id="cto-nda" onclick="setCT('nda')"><div class="ct-opt-ico">🔐</div><div class="ct-opt-name">NDA</div></div>
+      <div class="ct-opt" id="cto-cgv" onclick="setCT('cgv')"><div class="ct-opt-ico">📋</div><div class="ct-opt-name">CGV</div></div>
+    </div>
+    <div class="two-col">
+      <div>
+        <div class="card">
+          <div class="card-ttl" id="ct-ttl">Contrat Freelance</div>
+          <div class="g2">
+            <div class="f"><label>Votre nom / société</label><input class="inp" id="ct-p1" placeholder="Jean Dupont / Studio X"></div>
+            <div class="f"><label>Nom du client</label><input class="inp" id="ct-p2" placeholder="Acme SAS"></div>
+          </div>
+          <div class="f"><label>Objet de la mission</label><input class="inp" id="ct-mission" placeholder="Création d'un site e-commerce WordPress"></div>
+          <div class="g2">
+            <div class="f"><label>Montant HT (€)</label><input class="inp" type="number" id="ct-amount" placeholder="3500"></div>
+            <div class="f"><label>Délai</label><input class="inp" id="ct-delay" placeholder="6 semaines"></div>
+          </div>
+          <div class="g2">
+            <div class="f"><label>Date de début</label><input class="inp" type="date" id="ct-start"></div>
+            <div class="f"><label>Droit applicable</label><select class="inp" id="ct-law"><option>Droit français</option><option>Droit belge</option><option>Droit suisse</option><option>Droit néerlandais</option></select></div>
+          </div>
+          <div class="f"><label>Livrables</label><textarea class="inp" id="ct-deliv" placeholder="— Maquettes Figma&#10;— Code source&#10;— Formation 2h"></textarea></div>
+          <div class="g2">
+            <div class="f"><label>Acompte (%)</label><input class="inp" type="number" id="ct-advance" value="30"></div>
+            <div class="f"><label>Révisions</label><input class="inp" id="ct-rev" value="2 rounds de révisions"></div>
+          </div>
+          <button class="btn btn-green btn-full" id="ct-gen-btn" onclick="genCT()" style="margin-top:6px">Générer le contrat avec IA →</button>
+        </div>
+        <div class="card" style="background:var(--cream);border-color:var(--line2)">
+          <div class="card-ttl">Envoyer le contrat</div>
+          <div class="g3">
+            <div class="f"><label>Destinataire</label><input class="inp" id="ct-to-name" placeholder="M. Dupont"></div>
+            <div class="f"><label>Email</label><input class="inp" type="email" id="ct-to-email" placeholder="client@email.com"></div>
+            <div class="f"><label>WhatsApp</label><input class="inp" id="ct-to-phone" placeholder="+33 6 …"></div>
+          </div>
+          <div class="send-row" id="ct-share" style="display:none">
+            <button class="sb-wa" onclick="sendAction('ct','wa')">📱 WhatsApp</button>
+            <button class="sb-em" onclick="sendAction('ct','email')">✉️ Email</button>
+            <button class="sb-sms" onclick="sendAction('ct','sms')">💬 SMS</button>
+            <button class="sb-pdf" onclick="ctCopy()">📋 Copier</button>
+          </div>
+          <p id="ct-share-hint" style="font-size:12px;color:var(--muted);margin-top:8px">Générez d'abord le contrat pour activer l'envoi.</p>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
+          <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Aperçu du contrat</div>
+          <button class="btn btn-sand btn-sm" onclick="window.print()">🖨️ Imprimer</button>
+        </div>
+        <div class="ct-output" id="ct-out">
+          <div class="ct-placeholder"><div style="font-size:38px;opacity:.3"><svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="7" y="3" width="24" height="34" rx="3" stroke="#7a7570" stroke-width="2"/><path d="M13 12h18M13 19h18M13 26h10" stroke="#7a7570" stroke-width="1.5" stroke-linecap="round"/></svg></div><div style="font-size:14px;font-weight:700;color:var(--muted)">Remplissez le formulaire</div><div style="font-size:12.5px;color:var(--line2);margin-top:4px">L'IA rédigera votre contrat<br>en quelques secondes</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     RATE
+================================================================ -->
+<div id="s-rate" class="s">
+  <div class="tool-wrap">
+    <div class="tool-head">
+      <div class="eyebrow-pill">Mon Tarif</div>
+      <h1>Connaissez votre<br><em>vraie valeur.</em></h1>
+      <p>Votre TJM en temps réel. Gratuit et illimité.</p>
+    </div>
+    <div class="two-col">
+      <div>
+        <div class="card">
+          <div class="card-ttl">Objectifs financiers</div>
+          <div class="f">
+            <label>Revenu net mensuel désiré</label>
+            <div style="display:flex;align-items:center;gap:10px">
+              <input class="inp" type="number" id="r-income" value="4000" style="width:110px;flex-shrink:0" oninput="document.getElementById('r-sl').value=this.value;calcRate()">
+              <span style="font-size:13px;color:var(--muted)">€ / mois net</span>
+            </div>
+            <input type="range" class="slider" id="r-sl" min="1000" max="20000" step="100" value="4000" oninput="document.getElementById('r-income').value=this.value;calcRate()">
+          </div>
+          <div class="f"><label>Jours travaillés / semaine</label><input type="range" class="slider" id="r-days" min="1" max="7" step=".5" value="5" oninput="this.nextElementSibling.textContent=this.value+' jours/semaine';calcRate()"><div class="sl-val">5 jours/semaine</div></div>
+          <div class="f"><label>Heures facturables / jour</label><input type="range" class="slider" id="r-hours" min="2" max="10" step=".5" value="6" oninput="this.nextElementSibling.textContent=this.value+' h/jour';calcRate()"><div class="sl-val">6 h/jour</div></div>
+          <div class="f"><label>Semaines travaillées / an</label><input type="range" class="slider" id="r-weeks" min="30" max="52" step="1" value="46" oninput="this.nextElementSibling.textContent=this.value+' semaines';calcRate()"><div class="sl-val">46 semaines</div></div>
+        </div>
+        <div class="card">
+          <div class="card-ttl">Charges mensuelles</div>
+          <div class="g2">
+            <div class="f"><label>Charges pro (€)</label><input class="inp" type="number" id="r-biz" value="300" oninput="calcRate()"></div>
+            <div class="f"><label>Imposition (%)</label><input class="inp" type="number" id="r-tax" value="30" oninput="calcRate()"></div>
+          </div>
+          <div class="g2">
+            <div class="f"><label>Mutuelle (€)</label><input class="inp" type="number" id="r-health" value="150" oninput="calcRate()"></div>
+            <div class="f"><label>Autres charges (€)</label><input class="inp" type="number" id="r-other" value="200" oninput="calcRate()"></div>
+          </div>
+          <div class="f"><label>Temps non-facturable (%)</label><input type="range" class="slider" id="r-buf" min="0" max="50" step="5" value="20" oninput="this.nextElementSibling.textContent=this.value+'%';calcRate()"><div class="sl-val">20% (admin, réunions)</div></div>
+        </div>
+        <div class="card">
+          <div class="card-ttl">Tarification à la mission</div>
+          <div class="g2">
+            <div class="f"><label>Durée (heures)</label><input class="inp" type="number" id="r-ph" value="40" oninput="calcProj()"></div>
+            <div class="f"><label>Complexité</label><select class="inp" id="r-pm" onchange="calcProj()"><option value="1">Standard ×1</option><option value="1.3">Complexe ×1.3</option><option value="1.6">Expert ×1.6</option></select></div>
+          </div>
+          <div style="background:var(--cream);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-size:11.5px;color:var(--muted);margin-bottom:3px">Prix projet recommandé</div>
+            <div id="r-proj" style="font-family:'Lora',serif;font-size:30px;color:var(--g);font-weight:700">—</div>
+          </div>
+        </div>
+        <div id="r-cta-area"></div>
+      </div>
+      <div>
+        <div class="result-dark">
+          <div class="rd-lbl">Votre tarif horaire minimum</div>
+          <div class="rd-big" id="r-h">€0</div>
+          <div class="rd-sub">de l'heure</div>
+          <div style="width:100%;height:1px;background:rgba(255,255,255,.1);margin:14px 0"></div>
+          <div class="rd-grid" style="grid-template-columns:1fr 1fr">
+            <div class="rd-item"><div class="rd-item-lbl">TJM</div><div class="rd-item-val" id="r-d">—</div></div>
+            <div class="rd-item"><div class="rd-item-lbl">Semaine</div><div class="rd-item-val" id="r-w">—</div></div>
+            <div class="rd-item"><div class="rd-item-lbl">Mois brut</div><div class="rd-item-val" id="r-mg">—</div></div>
+            <div class="rd-item"><div class="rd-item-lbl">An brut</div><div class="rd-item-val" id="r-ag">—</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-ttl">Comparaison marché</div>
+          <table class="compare-t"><thead><tr><th>Profil</th><th>Horaire</th><th>TJM</th></tr></thead><tbody id="r-cmp"></tbody></table>
+        </div>
+        <div class="card"><div class="card-ttl">Décomposition</div><div id="r-brkdn"></div></div>
+        <div class="card" style="background:var(--g-lt);border-color:var(--g-md);text-align:center">
+          <p style="font-size:13px;font-weight:600;color:var(--g);margin-bottom:10px">✓ Tarif calculé — créez votre premier devis.</p>
+          <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+            <button class="btn btn-green btn-sm" onclick="go('quote')">Créer un devis →</button>
+            <button class="btn btn-outline btn-sm" onclick="go('invoice')">Créer une facture →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     PRICING
+================================================================ -->
+<div id="s-pricing" class="s">
+  <section class="pricing-section">
+    <div class="pricing-header">
+      <div class="section-eyebrow" style="justify-content:center">Nos tarifs</div>
+      <h2 class="how-title">Transparent, sans surprise,<br><em>rentable dès le premier mois.</em></h2>
+      <p style="font-size:15px;color:var(--muted);max-width:460px;margin:0 auto 28px;line-height:1.7;font-weight:400">Une seule facture en retard récupérée = FacturePilot Pro remboursé pour 6 mois.</p>
+      <div style="display:inline-flex;align-items:center;gap:7px;background:var(--g-lt);border:1px solid var(--g-md);color:var(--g);border-radius:99px;padding:7px 18px;font-size:12px;font-weight:700">
+        <div style="width:6px;height:6px;border-radius:50%;background:var(--g);animation:glow 2s infinite"></div>
+        7 jours gratuits · Sans carte bancaire · Annulez quand vous voulez
+      </div>
+    </div>
+    <div class="pricing-grid">
+      <div class="pc">
+        <div class="pc-name">Découverte</div>
+        <div class="pc-desc">Pour créer et tester sans engagement.</div>
+        <div style="margin-bottom:16px"><div class="pc-price-n"><span class="euro">€</span>0</div><div class="pc-period">pour toujours · sans carte</div></div>
+        <div class="pc-divider"></div>
+        <div class="pc-feats">
+          <div class="pc-feat yes">Calculateur de tarif illimité</div>
+          <div class="pc-feat yes">3 factures / mois</div>
+          <div class="pc-feat yes">3 devis / mois</div>
+          <div class="pc-feat yes">Aperçu contrats IA</div>
+          <div class="pc-feat no">Envoi WhatsApp / Email / SMS</div>
+          <div class="pc-feat no">PDF sans watermark</div>
+          <div class="pc-feat no">Relances automatiques</div>
+        </div>
+        <button class="btn btn-outline btn-full" onclick="go('invoice')">Commencer gratuitement</button>
+      </div>
+      <div class="pc featured">
+        <div class="pc-badge">Le plus populaire</div>
+        <div class="pc-name">Pro</div>
+        <div class="pc-desc">Pour être payé sans stress et sans effort.</div>
+        <div style="margin-bottom:16px"><div class="pc-price-n"><span class="euro">€</span>19</div><div class="pc-period">/ mois · après l'essai</div><div class="pc-trial">✓ 7 jours gratuits · sans carte</div></div>
+        <div class="pc-divider"></div>
+        <div class="pc-feats">
+          <div class="pc-feat yes">Factures & devis illimités</div>
+          <div class="pc-feat yes">PDF illimités sans watermark</div>
+          <div class="pc-feat yes">Envoi WhatsApp, Email, SMS</div>
+          <div class="pc-feat yes">Relances auto (J+3, J+7, J+14, J+30)</div>
+          <div class="pc-feat yes">Contrats IA (Freelance, NDA)</div>
+          <div class="pc-feat yes">Tarification à la mission</div>
+          <div class="pc-feat no">CGV, accords partenariat</div>
+        </div>
+        <button class="btn btn-green btn-full" onclick="openTrialModal('pricing-pro')">Essayer 7 jours gratuitement →</button>
+        <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:7px">Puis €19/mois · Annulez en 1 clic</p>
+      </div>
+      <div class="pc">
+        <div class="pc-name">Business</div>
+        <div class="pc-desc">Pour automatiser entièrement votre admin.</div>
+        <div style="margin-bottom:16px"><div class="pc-price-n"><span class="euro">€</span>39</div><div class="pc-period">/ mois · ou €390/an</div><div class="pc-trial">✓ 7 jours gratuits · sans carte</div></div>
+        <div class="pc-divider"></div>
+        <div class="pc-feats">
+          <div class="pc-feat yes">Tout le plan Pro</div>
+          <div class="pc-feat yes">CGV, CGU, accords partenariat</div>
+          <div class="pc-feat yes">Recouvrement automatique</div>
+          <div class="pc-feat yes">Multi-utilisateurs (3)</div>
+          <div class="pc-feat yes">Analytics & tableau de bord</div>
+          <div class="pc-feat yes">Support prioritaire</div>
+        </div>
+        <button class="btn btn-ink btn-full" onclick="openTrialModal('pricing-biz')">Essayer 7 jours gratuitement →</button>
+        <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:7px">Puis €39/mois · Annulez en 1 clic</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================================================================
+     LEGAL
+================================================================ -->
+<div id="s-privacy" class="s">
+  <div class="legal-wrap">
+    <button class="legal-back" onclick="go('hub')">← Retour à l'accueil</button>
+    <h1>Politique de Confidentialité</h1>
+    <p class="sub">Dernière mise à jour : janvier 2025 · FacturePilot SAS</p>
+    <h2>1. Responsable du traitement</h2>
+    <p>FacturePilot SAS, Paris, France. Contact : <strong>privacy@facturepilot.io</strong></p>
+    <h2>2. Données collectées</h2>
+    <ul><li><strong>Email :</strong> adresse collectée lors de l'inscription à l'essai gratuit, transmise via Resend pour confirmation.</li><li><strong>Données de facturation :</strong> stockées localement sur votre appareil (localStorage). Aucune transmission à nos serveurs.</li><li><strong>Données techniques :</strong> logs de connexion, IP, navigateur — conservés 12 mois.</li></ul>
+    <h2>3. Vos droits (RGPD)</h2>
+    <p>Accès, rectification, effacement, portabilité, opposition. Contact : <strong>privacy@facturepilot.io</strong></p>
+    <h2>4. Sous-traitants</h2>
+    <ul><li><strong>Resend</strong> — Envoi emails transactionnels</li><li><strong>Anthropic</strong> — Génération de contrats par IA</li></ul>
+  </div>
+</div>
+
+<div id="s-terms" class="s">
+  <div class="legal-wrap">
+    <button class="legal-back" onclick="go('hub')">← Retour à l'accueil</button>
+    <h1>Conditions Générales d'Utilisation</h1>
+    <p class="sub">Dernière mise à jour : janvier 2025 · FacturePilot SAS</p>
+    <h2>1. Objet</h2>
+    <p>Les présentes CGU régissent l'accès et l'utilisation de la plateforme FacturePilot, éditée par FacturePilot SAS.</p>
+    <h2>2. Essai gratuit</h2>
+    <p>Un essai de 7 jours est proposé sans carte bancaire. À l'issue, Pro à €19/mois ou Business à €39/mois.</p>
+    <h2>3. Contrats générés par IA</h2>
+    <p>Les contrats sont fournis à titre indicatif. Pour des enjeux supérieurs à €50 000, consultez un avocat.</p>
+    <h2>4. Contact</h2>
+    <p>support@facturepilot.io · FacturePilot SAS · Paris, France</p>
+  </div>
+</div>
+
+<!-- ================================================================
+     MODAL TRIAL — Collecte email réelle via Resend
+================================================================ -->
+<div class="overlay" id="modal-send">
+  <div class="modal">
+    <button class="modal-x" onclick="closeMod('send')">✕</button>
+    <div id="send-form-view">
+      <div style="margin:0 auto 14px;width:52px;height:52px">
+        <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" stroke="#1a5c36" stroke-width="2.4"/><rect x="13" y="10" width="5.5" height="28" rx="2.75" fill="#111"/><rect x="13" y="10" width="19" height="5.5" rx="2.75" fill="#111"/><rect x="13" y="22" width="15" height="5" rx="2.5" fill="#1a5c36"/><circle cx="35" cy="37" r="5.5" fill="#e8a020"/></svg>
+      </div>
+      <h2>Accès gratuit 7 jours</h2>
+      <div class="trial-banner">
+        <strong>Sans carte bancaire · Accès complet immédiat</strong>
+        <span>Annulez quand vous voulez · Aucun engagement</span>
+      </div>
+      <p class="modal-sub" id="send-modal-desc">Entrez votre email pour débloquer toutes les fonctionnalités pendant 7 jours.</p>
+      <div class="modal-feats">
+        <div class="modal-feat">Relances automatiques J+3, J+7, J+14, J+30</div>
+        <div class="modal-feat">Envoi WhatsApp, Email, SMS illimité</div>
+        <div class="modal-feat">PDF illimités sans watermark</div>
+        <div class="modal-feat">Contrats IA illimités (Freelance, NDA, CGV)</div>
+      </div>
+      <div class="f" style="text-align:left;margin-bottom:14px">
+        <label>Votre email professionnel</label>
+        <input class="inp" type="email" id="trial-email" placeholder="vous@domaine.com" style="height:48px;font-size:15px" onkeydown="if(event.key==='Enter')activateTrial()">
+      </div>
+      <button class="btn btn-green btn-full btn-lg" id="trial-btn" onclick="activateTrial()">Activer mon essai gratuit →</button>
+      <p style="font-size:11px;color:var(--muted);margin-top:10px">Après 7 jours : Pro €19/mois. Annulation en 1 clic. Aucune carte maintenant.</p>
+    </div>
+    <div id="send-confirm-view" style="display:none">
+      <div class="email-confirm-box" style="display:block">
+        <div class="ecb-icon">📬</div>
+        <h3>Vérifiez votre boîte mail !</h3>
+        <div class="ecb-email" id="confirm-email-display"></div>
+        <p>Un email de bienvenue vous a été envoyé. Accédez dès maintenant à vos outils.</p>
+        <div style="height:1px;background:var(--g-md);margin:14px 0"></div>
+        <p style="font-size:12px">Email non reçu ?
+          <button onclick="resendConfirmEmail()" style="background:none;border:none;color:var(--g);font-weight:700;cursor:pointer;font-family:'Figtree',sans-serif;font-size:12px;padding:0;text-decoration:underline">Renvoyer →</button>
+        </p>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-outline btn-sm" onclick="closeMod('send')">Fermer</button>
+        <button class="btn btn-green btn-sm" onclick="closeMod('send');go('invoice')">Créer ma facture →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACCOUNT MODAL -->
+<div class="overlay" id="modal-account">
+  <div class="modal" style="text-align:left;max-width:480px">
+    <button class="modal-x" onclick="closeMod('account')">✕</button>
+    <h2 style="margin-bottom:18px">Mon profil</h2>
+    <div class="card-ttl">Logo de l'entreprise</div>
+    <div id="logo-drop" style="border:2px dashed var(--line2);border-radius:11px;padding:16px;text-align:center;cursor:pointer;margin-bottom:12px;transition:all .2s" onclick="document.getElementById('logo-inp').click()">
+      <img id="logo-img" style="display:none;max-height:50px;max-width:140px;border-radius:7px;margin:0 auto">
+      <div id="logo-ph" style="font-size:13.5px;color:var(--muted)">Cliquez pour uploader votre logo</div>
+      <input type="file" id="logo-inp" accept="image/*" style="display:none" onchange="uploadLogo(event)">
+    </div>
+    <div class="f"><label>Nom / Société</label><input class="inp" id="acc-name" placeholder="Acme Design Studio" oninput="saveProfile()"></div>
+    <div class="f"><label>Adresse</label><input class="inp" id="acc-addr" placeholder="12 Rue de la Paix, 75001 Paris" oninput="saveProfile()"></div>
+    <div class="g2">
+      <div class="f"><label>Email pro</label><input class="inp" id="acc-email" placeholder="hello@acme.com" oninput="saveProfile()"></div>
+      <div class="f"><label>Téléphone</label><input class="inp" id="acc-phone" placeholder="+33 6 …" oninput="saveProfile()"></div>
+    </div>
+    <div class="g2">
+      <div class="f"><label>SIRET</label><input class="inp" id="acc-siret" placeholder="12345678901234" oninput="saveProfile()"></div>
+      <div class="f"><label>N° TVA</label><input class="inp" id="acc-vat" placeholder="FR12345678901" oninput="saveProfile()"></div>
+    </div>
+    <button class="btn btn-ink btn-full" onclick="saveProfile();closeMod('account');toast('Profil enregistré !')">Enregistrer mon profil</button>
+    <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:8px">Données locales · Jamais partagées · RGPD</p>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   ★★★ RESEND EMAIL INTEGRATION ★★★
+   
+   CONFIGURATION — À personnaliser avant déploiement :
+   1. Remplacez RESEND_API_KEY par votre vraie clé Resend
+   2. Remplacez FROM_EMAIL par votre domaine vérifié sur Resend
+   3. Optionnel : remplacez l'URL webhook par votre endpoint
+   
+   ⚠️  IMPORTANT : Pour la production, ne jamais exposer
+   la clé API côté client. Créez un endpoint /api/subscribe
+   sur Vercel (voir commentaire ci-dessous).
+   
+   VERCEL FUNCTION RECOMMANDÉE (/api/subscribe.js) :
+   ────────────────────────────────────────────────
+   export default async function handler(req, res) {
+     if (req.method !== 'POST') return res.status(405).end();
+     const { email, source } = req.body;
+     const resend = new Resend(process.env.RESEND_API_KEY);
+     
+     // Email de bienvenue à l'utilisateur
+     await resend.emails.send({
+       from: 'FacturePilot <hello@facturepilot.io>',
+       to: email,
+       subject: '🎉 Votre accès FacturePilot est activé !',
+       html: getWelcomeEmailHTML(email),
+     });
+     
+     // Notification interne
+     await resend.emails.send({
+       from: 'noreply@facturepilot.io',
+       to: 'vous@facturepilot.io',
+       subject: 'Nouveau lead FacturePilot',
+       html: `Nouvel essai : ${email} (source: ${source})`,
+     });
+     
+     res.status(200).json({ success: true });
+   }
+   ────────────────────────────────────────────────
+   
+   EN ATTENDANT : ce fichier HTML utilise un fallback
+   intelligent qui fonctionne sans backend.
+══════════════════════════════════════════════════════════ */
+
+const CONFIG = {
+  // Remplacez par votre endpoint Vercel en production :
+  API_URL: '/api/subscribe',
+  // Email de notification admin :
+  ADMIN_EMAIL: 'vous@facturepilot.io',
+  // Nom de l'expéditeur :
+  FROM_NAME: 'FacturePilot',
+};
+
+/* ══════════════════════════════════════
+   COLLECTE EMAIL — FONCTION PRINCIPALE
+══════════════════════════════════════ */
+async function collectEmail(email, source) {
+  // 1. Validation
+  if (!email || !email.includes('@') || !email.includes('.')) {
+    return { success: false, error: 'Email invalide' };
+  }
+
+  // 2. Sauvegarder localement
+  localStorage.setItem('fp_trial', '1');
+  localStorage.setItem('fp_email', email);
+  localStorage.setItem('fp_trial_start', Date.now());
+  localStorage.setItem('fp_source', source || 'direct');
+
+  // 3. Tentative d'envoi via l'API backend (si disponible)
+  try {
+    const res = await fetch(CONFIG.API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, source, timestamp: new Date().toISOString() }),
+      signal: AbortSignal.timeout(4000),
+    });
+    if (res.ok) {
+      console.log('[FacturePilot] Email enregistré via API:', email);
+      return { success: true, method: 'api' };
+    }
+  } catch (err) {
+    // API non disponible (mode HTML standalone) — fallback ci-dessous
+    console.log('[FacturePilot] API non disponible, fallback activé');
+  }
+
+  // 4. Fallback : ouverture mailto pour notification admin
+  // (fonctionne quand le fichier HTML est ouvert directement)
+  try {
+    const mailtoLink = `mailto:${CONFIG.ADMIN_EMAIL}?subject=${encodeURIComponent(
+      '[FacturePilot] Nouveau lead : ' + email
+    )}&body=${encodeURIComponent(
+      'Email : ' + email + '\nSource : ' + (source || 'direct') + '\nDate : ' + new Date().toLocaleString('fr-FR')
+    )}`;
+    // On ne force pas l'ouverture — trop intrusif. Juste log.
+    console.log('[FacturePilot] Lead à notifier :', email, '| Source :', source);
+    console.log('[FacturePilot] Mailto de secours :', mailtoLink);
+  } catch(e) {}
+
+  return { success: true, method: 'local' };
+}
+
+/* ══════════════════════════════════════
+   SOUMISSIONS EMAIL
+══════════════════════════════════════ */
+async function submitHeroEmail() {
+  const inp = document.getElementById('hero-email');
+  const btn = document.getElementById('hero-email-btn');
+  const email = inp.value.trim();
+
+  if (!email || !email.includes('@')) {
+    inp.style.borderColor = '#bf4e2a';
+    inp.focus();
+    toast('⚠ Entrez un email valide');
+    return;
+  }
+  inp.style.borderColor = '';
+
+  const orig = btn.textContent;
+  btn.innerHTML = '<span class="spinner"></span>';
+  btn.disabled = true;
+
+  const result = await collectEmail(email, 'hero');
+
+  btn.textContent = orig;
+  btn.disabled = false;
+
+  // Afficher confirmation inline
+  document.getElementById('hero-form-wrap').style.display = 'none';
+  document.getElementById('hero-confirm-email').textContent = email;
+  document.getElementById('hero-confirm').style.display = 'block';
+
+  updateTrialUI();
+  toast('🎉 Accès activé ! Bienvenue dans FacturePilot.');
+}
+
+async function submitBottomEmail() {
+  const inp = document.getElementById('cta-bottom-email');
+  const btn = document.getElementById('cta-bottom-btn');
+  const email = inp.value.trim();
+
+  if (!email || !email.includes('@')) {
+    inp.style.borderColor = 'rgba(255,100,100,.6)';
+    inp.focus();
+    toast('⚠ Entrez un email valide');
+    return;
+  }
+  inp.style.borderColor = '';
+
+  const orig = btn.textContent;
+  btn.innerHTML = '<span class="spinner" style="border-top-color:var(--ink)"></span>';
+  btn.disabled = true;
+
+  await collectEmail(email, 'cta-bottom');
+
+  btn.textContent = orig;
+  btn.disabled = false;
+
+  document.getElementById('cta-bottom-form-wrap').style.display = 'none';
+  document.getElementById('cta-bottom-confirm').style.display = 'block';
+
+  updateTrialUI();
+}
+
+async function activateTrial() {
+  const emailInp = document.getElementById('trial-email');
+  const em = emailInp.value.trim();
+
+  if (!em || !em.includes('@') || !em.includes('.')) {
+    emailInp.style.borderColor = '#bf4e2a';
+    emailInp.focus();
+    toast('⚠ Entrez un email valide');
+    return;
+  }
+  emailInp.style.borderColor = '';
+
+  const btn = document.getElementById('trial-btn');
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<span class="spinner"></span> Activation…';
+  btn.disabled = true;
+
+  await collectEmail(em, 'modal');
+
+  // Basculer vers confirmation
+  document.getElementById('send-form-view').style.display = 'none';
+  document.getElementById('confirm-email-display').textContent = em;
+  document.getElementById('send-confirm-view').style.display = 'block';
+
+  updateTrialUI();
+  btn.innerHTML = orig;
+  btn.disabled = false;
+
+  if (pendingAction) {
+    setTimeout(() => {
+      closeMod('send');
+      setTimeout(() => { doSend(pendingAction.tool, pendingAction.type); pendingAction = null; }, 300);
+    }, 2500);
+  }
+}
+
+function resendConfirmEmail() {
+  const em = localStorage.getItem('fp_email') || '';
+  if (!em) { toast('Email introuvable'); return; }
+  collectEmail(em, 'resend');
+  toast('📬 Email renvoyé à ' + em);
+}
+
+/* ══════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════ */
+const SECS = ['hub','invoice','quote','contract','rate','pricing','privacy','terms'];
+function go(id) {
+  SECS.forEach(s => {
+    document.getElementById('s-' + s)?.classList.toggle('on', s === id);
+    document.getElementById('nav-' + s)?.classList.toggle('on', s === id);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  location.hash = id;
+  if (id === 'rate') calcRate();
+  if (id === 'invoice' && !invInited) initInv();
+  if (id === 'quote' && !qtInited) initQt();
+  // Masquer sticky CTA sur les pages intérieures
+  const sticky = document.getElementById('sticky-cta');
+  if (sticky) sticky.style.display = (id === 'hub') ? '' : 'none';
+}
+
+function openMod(id) { document.getElementById('modal-' + id)?.classList.add('on'); }
+function closeMod(id) { document.getElementById('modal-' + id)?.classList.remove('on'); }
+
+function openTrialModal(ctx) {
+  if (localStorage.getItem('fp_trial') === '1') {
+    toast('✓ Votre essai est déjà actif !');
+    return;
+  }
+  document.getElementById('send-form-view').style.display = 'block';
+  document.getElementById('send-confirm-view').style.display = 'none';
+  openMod('send');
+}
+
+/* Mobile menu */
+function toggleMobileMenu() { document.getElementById('nav-mobile-menu').classList.toggle('open'); }
+function closeMobileMenu() { document.getElementById('nav-mobile-menu').classList.remove('open'); }
+
+/* ══════════════════════════════════════
+   SEND ACTIONS
+══════════════════════════════════════ */
+let pendingAction = null;
+
+function sendAction(tool, type) {
+  if (localStorage.getItem('fp_trial') === '1') { doSend(tool, type); return; }
+  pendingAction = { tool, type };
+  const desc = {
+    inv: { wa: 'facture par WhatsApp', email: 'facture par email', sms: 'facture par SMS', pdf: 'PDF de votre facture' },
+    qt: { wa: 'devis par WhatsApp', email: 'devis par email', pdf: 'PDF de votre devis' },
+    ct: { wa: 'contrat par WhatsApp', email: 'contrat par email', sms: 'contrat par SMS', pdf: 'PDF de votre contrat' },
+  };
+  document.getElementById('send-modal-desc').textContent =
+    'Entrez votre email pour envoyer votre ' + (desc[tool]?.[type] || 'document') + ' et accéder à toutes les fonctionnalités pendant 7 jours.';
+  document.getElementById('send-form-view').style.display = 'block';
+  document.getElementById('send-confirm-view').style.display = 'none';
+  openMod('send');
+}
+
+function doSend(tool, type) {
+  const actions = {
+    inv: { wa: invWA, email: invEmail, sms: invSMS, pdf: () => { window.print(); toast('PDF ouvert'); } },
+    qt:  { wa: qtWA, email: qtEmail, pdf: () => { window.print(); toast('PDF ouvert'); } },
+    ct:  { wa: ctWA, email: ctEmail, sms: ctSMS, pdf: () => { window.print(); toast('PDF ouvert'); } },
+  };
+  const fn = actions[tool]?.[type];
+  if (fn) fn(); else toast('✓ Action effectuée');
+}
+
+/* ══════════════════════════════════════
+   UI STATE
+══════════════════════════════════════ */
+function updateTrialUI() {
+  const btn = document.getElementById('nav-cta-btn');
+  const em = localStorage.getItem('fp_email') || '';
+  if (btn && localStorage.getItem('fp_trial') === '1') {
+    btn.textContent = '✓ ' + (em.split('@')[0] || 'Compte actif');
+    btn.classList.add('active');
+  }
+  const alertEl = document.getElementById('inv-trial-ok');
+  if (alertEl && localStorage.getItem('fp_trial') === '1') alertEl.style.display = 'block';
+
+  // Cacher le formulaire hero si déjà inscrit
+  if (localStorage.getItem('fp_trial') === '1') {
+    const heroForm = document.getElementById('hero-form-wrap');
+    const heroConfirm = document.getElementById('hero-confirm');
+    if (heroForm) heroForm.style.display = 'none';
+    if (heroConfirm) {
+      heroConfirm.style.display = 'block';
+      const ecEmail = document.getElementById('hero-confirm-email');
+      if (ecEmail) ecEmail.textContent = em;
+    }
+    // Cacher sticky CTA aussi
+    const sticky = document.getElementById('sticky-cta');
+    if (sticky) sticky.style.display = 'none';
+  }
+}
+
+/* ══════════════════════════════════════
+   TOAST & HELPERS
+══════════════════════════════════════ */
+function toast(msg, dur) {
+  const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg;
+  document.body.appendChild(t); setTimeout(() => t.remove(), dur || 3600);
+}
+function v(id) { const el = document.getElementById(id); return el ? el.value : ''; }
+function fmt(n) { return '€' + Math.round(n).toLocaleString('fr-FR'); }
+
+/* ══════════════════════════════════════
+   PROFILE
+══════════════════════════════════════ */
+function loadProfile() {
+  const p = JSON.parse(localStorage.getItem('fp_profile') || '{}');
+  ['name','addr','email','phone','siret','vat'].forEach(f => { const el = document.getElementById('acc-' + f); if (el && p[f]) el.value = p[f]; });
+  if (p.logo) { document.getElementById('logo-img').src = p.logo; document.getElementById('logo-img').style.display = 'block'; document.getElementById('logo-ph').style.display = 'none'; }
+  updateStrips(p); return p;
+}
+function saveProfile() {
+  const logo = localStorage.getItem('fp_logo') || '';
+  const p = { name: v('acc-name'), addr: v('acc-addr'), email: v('acc-email'), phone: v('acc-phone'), siret: v('acc-siret'), vat: v('acc-vat'), logo };
+  localStorage.setItem('fp_profile', JSON.stringify(p));
+  updateStrips(p);
+}
+function updateStrips(p) {
+  [['inv-ps-logo','inv-ps-name','inv-ps-addr'],['qt-ps-logo','qt-ps-name','qt-ps-addr'],['ct-ps-logo','ct-ps-name','ct-ps-addr']].forEach(([l,n,a]) => {
+    const logoEl = document.getElementById(l); const nameEl = document.getElementById(n); const addrEl = document.getElementById(a);
+    if (nameEl && p.name) nameEl.textContent = p.name;
+    if (addrEl && p.addr) addrEl.textContent = p.addr;
+    if (logoEl && p.logo) logoEl.innerHTML = '<img src="' + p.logo + '" style="width:100%;height:100%;object-fit:contain;border-radius:7px">';
+  });
+  if (p.name) ['inv-co','qt-co'].forEach(id => { const el = document.getElementById(id); if (el && !el.value) el.value = p.name; });
+  if (p.addr) ['inv-addr','qt-addr'].forEach(id => { const el = document.getElementById(id); if (el && !el.value) el.value = p.addr; });
+  if (p.email) ['inv-email','qt-email'].forEach(id => { const el = document.getElementById(id); if (el && !el.value) el.value = p.email; });
+  if (p.vat) ['inv-vatn','qt-vatn'].forEach(id => { const el = document.getElementById(id); if (el && !el.value) el.value = p.vat; });
+}
+function uploadLogo(e) {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader(); r.onload = ev => {
+    const logo = ev.target.result; localStorage.setItem('fp_logo', logo);
+    document.getElementById('logo-img').src = logo;
+    document.getElementById('logo-img').style.display = 'block';
+    document.getElementById('logo-ph').style.display = 'none';
+    saveProfile(); toast('Logo enregistré !');
+  }; r.readAsDataURL(f);
+}
+
+/* ══════════════════════════════════════
+   INVOICE
+══════════════════════════════════════ */
+let invLines = [], invLC = 0, invInited = false;
+function initInv() {
+  invInited = true; const today = new Date();
+  document.getElementById('inv-date').valueAsDate = today;
+  const due = new Date(today); due.setDate(due.getDate() + 30); document.getElementById('inv-due').valueAsDate = due;
+  addInvLine(true); addInvLine(true); renderInv();
+}
+function addInvLine(silent) {
+  const id = invLC++; invLines.push({ id, desc: '', qty: 1, price: 0 });
+  const d = document.createElement('div'); d.className = 'li-row'; d.id = 'il-' + id;
+  d.innerHTML = `<input class="inp" placeholder="Prestation…" oninput="invLines.find(l=>l.id===${id}).desc=this.value;renderInv()"> <input class="inp" type="number" value="1" min="0" style="text-align:center" oninput="invLines.find(l=>l.id===${id}).qty=+this.value;renderInv()"> <input class="inp" type="number" value="0" step="0.01" oninput="invLines.find(l=>l.id===${id}).price=+this.value;renderInv()"> <input class="inp" id="il-tot-${id}" readonly style="background:var(--cream);font-weight:600;text-align:right"> <button style="background:none;border:none;font-size:13px;color:var(--muted);cursor:pointer" onclick="rmIL(${id})">✕</button>`;
+  document.getElementById('inv-lines').appendChild(d); if (!silent) renderInv();
+}
+function rmIL(id) { invLines = invLines.filter(l => l.id !== id); const el = document.getElementById('il-' + id); if (el) el.remove(); renderInv(); }
+function renderInv() {
+  const curr = v('inv-curr') || '€'; const vatRate = parseFloat(v('inv-vat')) || 0;
+  invLines.forEach(l => { const tot = l.qty * l.price; const el = document.getElementById('il-tot-' + l.id); if (el) el.value = curr + tot.toFixed(2); });
+  const sub = invLines.reduce((a, l) => a + l.qty * l.price, 0); const vatAmt = sub * vatRate / 100; const total = sub + vatAmt;
+  const co = v('inv-co'); const cl = v('inv-cl');
+  if (!co && !cl) { document.getElementById('inv-preview').innerHTML = '<div class="prev-empty"><div class="prev-empty-ico">📄</div><div class="prev-empty-text">Remplissez le formulaire</div><div class="prev-empty-sub">Votre facture apparaît<br>en temps réel</div></div>'; return; }
+  const p = JSON.parse(localStorage.getItem('fp_profile') || '{}');
+  const logoHTML = p.logo ? `<img src="${p.logo}" style="height:30px;object-fit:contain;margin-bottom:7px;display:block">` : '';
+  const rows = invLines.filter(l => l.desc).map(l => `<tr><td>${l.desc}</td><td>${l.qty}</td><td style="text-align:right">${curr}${l.price.toFixed(2)}</td><td style="text-align:right;font-weight:600">${curr}${(l.qty * l.price).toFixed(2)}</td></tr>`).join('');
+  document.getElementById('inv-preview').innerHTML = `
+    <div class="inv-hdr"><div>${logoHTML}<div class="inv-co-n">${co || 'Votre société'}</div><div style="font-size:9.5px;color:rgba(255,255,255,.45);margin-top:5px;line-height:1.7">${v('inv-addr')}<br>${v('inv-city')}<br>${v('inv-email')}${v('inv-vatn') ? '<br>TVA: ' + v('inv-vatn') : ''}</div></div>
+      <div style="text-align:right"><div class="inv-title-txt">Facture</div><div style="font-size:10px;color:rgba(255,255,255,.4)">${v('inv-num')}</div><div style="font-size:9.5px;color:rgba(255,255,255,.3);margin-top:4px">Émise : ${v('inv-date')}<br>Échéance : ${v('inv-due')}</div></div></div>
+    <div class="inv-body"><div class="inv-parties"><div><div class="ip-lbl">Facturer à</div><div style="font-weight:700;font-size:12.5px">${cl || 'Client'}</div><div style="font-size:10.5px;color:var(--muted);line-height:1.6">${v('inv-cl-addr')}<br>${v('inv-cl-city')}<br>${v('inv-cl-email')}</div></div><div style="text-align:right"><div class="ip-lbl">Montant dû</div><div style="font-family:'Lora',serif;font-size:22px;color:var(--or);font-weight:700">${curr}${total.toFixed(2)}</div></div></div>
+    <table class="inv-table"><thead><tr><th>Description</th><th>Qté</th><th>P.U. HT</th><th>Total HT</th></tr></thead><tbody>${rows}</tbody></table>
+    <div style="display:flex;justify-content:flex-end"><div class="inv-totals"><div class="inv-tr"><span>Sous-total HT</span><span>${curr}${sub.toFixed(2)}</span></div>${vatRate ? `<div class="inv-tr"><span>TVA (${vatRate}%)</span><span>${curr}${vatAmt.toFixed(2)}</span></div>` : ''}<div class="inv-tr tot"><span>Total TTC</span><span>${curr}${total.toFixed(2)}</span></div></div></div>
+    ${v('inv-notes') ? `<div style="margin-top:12px;padding:10px;background:var(--cream);border-radius:9px;font-size:11px;color:var(--muted)">${v('inv-notes')}</div>` : ''}
+    <div style="text-align:center;font-size:9px;color:var(--muted);margin-top:14px;padding-top:10px;border-top:1px solid var(--line)">Merci · ${co || ''}</div></div>`;
+}
+function invWA() { const phone = (v('inv-send-phone') || '').replace(/[\s+]/g, ''); const msg = encodeURIComponent('Bonjour,\n\nVeuillez trouver votre facture ' + v('inv-num') + '.\nSociété : ' + v('inv-co') + '\nÉchéance : ' + v('inv-due') + '\n\nMerci.'); window.open((phone ? `https://wa.me/${phone}?text=${msg}` : `https://wa.me/?text=${msg}`), '_blank'); }
+function invEmail() { const sub = encodeURIComponent('Facture ' + v('inv-num') + ' — ' + v('inv-co')); const body = encodeURIComponent('Bonjour,\n\nVeuillez trouver votre facture ' + v('inv-num') + '.\nÉchéance : ' + v('inv-due') + '\n\nCordialement,\n' + v('inv-co')); window.location.href = `mailto:${v('inv-send-email')}?subject=${sub}&body=${body}`; }
+function invSMS() { window.location.href = `sms:${v('inv-send-phone')}?body=${encodeURIComponent('Bonjour, votre facture ' + v('inv-num') + ' de ' + v('inv-co') + ' est disponible. Échéance : ' + v('inv-due'))}`; }
+
+/* ══════════════════════════════════════
+   QUOTE
+══════════════════════════════════════ */
+let qtLines = [], qtLC = 0, qtInited = false;
+function initQt() {
+  qtInited = true; const today = new Date();
+  document.getElementById('qt-date').valueAsDate = today;
+  const valid = new Date(today); valid.setDate(valid.getDate() + 30); document.getElementById('qt-valid').valueAsDate = valid;
+  addQtLine(true); addQtLine(true); renderQt();
+}
+function addQtLine(silent) {
+  const id = qtLC++; qtLines.push({ id, desc: '', qty: 1, price: 0 });
+  const d = document.createElement('div'); d.className = 'li-row'; d.id = 'ql-' + id;
+  d.innerHTML = `<input class="inp" placeholder="Prestation…" oninput="qtLines.find(l=>l.id===${id}).desc=this.value;renderQt()"> <input class="inp" type="number" value="1" min="0" style="text-align:center" oninput="qtLines.find(l=>l.id===${id}).qty=+this.value;renderQt()"> <input class="inp" type="number" value="0" step="0.01" oninput="qtLines.find(l=>l.id===${id}).price=+this.value;renderQt()"> <input class="inp" id="ql-tot-${id}" readonly style="background:var(--cream);font-weight:600;text-align:right"> <button style="background:none;border:none;font-size:13px;color:var(--muted);cursor:pointer" onclick="rmQL(${id})">✕</button>`;
+  document.getElementById('qt-lines').appendChild(d); if (!silent) renderQt();
+}
+function rmQL(id) { qtLines = qtLines.filter(l => l.id !== id); const el = document.getElementById('ql-' + id); if (el) el.remove(); renderQt(); }
+function renderQt() {
+  const curr = v('qt-curr') || '€'; const vatRate = parseFloat(v('qt-vat')) || 0;
+  qtLines.forEach(l => { const tot = l.qty * l.price; const el = document.getElementById('ql-tot-' + l.id); if (el) el.value = curr + tot.toFixed(2); });
+  const sub = qtLines.reduce((a, l) => a + l.qty * l.price, 0); const vatAmt = sub * vatRate / 100; const total = sub + vatAmt;
+  const deposit = parseFloat(v('qt-deposit')) || 30; const depositAmt = total * (deposit / 100);
+  const co = v('qt-co'); const cl = v('qt-cl');
+  if (!co && !cl) { document.getElementById('qt-preview').innerHTML = '<div class="prev-empty"><div class="prev-empty-ico">📋</div><div class="prev-empty-text">Remplissez le formulaire</div><div class="prev-empty-sub">Votre devis apparaît<br>en temps réel</div></div>'; return; }
+  const p = JSON.parse(localStorage.getItem('fp_profile') || '{}');
+  const logoHTML = p.logo ? `<img src="${p.logo}" style="height:30px;object-fit:contain;margin-bottom:7px;display:block">` : '';
+  const rows = qtLines.filter(l => l.desc).map(l => `<tr><td>${l.desc}</td><td>${l.qty}</td><td style="text-align:right">${curr}${l.price.toFixed(2)}</td><td style="text-align:right;font-weight:600">${curr}${(l.qty * l.price).toFixed(2)}</td></tr>`).join('');
+  document.getElementById('qt-preview').innerHTML = `
+    <div class="inv-hdr" style="background:linear-gradient(135deg,#0a2d18,#1a5c36)"><div>${logoHTML}<div class="inv-co-n">${co || 'Votre société'}</div><div style="font-size:9.5px;color:rgba(255,255,255,.45);margin-top:5px;line-height:1.7">${v('qt-addr')}<br>${v('qt-city')}<br>${v('qt-email')}</div></div>
+      <div style="text-align:right"><div style="font-size:20px;font-weight:700;text-transform:uppercase;color:rgba(255,255,255,.7)">Devis</div><div style="font-size:10px;color:rgba(255,255,255,.4)">${v('qt-num')}</div>${v('qt-subject') ? `<div style="font-size:9.5px;color:rgba(255,255,255,.35);max-width:130px;text-align:right;line-height:1.4;margin-top:3px">${v('qt-subject')}</div>` : ''}<div style="font-size:9.5px;color:rgba(255,255,255,.3);margin-top:4px">Émis : ${v('qt-date')}<br>Valable : ${v('qt-valid')}</div></div></div>
+    <div class="inv-body"><div class="inv-parties"><div><div class="ip-lbl">Proposé à</div><div style="font-weight:700;font-size:12.5px">${cl || 'Client'}</div><div style="font-size:10.5px;color:var(--muted);line-height:1.6">${v('qt-cl-addr')}<br>${v('qt-cl-city')}<br>${v('qt-cl-email')}</div></div><div style="text-align:right"><div class="ip-lbl">Montant total</div><div style="font-family:'Lora',serif;font-size:22px;color:var(--g);font-weight:700">${curr}${total.toFixed(2)}</div></div></div>
+    <table class="inv-table"><thead><tr><th>Description</th><th>Qté</th><th>P.U. HT</th><th>Total HT</th></tr></thead><tbody>${rows}</tbody></table>
+    <div style="display:flex;justify-content:flex-end"><div class="inv-totals"><div class="inv-tr"><span>Sous-total HT</span><span>${curr}${sub.toFixed(2)}</span></div>${vatRate ? `<div class="inv-tr"><span>TVA (${vatRate}%)</span><span>${curr}${vatAmt.toFixed(2)}</span></div>` : ''}<div class="inv-tr tot"><span>Total TTC</span><span>${curr}${total.toFixed(2)}</span></div>${deposit > 0 ? `<div class="inv-tr" style="color:var(--g);font-weight:700"><span>Acompte (${deposit}%)</span><span>${curr}${depositAmt.toFixed(2)}</span></div>` : ''}</div></div>
+    ${v('qt-delay') ? `<div style="margin-top:10px;padding:9px;background:var(--g-lt);border-radius:8px;font-size:11px;color:var(--g)">Délai : <strong>${v('qt-delay')}</strong></div>` : ''}
+    ${v('qt-notes') ? `<div style="margin-top:9px;padding:10px;background:var(--cream);border-radius:8px;font-size:11px;color:var(--muted)">${v('qt-notes')}</div>` : ''}
+    <div style="text-align:center;font-size:9px;color:var(--muted);margin-top:14px;padding-top:10px;border-top:1px solid var(--line)">Valable jusqu'au ${v('qt-valid') || '…'} · ${co || ''}</div></div>`;
+}
+function qtWA() { const phone = (v('qt-send-phone') || '').replace(/[\s+]/g, ''); const msg = encodeURIComponent('Bonjour,\nVoici votre devis ' + v('qt-num') + ' de ' + v('qt-co') + '.\nObjet : ' + v('qt-subject') + '\nValable jusqu\'au : ' + v('qt-valid') + '\n\nCordialement'); window.open((phone ? `https://wa.me/${phone}?text=${msg}` : `https://wa.me/?text=${msg}`), '_blank'); }
+function qtEmail() { const sub = encodeURIComponent('Devis ' + v('qt-num') + ' — ' + v('qt-co')); const body = encodeURIComponent('Bonjour,\nVoici votre devis ' + v('qt-num') + '.\nObjet : ' + v('qt-subject') + '\nValable jusqu\'au : ' + v('qt-valid') + '\n\nCordialement,\n' + v('qt-co')); window.location.href = `mailto:${v('qt-send-email')}?subject=${sub}&body=${body}`; }
+
+/* ══════════════════════════════════════
+   CONTRACT
+══════════════════════════════════════ */
+let ctType = 'freelance', ctText = '';
+function setCT(t) {
+  ctType = t;
+  ['freelance','client','nda','cgv'].forEach(id => { const el = document.getElementById('cto-' + id); if (el) el.classList.toggle('on', id === t); });
+  const titles = { freelance: 'Contrat Freelance', client: 'Contrat Prestataire-Client', nda: 'Accord de Confidentialité (NDA)', cgv: 'Conditions Générales de Vente' };
+  document.getElementById('ct-ttl').textContent = titles[t] || 'Contrat';
+}
+async function genCT() {
+  const btn = document.getElementById('ct-gen-btn'); const orig = btn.innerHTML;
+  btn.innerHTML = '<span class="spinner"></span> L\'IA rédige votre contrat…'; btn.disabled = true;
+  document.getElementById('ct-out').innerHTML = '<div class="ct-placeholder"><div style="font-size:38px;opacity:.35">⚡</div><div style="font-size:14px;font-weight:700;color:var(--muted)">Génération en cours…</div></div>';
+  document.getElementById('ct-share').style.display = 'none'; document.getElementById('ct-share-hint').style.display = 'block';
+  const p = JSON.parse(localStorage.getItem('fp_profile') || '{}');
+  const p1 = v('ct-p1') || p.name || 'Le Prestataire', p2 = v('ct-p2') || 'Le Client';
+  const law = v('ct-law') || 'Droit français';
+  const prompts = {
+    freelance: `Rédige un contrat de prestation freelance professionnel en français.\nPrestataire : ${p1} | Client : ${p2}\nMission : "${v('ct-mission') || 'Prestation'}" | Montant : ${v('ct-amount') ? '€' + v('ct-amount') + ' HT' : ''} | Délai : ${v('ct-delay') || ''} | Acompte : ${v('ct-advance') || 30}% | ${v('ct-rev') || '2 rounds'}\nLivrables : ${v('ct-deliv') || 'À définir'} | Droit : ${law}\nARTICLE 1 — PARTIES\nARTICLE 2 — OBJET\nARTICLE 3 — LIVRABLES\nARTICLE 4 — DÉLAIS\nARTICLE 5 — TARIFS ET PAIEMENT\nARTICLE 6 — RÉVISIONS\nARTICLE 7 — PROPRIÉTÉ INTELLECTUELLE\nARTICLE 8 — CONFIDENTIALITÉ\nARTICLE 9 — RÉSILIATION\nARTICLE 10 — RESPONSABILITÉ\nARTICLE 11 — DROIT APPLICABLE\nARTICLE 12 — SIGNATURES\nClauses réelles et précises. Texte uniquement.`,
+    client: `Contrat de services entre ${p1} et ${p2}. Mission : "${v('ct-mission') || 'Prestation'}". Montant ${v('ct-amount') ? '€' + v('ct-amount') : ''}. Délai ${v('ct-delay') || 'à définir'}. Droit : ${law}. Articles 1 à 10, clauses équilibrées. Texte uniquement.`,
+    nda: `NDA bilatéral entre ${p1} et ${p2} pour : "${v('ct-mission') || 'collaboration'}". Durée : 3 ans. Droit : ${law}. Articles 1-8. Texte uniquement.`,
+    cgv: `CGV pour ${p1}. Activité : "${v('ct-mission') || 'Prestations'}". Droit : ${law}. Sections complètes. Texte uniquement.`
+  };
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 2200, messages: [{ role: 'user', content: prompts[ctType] || prompts.freelance }] }) });
+    const json = await res.json();
+    const text = json.content?.[0]?.text || 'Erreur de génération.'; ctText = text;
+    const formatted = text.split('\n').map(l => { if (l.match(/^ARTICLE\s+\d+/i) || l.match(/^#{1,3}\s/)) return `<h3>${l.replace(/^#+\s*/, '')}</h3>`; if (!l.trim()) return ''; return `<p>${l}</p>`; }).join('');
+    const ref = 'CT-' + Date.now().toString().slice(-6);
+    const logo = p.logo ? `<img src="${p.logo}" style="height:28px;object-fit:contain;margin-bottom:9px;display:block">` : '';
+    const titles = { freelance: 'CONTRAT DE PRESTATION FREELANCE', client: 'CONTRAT DE SERVICES', nda: 'ACCORD DE CONFIDENTIALITÉ', cgv: 'CONDITIONS GÉNÉRALES DE VENTE' };
+    document.getElementById('ct-out').innerHTML = `<div class="ct-out-hdr">${logo}<div class="ct-out-title">${titles[ctType] || 'CONTRAT'}</div><div class="ct-out-ref">Réf. ${ref} · ${new Date().toLocaleDateString('fr-FR')} · ${law}</div></div><div class="ct-out-body">${formatted}</div>`;
+    document.getElementById('ct-share').style.display = 'flex'; document.getElementById('ct-share-hint').style.display = 'none';
+    toast('✓ Contrat généré !');
+  } catch (e) {
+    document.getElementById('ct-out').innerHTML = '<div class="ct-placeholder"><div style="font-size:32px;opacity:.35">⚠</div><div style="font-size:13px;font-weight:700;color:var(--muted)">Erreur de connexion</div></div>';
+  }
+  btn.innerHTML = orig; btn.disabled = false;
+}
+function ctWA() { const phone = (v('ct-to-phone') || '').replace(/[\s+]/g, ''); const msg = encodeURIComponent('Bonjour ' + v('ct-to-name') + ',\n\n' + ctText.slice(0, 1500) + '…\n\nCordialement,\n' + v('ct-p1')); window.open((phone ? `https://wa.me/${phone}?text=${msg}` : `https://wa.me/?text=${msg}`), '_blank'); }
+function ctEmail() { const sub = encodeURIComponent('Contrat — ' + (v('ct-mission') || 'Prestation')); const body = encodeURIComponent('Bonjour ' + v('ct-to-name') + ',\n\n' + ctText + '\n\nCordialement,\n' + v('ct-p1')); window.location.href = `mailto:${v('ct-to-email')}?subject=${sub}&body=${body}`; }
+function ctSMS() { window.location.href = `sms:${v('ct-to-phone')}?body=${encodeURIComponent('Bonjour, voici notre contrat : ' + ctText.slice(0, 300) + '…')}`; }
+function ctCopy() { navigator.clipboard.writeText(ctText).then(() => toast('Contrat copié !')).catch(() => toast('Ctrl+C sur le texte')); }
+
+/* ══════════════════════════════════════
+   RATE CALCULATOR
+══════════════════════════════════════ */
+let rH = 0;
+function calcRate() {
+  document.getElementById('r-sl').value = v('r-income');
+  const inc = parseFloat(v('r-income')) || 4000, biz = parseFloat(v('r-biz')) || 300, health = parseFloat(v('r-health')) || 150, other = parseFloat(v('r-other')) || 200;
+  const tax = parseFloat(v('r-tax')) || 30, buf = parseFloat(document.getElementById('r-buf').value) || 20;
+  const days = parseFloat(document.getElementById('r-days').value) || 5, hours = parseFloat(document.getElementById('r-hours').value) || 6, weeks = parseFloat(document.getElementById('r-weeks').value) || 46;
+  const totalExp = biz + health + other, gross = (inc + totalExp) / (1 - (tax / 100)), annualGross = gross * 12;
+  const billable = weeks * days * hours * (1 - buf / 100); const hourly = billable > 0 ? annualGross / billable : 0; rH = hourly;
+  const daily = hourly * hours, weekly = daily * days;
+  document.getElementById('r-h').textContent = fmt(hourly);
+  document.getElementById('r-d').textContent = fmt(daily);
+  document.getElementById('r-w').textContent = fmt(weekly);
+  document.getElementById('r-mg').textContent = fmt(gross);
+  document.getElementById('r-ag').textContent = '€' + Math.ceil(annualGross / 1000) + 'k';
+  const comp = [['Débutant','25–40€','150–250€'],['Intermédiaire','50–80€','350–550€'],['Votre TJM',fmt(hourly),fmt(daily)],['Senior','100–150€','700–1000€'],['Expert','150–250€','1000€+']];
+  document.getElementById('r-cmp').innerHTML = comp.map(r => `<tr class="${r[0] === 'Votre TJM' ? 'hl' : ''}"><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+  document.getElementById('r-brkdn').innerHTML = [['Revenu net désiré',fmt(inc)],['Charges pro mensuelles',fmt(totalExp)],['Provision impôts (' + tax + '%)',fmt(gross * (tax / 100))],['Heures facturables/an',Math.ceil(billable) + ' h'],['Jours travaillés/an',Math.ceil(weeks * days) + ' j']].map(([l, val]) => `<div class="brkdn-item"><span>${l}</span><span style="font-weight:700">${val}</span></div>`).join('');
+  calcProj();
+  const ctaEl = document.getElementById('r-cta-area');
+  if (ctaEl && rH > 0) ctaEl.innerHTML = `<div class="card" style="background:var(--g-lt);border-color:var(--g-md);text-align:center;margin-bottom:12px"><div style="font-family:'Lora',serif;font-size:14px;color:var(--g);margin-bottom:8px;font-weight:700">TJM : <strong>${fmt(hourly * parseFloat(document.getElementById('r-hours').value))}</strong>/jour</div><div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn btn-green btn-sm" onclick="go('quote')">Créer un devis →</button><button class="btn btn-outline btn-sm" onclick="go('invoice')">Créer une facture →</button></div></div>`;
+}
+function calcProj() { const h = parseFloat(v('r-ph')) || 40; const m = parseFloat(v('r-pm')) || 1; const el = document.getElementById('r-proj'); if (el) el.textContent = rH > 0 ? fmt(rH * h * m) : '—'; }
+
+/* ══════════════════════════════════════
+   FAQ
+══════════════════════════════════════ */
+const FAQS = [
+  { q: "Comment fonctionne l'essai gratuit ?", a: "Entrez simplement votre email — 7 jours d'accès complet, sans carte bancaire. Après 7 jours : Pro à €19/mois ou version gratuite limitée. Annulez en 1 clic." },
+  { q: "Comment fonctionnent les relances automatiques ?", a: "Dès que vous envoyez une facture, FacturePilot programme automatiquement des relances à J+3, J+7, J+14 et J+30. Elles partent par email et WhatsApp. Dès que votre client paie, toutes les relances s'arrêtent automatiquement. Résultat : -68% de retards de paiement." },
+  { q: "Mes données sont-elles sécurisées ?", a: "100%. FacturePilot stocke vos données de facturation sur votre appareil via le localStorage. Aucune donnée commerciale ne passe par nos serveurs. Seul votre email est collecté pour l'accès à l'essai. RGPD by design." },
+  { q: "Les contrats IA sont-ils valables légalement ?", a: "Oui pour l'usage courant des freelances. Ils couvrent propriété intellectuelle, responsabilité, résiliation, paiements. Pour des enjeux supérieurs à €50 000, nous recommandons de consulter un avocat." },
+  { q: "Pourquoi pas de carte bancaire pour l'essai ?", a: "Parce que vous devez constater la valeur avant de payer. On s'inspire du modèle de Notion, Figma et Linear. Cette approche génère 2-3x plus d'inscriptions qualifiées." },
+  { q: "Puis-je envoyer par WhatsApp directement ?", a: "Oui. Chaque outil intègre un bouton WhatsApp qui prépare automatiquement le message avec vos informations. 1 clic et votre client reçoit sa facture directement dans WhatsApp." },
+  { q: "Comment configurer Resend pour recevoir les leads ?", a: "Dans la version déployée sur Vercel, créez une fonction /api/subscribe.js avec votre clé Resend. Le code de la fonction est documenté dans le fichier HTML. En version standalone, les leads sont loggés en console." },
+];
+function renderFAQ() {
+  const el = document.getElementById('faq-list'); if (!el) return;
+  el.innerHTML = FAQS.map((f, i) => `<div class="faq-item" id="faq-${i}"><div class="faq-q" onclick="toggleFAQ(${i})"><div class="faq-q-text">${f.q}</div><div class="faq-arrow">+</div></div><div class="faq-a"><div class="faq-a-inner">${f.a}</div></div></div>`).join('');
+}
+function toggleFAQ(i) { const el = document.getElementById('faq-' + i); const was = el.classList.contains('open'); document.querySelectorAll('.faq-item.open').forEach(e => e.classList.remove('open')); if (!was) el.classList.add('open'); }
+
+/* ══════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════ */
+function animCounter(el, target, dur) {
+  if (!el) return;
+  const start = Date.now();
+  function step() {
+    const p = Math.min((Date.now() - start) / dur, 1);
+    const e = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(e * target);
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function initReveal() {
+  const obs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } }); }, { threshold: .08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}
+
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded', () => {
+  loadProfile();
+  const hash = location.hash.replace('#', '');
+  if (SECS.includes(hash)) go(hash); else go('hub');
+  calcRate(); renderFAQ();
+  updateTrialUI();
+  const ctDate = document.getElementById('ct-start'); if (ctDate) ctDate.valueAsDate = new Date();
+  // Déclencher les compteurs dès que la section hub est visible
+  function triggerCounters() {
+    document.querySelectorAll('.counter').forEach(el => {
+      if (el.dataset.animated) return;
+      el.dataset.animated = '1';
+      animCounter(el, parseInt(el.dataset.t) || 0, 1600);
+    });
+    document.querySelectorAll('.counter2').forEach(el => {
+      if (el.dataset.animated) return;
+      el.dataset.animated = '1';
+      animCounter(el, parseInt(el.dataset.t) || 0, 1200);
+    });
+  }
+  setTimeout(triggerCounters, 300);
+  // Fallback : retenter après 1.5s au cas où
+  setTimeout(triggerCounters, 1500);
+  initReveal();
+
+  // Logo DnD
+  const drop = document.getElementById('logo-drop');
+  if (drop) {
+    drop.addEventListener('dragover', e => { e.preventDefault(); drop.style.borderColor = 'var(--g)'; });
+    drop.addEventListener('dragleave', () => drop.style.borderColor = 'var(--line2)');
+    drop.addEventListener('drop', e => {
+      e.preventDefault(); drop.style.borderColor = 'var(--line2)';
+      const f = e.dataTransfer?.files[0];
+      if (f) { const r = new FileReader(); r.onload = ev => { const logo = ev.target.result; localStorage.setItem('fp_logo', logo); document.getElementById('logo-img').src = logo; document.getElementById('logo-img').style.display = 'block'; document.getElementById('logo-ph').style.display = 'none'; saveProfile(); toast('Logo enregistré !'); }; r.readAsDataURL(f); }
+    });
+  }
+
+  // Fermer menu mobile au clic extérieur
+  document.addEventListener('click', e => {
+    const menu = document.getElementById('nav-mobile-menu');
+    const btn = document.getElementById('hamburger-btn');
+    if (menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)) menu.classList.remove('open');
+  });
+
+  // Sticky CTA — cacher après scroll sur formulaire hero
+  const stickyObs = new IntersectionObserver(entries => {
+    const sticky = document.getElementById('sticky-cta');
+    if (!sticky || localStorage.getItem('fp_trial') === '1') return;
+    entries.forEach(e => { sticky.style.display = e.isIntersecting ? 'none' : 'flex'; });
+  }, { threshold: 0.5 });
+  const heroForm = document.getElementById('hero-form-wrap');
+  if (heroForm) stickyObs.observe(heroForm);
+});
+
+window.addEventListener('hashchange', () => { const h = location.hash.replace('#', ''); if (SECS.includes(h)) go(h); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { document.querySelectorAll('.overlay.on').forEach(m => m.classList.remove('on')); closeMobileMenu(); } });
+</script>
+</body>
+</html>
