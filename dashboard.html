@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>FacturePilot — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;0,700;1,600&family=Figtree:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g:#1a5c36;--g2:#0e3d23;--g-lt:#e8f4ec;--g-md:#b8ddc5;
+  --or:#e8a020;--or-lt:#fef6e4;
+  --ink:#111110;--ink2:#2c2c2a;--muted:#7a7570;
+  --line:#e0dbd2;--line2:#ccc7be;
+  --cream:#f6f2ec;--white:#fffefb;--sand:#f0ebe1;
+  --red:#c0392b;--red-lt:#fdf0ee;
+  --blue:#1a6fa8;--blue-lt:#e8f2fa;
+  --sh:0 1px 14px rgba(17,17,16,.06);
+  --sh-md:0 4px 28px rgba(17,17,16,.10);
+  --sh-lg:0 16px 64px rgba(17,17,16,.14);
+  --sidebar:240px;
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Figtree',sans-serif;background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased;display:flex}
+
+/* ================================================================
+   AUTH SCREENS
+================================================================ */
+.auth-screen{
+  position:fixed;inset:0;background:var(--cream);
+  display:flex;align-items:center;justify-content:center;
+  z-index:1000;padding:20px;
+}
+.auth-screen.hidden{display:none}
+.auth-card{
+  background:var(--white);border:1.5px solid var(--line);
+  border-radius:24px;padding:40px 36px;
+  max-width:420px;width:100%;
+  box-shadow:var(--sh-lg);
+}
+.auth-logo{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:28px}
+.auth-logo-text{font-family:'Figtree',sans-serif;font-weight:800;font-size:20px;letter-spacing:-.02em}
+.auth-logo-text .fp{color:var(--g)}.auth-logo-text .fdot{color:var(--or);font-size:24px}
+.auth-title{font-family:'Lora',serif;font-size:26px;font-weight:700;text-align:center;margin-bottom:6px;letter-spacing:-.02em}
+.auth-sub{font-size:13.5px;color:var(--muted);text-align:center;margin-bottom:28px;line-height:1.6}
+.auth-f{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.auth-f label{font-size:12px;font-weight:600;color:var(--ink2)}
+.auth-inp{
+  height:46px;padding:0 14px;border:1.5px solid var(--line2);
+  border-radius:11px;font-family:'Figtree',sans-serif;font-size:14px;
+  color:var(--ink);background:var(--cream);outline:none;transition:border .15s;
+}
+.auth-inp:focus{border-color:var(--g);background:var(--white)}
+.auth-btn{
+  width:100%;height:50px;border-radius:12px;
+  background:var(--g);color:var(--white);
+  border:none;cursor:pointer;font-family:'Figtree',sans-serif;
+  font-size:15px;font-weight:700;margin-top:6px;
+  transition:all .18s;
+}
+.auth-btn:hover{background:var(--g2);transform:translateY(-1px);box-shadow:0 5px 18px rgba(26,92,54,.28)}
+.auth-switch{text-align:center;margin-top:16px;font-size:13px;color:var(--muted)}
+.auth-switch a{color:var(--g);font-weight:600;cursor:pointer;text-decoration:none}
+.auth-switch a:hover{text-decoration:underline}
+.auth-divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--muted);font-size:12px}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--line)}
+.auth-trial{background:var(--g-lt);border:1px solid var(--g-md);border-radius:10px;padding:12px;text-align:center;font-size:12.5px;color:var(--g);font-weight:600;margin-bottom:16px}
+
+/* ================================================================
+   SIDEBAR
+================================================================ */
+.sidebar{
+  width:var(--sidebar);flex-shrink:0;height:100vh;
+  background:var(--g2);display:flex;flex-direction:column;
+  overflow-y:auto;position:relative;z-index:10;
+}
+.sidebar-logo{
+  padding:20px 18px 16px;display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.sidebar-logo-text{font-family:'Figtree',sans-serif;font-weight:800;font-size:16px;letter-spacing:-.02em}
+.sidebar-logo-text .sl-f{color:#fff}.sidebar-logo-text .sl-p{color:var(--or)}
+.sidebar-logo-text .sl-dot{color:var(--or);font-size:20px;line-height:0}
+.sidebar-user{
+  padding:14px 16px;display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:8px;
+}
+.sidebar-avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,var(--g),#2d9b5e);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:#fff;flex-shrink:0;
+}
+.sidebar-user-name{font-size:13px;font-weight:600;color:#fff;line-height:1.2}
+.sidebar-user-plan{font-size:10.5px;color:rgba(255,255,255,.4)}
+.sidebar-nav{flex:1;padding:0 10px}
+.nav-section{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.25);padding:12px 8px 5px}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 10px;border-radius:9px;cursor:pointer;
+  font-size:13px;font-weight:500;color:rgba(255,255,255,.55);
+  transition:all .15s;margin-bottom:2px;border:none;
+  background:none;width:100%;text-align:left;font-family:'Figtree',sans-serif;
+}
+.nav-item:hover{background:rgba(255,255,255,.08);color:rgba(255,255,255,.9)}
+.nav-item.on{background:rgba(255,255,255,.12);color:#fff;font-weight:600}
+.nav-item .nav-ico{width:16px;text-align:center;font-size:14px;flex-shrink:0}
+.nav-badge{
+  margin-left:auto;background:var(--or);color:var(--ink);
+  border-radius:99px;padding:1px 7px;font-size:10px;font-weight:700;
+}
+.sidebar-bottom{padding:12px 10px;border-top:1px solid rgba(255,255,255,.08)}
+.sidebar-upgrade{
+  background:linear-gradient(135deg,rgba(232,160,32,.2),rgba(232,160,32,.1));
+  border:1px solid rgba(232,160,32,.3);border-radius:11px;
+  padding:12px;text-align:center;margin-bottom:10px;
+}
+.sidebar-upgrade-title{font-size:12px;font-weight:700;color:var(--or);margin-bottom:3px}
+.sidebar-upgrade-sub{font-size:10.5px;color:rgba(255,255,255,.45);margin-bottom:8px}
+.sidebar-upgrade-btn{
+  width:100%;height:30px;border-radius:7px;
+  background:var(--or);color:var(--ink);
+  border:none;cursor:pointer;font-size:11.5px;font-weight:700;
+  font-family:'Figtree',sans-serif;transition:all .15s;
+}
+.sidebar-upgrade-btn:hover{background:#f0b030}
+
+/* ================================================================
+   MAIN
+================================================================ */
+.main{flex:1;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+.topbar{
+  height:60px;background:rgba(246,242,236,.97);
+  backdrop-filter:blur(20px);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;padding:0 24px;gap:12px;
+  position:sticky;top:0;z-index:50;flex-shrink:0;
+}
+.topbar-title{font-family:'Lora',serif;font-size:18px;font-weight:700;letter-spacing:-.02em;flex:1}
+.topbar-search{
+  display:flex;align-items:center;gap:8px;
+  background:var(--white);border:1.5px solid var(--line2);
+  border-radius:10px;padding:0 12px;height:36px;
+}
+.topbar-search input{border:none;background:none;outline:none;font-family:'Figtree',sans-serif;font-size:13px;color:var(--ink);width:180px}
+.topbar-search input::placeholder{color:var(--muted)}
+.tb-btn{
+  height:36px;padding:0 16px;border-radius:9px;
+  border:none;cursor:pointer;font-family:'Figtree',sans-serif;
+  font-size:13px;font-weight:600;transition:all .15s;display:flex;align-items:center;gap:6px;
+}
+.tb-btn-green{background:var(--g);color:#fff}.tb-btn-green:hover{background:var(--g2)}
+.tb-btn-outline{background:transparent;color:var(--ink2);border:1.5px solid var(--line2)}.tb-btn-outline:hover{border-color:var(--g);color:var(--g)}
+.page-content{flex:1;padding:24px}
+
+/* ================================================================
+   CARDS & COMPONENTS
+================================================================ */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.kpi{
+  background:var(--white);border:1.5px solid var(--line);
+  border-radius:16px;padding:20px;transition:all .2s;
+}
+.kpi:hover{transform:translateY(-2px);box-shadow:var(--sh-md)}
+.kpi-label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.kpi-value{font-family:'Lora',serif;font-size:32px;font-weight:700;letter-spacing:-.04em;color:var(--ink);margin-bottom:4px}
+.kpi-trend{font-size:12px;display:flex;align-items:center;gap:4px}
+.kpi-trend.up{color:#1a8a4a}.kpi-trend.down{color:var(--red)}
+.kpi-ico{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:10px}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px}
+.card{background:var(--white);border:1.5px solid var(--line);border-radius:16px;padding:20px}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.card-title{font-size:13px;font-weight:700;color:var(--ink)}
+.card-action{font-size:12px;color:var(--g);font-weight:600;cursor:pointer;background:none;border:none;font-family:'Figtree',sans-serif}
+.card-action:hover{text-decoration:underline}
+
+/* TABLE */
+.table-wrap{background:var(--white);border:1.5px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:24px}
+.table-header{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+table{width:100%;border-collapse:collapse}
+thead th{padding:10px 16px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:var(--cream);text-align:left;white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--line);transition:background .12s;cursor:pointer}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--sand)}
+tbody td{padding:12px 16px;font-size:13px;color:var(--ink2)}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700}
+.badge-green{background:var(--g-lt);color:var(--g)}
+.badge-or{background:var(--or-lt);color:#9a6500}
+.badge-red{background:var(--red-lt);color:var(--red)}
+.badge-blue{background:var(--blue-lt);color:var(--blue)}
+.badge-muted{background:var(--sand);color:var(--muted)}
+.badge::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
+
+/* CHART BAR */
+.chart-bars{display:flex;align-items:flex-end;gap:6px;height:80px;padding-top:10px}
+.chart-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.chart-bar{width:100%;border-radius:5px 5px 0 0;background:var(--g-lt);transition:height .4s ease;min-height:4px;cursor:pointer;position:relative}
+.chart-bar:hover{background:var(--g-md)}
+.chart-bar.active{background:var(--g)}
+.chart-label{font-size:9.5px;color:var(--muted);font-weight:500}
+
+/* MINI STATS */
+.mini-stat{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.mini-stat:last-child{border-bottom:none}
+.mini-stat-label{font-size:12.5px;color:var(--muted)}
+.mini-stat-val{font-size:13px;font-weight:700;color:var(--ink)}
+
+/* INVOICE LIST ITEM */
+.inv-item{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);cursor:pointer;transition:all .15s}
+.inv-item:last-child{border-bottom:none}
+.inv-item:hover .inv-item-title{color:var(--g)}
+.inv-item-ico{width:36px;height:36px;border-radius:9px;background:var(--g-lt);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.inv-item-body{flex:1;min-width:0}
+.inv-item-title{font-size:13px;font-weight:700;transition:color .12s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.inv-item-sub{font-size:11.5px;color:var(--muted)}
+.inv-item-amount{font-family:'Lora',serif;font-size:15px;font-weight:700;color:var(--ink);flex-shrink:0}
+
+/* RELANCE ITEM */
+.relance-item{display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--cream);border-radius:10px;margin-bottom:7px;cursor:pointer;transition:all .15s}
+.relance-item:hover{background:var(--sand);transform:translateX(3px)}
+.relance-item:last-child{margin-bottom:0}
+.ri-day{min-width:38px;height:38px;border-radius:8px;background:var(--or-lt);color:var(--or);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid var(--or-md)}
+.ri-body{flex:1;min-width:0}
+.ri-title{font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ri-sub{font-size:11px;color:var(--muted)}
+.ri-amount{font-weight:700;font-size:13px;color:var(--red);flex-shrink:0}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(17,17,16,.5);backdrop-filter:blur(4px);z-index:900;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--white);border-radius:20px;padding:28px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--sh-lg);position:relative}
+.modal-title{font-family:'Lora',serif;font-size:22px;font-weight:700;margin-bottom:18px;letter-spacing:-.02em}
+.modal-close{position:absolute;top:16px;right:16px;background:var(--sand);border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;color:var(--muted);display:flex;align-items:center;justify-content:center}
+.modal-close:hover{background:var(--line);color:var(--ink)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.form-field{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.form-field label{font-size:11.5px;font-weight:600;color:var(--ink2)}
+.form-inp{height:42px;padding:0 12px;border:1.5px solid var(--line2);border-radius:9px;font-family:'Figtree',sans-serif;font-size:13.5px;color:var(--ink);background:var(--white);outline:none;transition:border .15s;width:100%}
+.form-inp:focus{border-color:var(--g)}
+select.form-inp{-webkit-appearance:none;appearance:none}
+.form-btn{height:44px;padding:0 24px;border-radius:10px;font-family:'Figtree',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.form-btn-green{background:var(--g);color:#fff}.form-btn-green:hover{background:var(--g2)}
+.form-btn-outline{background:transparent;color:var(--ink2);border:1.5px solid var(--line2)}.form-btn-outline:hover{border-color:var(--g);color:var(--g)}
+
+/* PROGRESS BAR */
+.progress-bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;transition:width .4s ease}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 22px;border-radius:11px;font-size:13px;font-weight:600;z-index:9999;box-shadow:var(--sh-lg);pointer-events:none;white-space:nowrap;animation:toastUp .3s ease}
+@keyframes toastUp{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:52px 24px}
+.empty-ico{font-size:40px;margin-bottom:12px;opacity:.35}
+.empty-title{font-size:16px;font-weight:700;color:var(--muted);margin-bottom:6px}
+.empty-sub{font-size:13px;color:var(--line2);line-height:1.6}
+
+/* AVATAR STACK */
+.avatar-stack{display:flex}
+.avatar-stack .av{width:26px;height:26px;border-radius:50%;border:2px solid var(--white);margin-left:-7px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.avatar-stack .av:first-child{margin-left:0}
+
+/* SETTINGS */
+.settings-section{margin-bottom:28px}
+.settings-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}
+.toggle-row:last-child{border-bottom:none}
+.toggle-label{font-size:13px;color:var(--ink2)}
+.toggle-sub{font-size:11.5px;color:var(--muted)}
+.toggle{position:relative;width:40px;height:22px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:var(--line2);border-radius:11px;cursor:pointer;transition:.3s}
+.toggle-slider::before{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;left:3px;top:3px;transition:.3s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.toggle input:checked+.toggle-slider{background:var(--g)}
+.toggle input:checked+.toggle-slider::before{transform:translateX(18px)}
+
+/* RESPONSIVE SIDEBAR */
+@media(max-width:900px){
+  .sidebar{width:60px}
+  .sidebar-logo-text,.sidebar-user-name,.sidebar-user-plan,.nav-section,.nav-item span,.sidebar-upgrade{display:none}
+  .nav-item{justify-content:center;padding:10px}
+  .nav-badge{display:none}
+  .sidebar-user{justify-content:center}
+  .sidebar-avatar{width:30px;height:30px}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .kpi-grid{grid-template-columns:1fr}
+  .topbar-search{display:none}
+  .page-content{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- ================================================================
+     AUTH — LOGIN
+================================================================ -->
+<div class="auth-screen" id="auth-login">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <svg width="34" height="34" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" stroke="#1a5c36" stroke-width="2.6"/><rect x="13" y="10" width="5.5" height="28" rx="2.75" fill="#111110"/><rect x="13" y="10" width="19" height="5.5" rx="2.75" fill="#111110"/><rect x="13" y="22" width="15" height="5" rx="2.5" fill="#1a5c36"/><circle cx="35" cy="37" r="5.5" fill="#e8a020"/></svg>
+      <div class="auth-logo-text">Facture<span class="fp">Pilot</span><span class="fdot">.</span></div>
+    </div>
+    <h2 class="auth-title">Bon retour 👋</h2>
+    <p class="auth-sub">Connectez-vous pour accéder à votre dashboard</p>
+    <div class="auth-trial">✓ 7 jours gratuits — Sans carte bancaire</div>
+    <div class="auth-f">
+      <label>Email</label>
+      <input class="auth-inp" type="email" id="login-email" placeholder="vous@email.com" value="demo@facturepilot.io">
+    </div>
+    <div class="auth-f">
+      <label>Mot de passe</label>
+      <input class="auth-inp" type="password" id="login-pwd" placeholder="••••••••" value="demo1234">
+    </div>
+    <button class="auth-btn" onclick="doLogin()">Se connecter →</button>
+    <div class="auth-switch">Pas encore de compte ? <a onclick="showRegister()">Créer un compte gratuit</a></div>
+  </div>
+</div>
+
+<!-- AUTH — REGISTER -->
+<div class="auth-screen hidden" id="auth-register">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <svg width="34" height="34" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" stroke="#1a5c36" stroke-width="2.6"/><rect x="13" y="10" width="5.5" height="28" rx="2.75" fill="#111110"/><rect x="13" y="10" width="19" height="5.5" rx="2.75" fill="#111110"/><rect x="13" y="22" width="15" height="5" rx="2.5" fill="#1a5c36"/><circle cx="35" cy="37" r="5.5" fill="#e8a020"/></svg>
+      <div class="auth-logo-text">Facture<span class="fp">Pilot</span><span class="fdot">.</span></div>
+    </div>
+    <h2 class="auth-title">Créer votre compte</h2>
+    <p class="auth-sub">7 jours gratuits, sans carte bancaire</p>
+    <div class="form-row" style="margin-bottom:0">
+      <div class="auth-f"><label>Prénom</label><input class="auth-inp" placeholder="Jean"></div>
+      <div class="auth-f"><label>Nom</label><input class="auth-inp" placeholder="Dupont"></div>
+    </div>
+    <div class="auth-f"><label>Email</label><input class="auth-inp" type="email" placeholder="jean@email.com"></div>
+    <div class="auth-f"><label>Mot de passe</label><input class="auth-inp" type="password" placeholder="Min. 8 caractères"></div>
+    <div class="auth-f"><label>Nom de votre société</label><input class="auth-inp" placeholder="Acme Studio"></div>
+    <button class="auth-btn" onclick="doLogin()">Créer mon compte gratuit →</button>
+    <div class="auth-switch">Déjà un compte ? <a onclick="showLogin()">Se connecter</a></div>
+  </div>
+</div>
+
+<!-- ================================================================
+     APP SHELL
+================================================================ -->
+<div id="app" style="display:none;width:100%;height:100vh;display:none;flex-direction:row">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <svg width="28" height="28" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" stroke="#e8a020" stroke-width="2.6"/><rect x="13" y="10" width="5.5" height="28" rx="2.75" fill="#fff"/><rect x="13" y="10" width="19" height="5.5" rx="2.75" fill="#fff"/><rect x="13" y="22" width="15" height="5" rx="2.5" fill="#e8a020"/><circle cx="35" cy="37" r="5.5" fill="#e8a020"/></svg>
+    <div class="sidebar-logo-text"><span class="sl-f">Facture</span><span class="sl-p">Pilot</span><span class="sl-dot">.</span></div>
+  </div>
+  <div class="sidebar-user">
+    <div class="sidebar-avatar">JD</div>
+    <div>
+      <div class="sidebar-user-name">Jean Dupont</div>
+      <div class="sidebar-user-plan">✓ Essai gratuit — 5j restants</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">Principal</div>
+    <button class="nav-item on" onclick="goPage('dashboard')" id="nav-dashboard">
+      <span class="nav-ico">📊</span><span>Dashboard</span>
+    </button>
+    <button class="nav-item" onclick="goPage('factures')" id="nav-factures">
+      <span class="nav-ico">📄</span><span>Factures</span>
+      <span class="nav-badge">3</span>
+    </button>
+    <button class="nav-item" onclick="goPage('devis')" id="nav-devis">
+      <span class="nav-ico">📋</span><span>Devis</span>
+    </button>
+    <button class="nav-item" onclick="goPage('clients')" id="nav-clients">
+      <span class="nav-ico">👥</span><span>Clients</span>
+    </button>
+    <div class="nav-section">Automatisation</div>
+    <button class="nav-item" onclick="goPage('relances')" id="nav-relances">
+      <span class="nav-ico">⚡</span><span>Relances auto</span>
+      <span class="nav-badge">2</span>
+    </button>
+    <button class="nav-item" onclick="goPage('paiements')" id="nav-paiements">
+      <span class="nav-ico">💳</span><span>Paiements</span>
+    </button>
+    <div class="nav-section">Outils</div>
+    <button class="nav-item" onclick="goPage('contrats')" id="nav-contrats">
+      <span class="nav-ico">🔐</span><span>Contrats IA</span>
+    </button>
+    <button class="nav-item" onclick="goPage('analytics')" id="nav-analytics">
+      <span class="nav-ico">📈</span><span>Analytics</span>
+    </button>
+    <button class="nav-item" onclick="goPage('parametres')" id="nav-parametres">
+      <span class="nav-ico">⚙️</span><span>Paramètres</span>
+    </button>
+  </nav>
+  <div class="sidebar-bottom">
+    <div class="sidebar-upgrade">
+      <div class="sidebar-upgrade-title">Passez à Pro</div>
+      <div class="sidebar-upgrade-sub">Relances illimitées<br>+ Stripe Connect</div>
+      <button class="sidebar-upgrade-btn">Upgrader →</button>
+    </div>
+    <button class="nav-item" onclick="doLogout()">
+      <span class="nav-ico">🚪</span><span>Déconnexion</span>
+    </button>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div class="main" id="main-content">
+
+  <!-- ============================================================
+       DASHBOARD
+  ============================================================ -->
+  <div id="page-dashboard" class="page-wrap">
+    <div class="topbar">
+      <div class="topbar-title">Dashboard</div>
+      <div class="topbar-search">
+        <span style="color:var(--muted);font-size:13px">🔍</span>
+        <input placeholder="Rechercher une facture, un client…">
+      </div>
+      <button class="tb-btn tb-btn-green" onclick="openModal('new-invoice')">+ Nouvelle facture</button>
+    </div>
+    <div class="page-content">
+
+      <!-- KPI ROW -->
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-ico" style="background:var(--g-lt)">💰</div>
+          <div class="kpi-label">Total encaissé</div>
+          <div class="kpi-value">€24 850</div>
+          <div class="kpi-trend up">↑ +18% ce mois</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-ico" style="background:var(--or-lt)">⏳</div>
+          <div class="kpi-label">En attente</div>
+          <div class="kpi-value">€8 400</div>
+          <div class="kpi-trend" style="color:var(--muted)">3 factures ouvertes</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-ico" style="background:var(--red-lt)">🚨</div>
+          <div class="kpi-label">En retard</div>
+          <div class="kpi-value" style="color:var(--red)">€2 150</div>
+          <div class="kpi-trend down">↓ 2 clients concernés</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-ico" style="background:var(--blue-lt)">📬</div>
+          <div class="kpi-label">Relances envoyées</div>
+          <div class="kpi-value">12</div>
+          <div class="kpi-trend up">↑ -68% de retards</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- REVENUS CHART -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Revenus mensuels</div>
+            <button class="card-action">Voir tout</button>
+          </div>
+          <div class="chart-bars" id="revenue-chart"></div>
+          <div style="display:flex;justify-content:space-between;margin-top:8px">
+            <span style="font-size:11px;color:var(--muted)">Jan</span>
+            <span style="font-size:11px;color:var(--muted)">Fév</span>
+            <span style="font-size:11px;color:var(--muted)">Mar</span>
+            <span style="font-size:11px;color:var(--muted)">Avr</span>
+            <span style="font-size:11px;color:var(--muted)">Mai</span>
+            <span style="font-size:11px;color:var(--muted)">Jun</span>
+          </div>
+          <div style="display:flex;gap:16px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">
+            <div><div style="font-size:10px;color:var(--muted);margin-bottom:2px">Ce mois</div><div style="font-family:'Lora',serif;font-size:18px;font-weight:700">€5 200</div></div>
+            <div><div style="font-size:10px;color:var(--muted);margin-bottom:2px">Mois dernier</div><div style="font-family:'Lora',serif;font-size:18px;font-weight:700;color:var(--muted)">€4 400</div></div>
+            <div style="margin-left:auto;text-align:right"><div style="font-size:10px;color:var(--muted);margin-bottom:2px">Croissance</div><div style="font-size:18px;font-weight:700;color:#1a8a4a">+18%</div></div>
+          </div>
+        </div>
+
+        <!-- RELANCES EN COURS -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">⚡ Relances en cours</div>
+            <button class="card-action" onclick="goPage('relances')">Gérer</button>
+          </div>
+          <div class="relance-item">
+            <div class="ri-day">J+7</div>
+            <div class="ri-body"><div class="ri-title">Agence Créative SAS</div><div class="ri-sub">FAC-047 · Échue depuis 7 jours</div></div>
+            <div class="ri-amount">€2 400</div>
+          </div>
+          <div class="relance-item">
+            <div class="ri-day" style="background:var(--red-lt);color:var(--red);border-color:#f5c6c2">J+14</div>
+            <div class="ri-body"><div class="ri-title">StartupXYZ</div><div class="ri-sub">FAC-043 · Urgente — 14j de retard</div></div>
+            <div class="ri-amount">€850</div>
+          </div>
+          <div style="margin-top:12px;padding:10px;background:var(--g-lt);border-radius:9px;text-align:center">
+            <div style="font-size:11.5px;color:var(--g);font-weight:600">✓ Prochaine relance dans 6h — Automatique</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DERNIÈRES FACTURES -->
+      <div class="table-wrap">
+        <div class="table-header">
+          <div style="font-size:13px;font-weight:700">Dernières factures</div>
+          <button class="tb-btn tb-btn-outline" onclick="goPage('factures')">Voir toutes →</button>
+        </div>
+        <table>
+          <thead><tr><th>N° Facture</th><th>Client</th><th>Montant</th><th>Émise le</th><th>Échéance</th><th>Statut</th><th>Action</th></tr></thead>
+          <tbody id="dashboard-inv-table"></tbody>
+        </table>
+      </div>
+
+      <!-- TOP CLIENTS + TAUX -->
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Top clients</div></div>
+          <div class="mini-stat"><span class="mini-stat-label">Agence Créative SAS</span><span class="mini-stat-val">€8 200</span></div>
+          <div class="mini-stat"><span class="mini-stat-label">TechCorp SARL</span><span class="mini-stat-val">€6 450</span></div>
+          <div class="mini-stat"><span class="mini-stat-label">StartupXYZ</span><span class="mini-stat-val">€4 800</span></div>
+          <div class="mini-stat"><span class="mini-stat-label">Design Studio</span><span class="mini-stat-val">€3 200</span></div>
+          <div class="mini-stat"><span class="mini-stat-label">Consultant Pro</span><span class="mini-stat-val">€2 200</span></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Taux de paiement</div></div>
+          <div style="text-align:center;padding:10px 0">
+            <div style="font-family:'Lora',serif;font-size:48px;font-weight:700;color:var(--g);line-height:1">87%</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px">des factures payées</div>
+          </div>
+          <div style="margin-top:10px">
+            <div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-bottom:5px"><span>Payées (87%)</span><span style="color:var(--g);font-weight:600">€21 620</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:87%;background:var(--g)"></div></div>
+          </div>
+          <div style="margin-top:8px">
+            <div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-bottom:5px"><span>En retard (13%)</span><span style="color:var(--red);font-weight:600">€3 230</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:13%;background:var(--red)"></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Délai moyen de paiement</div></div>
+          <div style="text-align:center;padding:8px 0">
+            <div style="font-family:'Lora',serif;font-size:48px;font-weight:700;color:var(--ink);line-height:1">4.2</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px">jours en moyenne</div>
+          </div>
+          <div style="background:var(--g-lt);border-radius:9px;padding:10px;text-align:center;margin-top:8px">
+            <div style="font-size:11.5px;color:var(--g);font-weight:700">↓ 18j → 4j grâce aux relances auto</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       FACTURES
+  ============================================================ -->
+  <div id="page-factures" class="page-wrap" style="display:none">
+    <div class="topbar">
+      <div class="topbar-title">Factures</div>
+      <div class="topbar-search"><span style="color:var(--muted);font-size:13px">🔍</span><input placeholder="Rechercher…" oninput="filterInvoices(this.value)"></div>
+      <button class="tb-btn tb-btn-outline" style="gap:5px">⬇ Exporter</button>
+      <button class="tb-btn tb-btn-green" onclick="openModal('new-invoice')">+ Nouvelle facture</button>
+    </div>
+    <div class="page-content">
+      <!-- FILTER TABS -->
+      <div style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap">
+        <button class="filter-tab on" onclick="setInvFilter('all',this)">Toutes <span style="background:var(--ink);color:#fff;border-radius:99px;padding:1px 7px;font-size:10px;margin-left:4px">12</span></button>
+        <button class="filter-tab" onclick="setInvFilter('paid',this)">Payées <span style="background:var(--g);color:#fff;border-radius:99px;padding:1px 7px;font-size:10px;margin-left:4px">8</span></button>
+        <button class="filter-tab" onclick="setInvFilter('pending',this)">En attente <span style="background:var(--or);color:var(--ink);border-radius:99px;padding:1px 7px;font-size:10px;margin-left:4px">3</span></button>
+        <button class="filter-tab" onclick="setInvFilter('late',this)">En retard <span style="background:var(--red);color:#fff;border-radius:99px;padding:1px 7px;font-size:10px;margin-left:4px">1</span></button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>N° Facture</th><th>Client</th><th>Montant TTC</th><th>Émise le</th><th>Échéance</th><th>Statut</th><th>Actions</th></tr></thead>
+          <tbody id="invoice-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       DEVIS
+  ============================================================ -->
+  <div id="page-devis" class="page-wrap" style="display:none">
+    <div class="topbar">
+      <div class="topbar-title">Devis</div>
+      <button class="tb-btn tb-btn-green" onclick="openModal('new-quote')">+ Nouveau devis</button>
+    </div>
+    <div class="page-content">
+      <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="kpi"><div class="kpi-ico" style="background:var(--blue-lt)">📋</div><div class="kpi-label">Devis envoyés</div><div class="kpi-value">8</div><div class="kpi-trend" style="color:var(--muted)">Ce mois</div></div>
+        <div class="kpi"><div class="kpi-ico" style="background:var(--g-lt)">✅</div><div class="kpi-label">Acceptés</div><div class="kpi-value">5</div><div class="kpi-trend up">Taux : 62%</div></div>
+        <div class="kpi"><div class="kpi-ico" style="background:var(--or-lt)">⏳</div><div class="kpi-label">En attente</div><div class="kpi-value">€12 400</div><div class="kpi-trend" style="color:var(--muted)">3 devis ouverts</div></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>N° Devis</th><th>Client</th><th>Objet</th><th>Montant</th><th>Valable jusqu'au</th><th>Statut</th><th>Actions</th></tr></thead>
+          <tbody id="quote-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       CLIENTS
+  ============================================================ -->
+  <div id="page-clients" class="page-wrap" style="display:none">
+    <div class="topbar">
+      <div class="topbar-title">Clients</div>
+      <div class="topbar-search"><span style="color:var(--muted);font-size:13px">🔍</span><input placeholder="Rechercher un client…"></div>
+      <button class="tb-btn tb-btn-green" onclick="openModal('new-client')">+ Nouveau client</button>
+    </div>
+    <div class="page-content">
+      <div id="clients-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       RELANCES
+  ============================================================ -->
+  <div id="page-relances" class="page-wrap" style="display:none">
+    <div class="topbar">
+      <div class="topbar-title">Relances automatiques</div>
+      <button class="tb-btn tb-btn-green">+ Relance manuelle</button>
+    </div>
+    <div class="page-content">
+      <div class="grid-2">
+        <!-- CONFIG -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">⚙️ Configuration des relances</div></div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            ${['J+3 — Rappel doux','J+7 — Rappel standard','J+14 — Rappel ferme','J+30 — Mise en demeure'].map((label,i)=>`
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--cream);border-radius:10px;border:1.5px solid var(--line)">
+              <div>
+                <div style="font-size:13px;font-weight:700">${label}</div>
+                <div style="font-size:11px;color:var(--muted);margin-top:2px">Email + WhatsApp · Automatique</div>
+              </div>
+              <label class="toggle"><input type="checkbox" ${i<3?'checked':''}><span class="toggle-slider"></span></label>
+            </div>`).join('')}
+          </div>
+          <div style="margin-top:14px;padding:12px;background:var(--g-lt);border-radius:10px;border:1px solid var(--g-md)">
+            <div style="font-size:12px;font-weight:700;color:var(--g);margin-bottom:4px">✓ Stop automatique activé</div>
+            <div style="font-size:11.5px;color:var(--muted)">Dès qu'un paiement est détecté, toutes les relances s'arrêtent.</div>
+          </div>
+        </div>
+        <!-- HISTORIQUE -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">📬 Historique des relances</div></div>
+          <div id="relance-history"></div>
+        </div>
+      </div>
+      <!-- FACTURES EN RETARD -->
+      <div class="table-wrap">
+        <div class="table-header">
+          <div style="font-size:13px;font-weight:700;color:var(--red)">🚨 Factures nécessitant une relance</div>
+        </div>
+        <table>
+          <thead><tr><th>Client</th><th>Facture</th><th>Montant</th><th>Retard</th><th>Dernière relance</th><th>Prochaine relance</th><th>Action</th></tr></thead>
+          <tbody id="relance-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       PAIEMENTS
+  ============================================================ -->
+  <div id="page-paiements" class="page-wrap" style="display:none">
+    <div class="topbar">
+      <div class="topbar-title">Paiements</div>
+      <button class="tb-btn tb-btn-outline">⬇ Exporter</button>
+    </div>
+    <div class="page-content">
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-ico" style="background:var(--g-lt)">💶</div><div class="kpi-label">Reçus ce mois</div><div class="kpi-value">€5 200</div><div class="kpi-trend up">↑ +18%</div></div>
+        <div class="kpi"><div class="kpi-ico" style="background:var(--blue-lt)">🏦</div><div class="kpi-label">Virement bancaire</div><div class="kpi-value">€4 100</div><div class="kpi-trend" style="color:var(--muted)">79% des paiements</div></div>
+        <div class="kpi"><div class="kpi-ico" style="background:var(--or-lt)">💳</div><div class="kpi-label">Carte bancaire</div><div class="kpi-value">€850</div><div class="kpi-trend" style="color:var(--muted)">Via Stripe</div></div>
+        <div class="kpi"><div class="kpi-ico" style="background:var(--red-lt)">⏳</div><div class="kpi-label">En attente</div><div class="kpi-value">€8 400</div><div class="kpi-trend down">3 factures</div></div>
+      </div>
+      <div class="table-wrap">
+        <div class="table-header"><div style="font-size:13px;font-weight:700">Historique des paiements</div></div>
+        <table>
+          <thead><tr><th>Date</th><th>Client</th><th>Facture</th><th>Montant</th><th>Méthode</th><th>Statut</th></tr></thead>
+          <tbody id="payment-table"></tbody>
+        </table>
+      </div>
+      <!-- STRIPE CONNECT -->
+      <div class="card" style="background:linear-gradient(135deg,#0a2d18,#0e3d23);border:none">
+        <div style="display:flex;align-items:center;gap:16px">
+          <div style="font-size:32px">💳</div>
+          <div style="flex:1">
+            <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:4px">Connectez Stripe pour recevoir des paiements en ligne</div>
+            <div style="font-size:12.5px;color:rgba(255,255,255,.5)">Vos clients pourront payer directement depuis leur facture — carte, Apple Pay, Google Pay</div>
+          </div>
+          <button style="height:40px;padding:0 20px;border-radius:10px;background:var(--or);color:var(--ink);border:none;cursor:pointer;font-size:13px;font-weight:700;white-space:nowrap;font-family:'Figtree',sans-serif" onclick="toast('Stripe Connect — disponible en Plan Pro')">Connecter Stripe →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       CONTRATS IA
+  ============================================================ -->
+  <div id="page-contrats" class="page-wrap" style="display:none">
+    <div class="topbar">
+      <div class="topbar-title">Contrats IA</div>
+      <button class="tb-btn tb-btn-green" onclick="openModal('new-contract')">+ Générer un contrat</button>
+    </div>
+    <div class="page-content">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px">
+        ${[['💼','Contrat Freelance','Mission, livrables, paiement'],['🤝','Prestataire-Client','Conditions commerciales'],['🔐','NDA','Accord de confidentialité'],['📋','CGV','Conditions générales']].map(([ico,title,desc])=>`
+        <div class="card" style="text-align:center;cursor:pointer;transition:all .2s" onclick="openModal('new-contract')" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='var(--sh-md)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="font-size:28px;margin-bottom:8px">${ico}</div>
+          <div style="font-size:13px;font-weight:700;margin-bottom:4px">${title}</div>
+          <div style="font-size:11.5px;color:var(--muted)">${desc}</div>
+          <div style="margin-top:12px;padding:5px 12px;background:var(--g-lt);color:var(--g);border-radius:99px;font-size:11px;font-weight:700;display:inline-block">Générer →</div>
+        </div>`).join('')}
+      </div>
+      <div class="table-wrap">
+        <div class="table-header"><div style="font-size:13px;font-weight:700">Contrats générés</div></div>
+        <table>
+          <thead><tr><th>Type</th><th>Client</th><th>Mission</th><th>Généré le</th><th>Statut</th><th>Actions</th></tr></thead>
+          <tbody id="contract-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ANALYTICS
+  ============================================================ -->
+  <div id="page-analytics" class="page-wrap" style="display:none">
+    <div class="topbar">
+      <div class="topbar-title">Analytics</div>
+      <select style="height:34px;padding:0 12px;border:1.5px solid var(--line2);border-radius:9px;font-family:'Figtree',sans-serif;font-size:13px;background:var(--white);outline:none">
+        <option>Derniers 30 jours</option><option>Derniers 90 jours</option><option>Cette année</option>
+      </select>
+    </div>
+    <div class="page-content">
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-ico" style="background:var(--g-lt)">📊</div><div class="kpi-label">CA total</div><div class="kpi-value">€24 850</div><div class="kpi-trend up">↑ +22% vs an dernier</div></div>
+        <div class="kpi"><div class="kpi-ico" style="background:var(--blue-lt)">🎯</div><div class="kpi-label">Taux de conversion devis</div><div class="kpi-value">62%</div><div class="kpi-trend up">↑ +8pts</div></div>
+        <div class="kpi"><div class="kpi-ico" style="background:var(--or-lt)">⚡</div><div class="kpi-label">Efficacité relances</div><div class="kpi-value">-68%</div><div class="kpi-trend up">de retards</div></div>
+        <div class="kpi"><div class="kpi-ico" style="background:var(--red-lt)">📅</div><div class="kpi-label">Délai moyen paiement</div><div class="kpi-value">4.2j</div><div class="kpi-trend up">↓ était 18j</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Revenus par mois</div></div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            ${[['Janvier','€3 200',52],['Février','€2 800',45],['Mars','€4 100',66],['Avril','€3 800',61],['Mai','€5 750',93],['Juin','€5 200',84]].map(([m,v,p])=>`
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:40px;font-size:11.5px;color:var(--muted)">${m}</div>
+              <div style="flex:1"><div class="progress-bar"><div class="progress-fill" style="width:${p}%;background:var(--g)"></div></div></div>
+              <div style="width:60px;text-align:right;font-size:12.5px;font-weight:700">${v}</div>
+            </div>`).join('')}
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Répartition par client</div></div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            ${[['Agence Créative','€8 200',33,'#1a5c36'],['TechCorp SARL','€6 450',26,'#2d9b5e'],['StartupXYZ','€4 800',19,'#e8a020'],['Design Studio','€3 200',13,'#1a6fa8'],['Autres','€2 200',9,'#ccc7be']].map(([c,v,p,col])=>`
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0"></div>
+              <div style="flex:1;font-size:12.5px">${c}</div>
+              <div style="font-size:12px;color:var(--muted)">${p}%</div>
+              <div style="font-size:12.5px;font-weight:700">${v}</div>
+            </div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       PARAMETRES
+  ============================================================ -->
+  <div id="page-parametres" class="page-wrap" style="display:none">
+    <div class="topbar">
+      <div class="topbar-title">Paramètres</div>
+      <button class="tb-btn tb-btn-green" onclick="toast('Paramètres sauvegardés !')">💾 Sauvegarder</button>
+    </div>
+    <div class="page-content">
+      <div class="grid-2">
+        <div>
+          <div class="card settings-section">
+            <div class="settings-title">🏢 Votre entreprise</div>
+            <div class="form-field"><label>Nom / Société</label><input class="form-inp" value="Jean Dupont Studio"></div>
+            <div class="form-row">
+              <div class="form-field" style="margin:0"><label>SIRET</label><input class="form-inp" placeholder="12345678901234"></div>
+              <div class="form-field" style="margin:0"><label>N° TVA</label><input class="form-inp" placeholder="FR12345678901"></div>
+            </div>
+            <div class="form-field"><label>Adresse</label><input class="form-inp" placeholder="12 Rue de la Paix, 75001 Paris"></div>
+            <div class="form-row">
+              <div class="form-field" style="margin:0"><label>Email</label><input class="form-inp" value="jean@studio.com"></div>
+              <div class="form-field" style="margin:0"><label>Téléphone</label><input class="form-inp" placeholder="+33 6…"></div>
+            </div>
+          </div>
+          <div class="card settings-section">
+            <div class="settings-title">💳 Abonnement</div>
+            <div style="background:var(--g-lt);border:1.5px solid var(--g-md);border-radius:12px;padding:16px;margin-bottom:12px">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <div><div style="font-size:14px;font-weight:700;color:var(--g)">Plan Essai Gratuit</div><div style="font-size:12px;color:var(--muted);margin-top:2px">5 jours restants</div></div>
+                <button style="height:34px;padding:0 16px;border-radius:8px;background:var(--g);color:#fff;border:none;cursor:pointer;font-size:12.5px;font-weight:700;font-family:'Figtree',sans-serif" onclick="toast('Redirection vers Stripe Checkout…')">Passer à Pro →</button>
+              </div>
+            </div>
+            <div style="font-size:12.5px;color:var(--muted)">Pro à €19/mois · Business à €39/mois · Annulez quand vous voulez</div>
+          </div>
+        </div>
+        <div>
+          <div class="card settings-section">
+            <div class="settings-title">📬 Relances automatiques</div>
+            <div class="toggle-row"><div><div class="toggle-label">Activer les relances automatiques</div><div class="toggle-sub">J+3, J+7, J+14, J+30</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="toggle-row"><div><div class="toggle-label">Relances par email</div><div class="toggle-sub">Via votre adresse email</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="toggle-row"><div><div class="toggle-label">Relances par WhatsApp</div><div class="toggle-sub">Nécessite Plan Pro</div></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+            <div class="toggle-row"><div><div class="toggle-label">Stop auto si paiement détecté</div><div class="toggle-sub">Recommandé</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          </div>
+          <div class="card settings-section">
+            <div class="settings-title">🔔 Notifications</div>
+            <div class="toggle-row"><div><div class="toggle-label">Email — Nouvelle facture payée</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="toggle-row"><div><div class="toggle-label">Email — Facture en retard</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="toggle-row"><div><div class="toggle-label">Email — Devis accepté</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="toggle-row"><div><div class="toggle-label">Résumé hebdomadaire</div></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end main -->
+</div><!-- end app -->
+
+<!-- ================================================================
+     MODALS
+================================================================ -->
+
+<!-- NEW INVOICE -->
+<div class="modal-overlay" id="modal-new-invoice">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('new-invoice')">✕</button>
+    <div class="modal-title">Nouvelle facture</div>
+    <div class="form-row">
+      <div class="form-field" style="margin:0"><label>Client</label><select class="form-inp"><option>Agence Créative SAS</option><option>TechCorp SARL</option><option>StartupXYZ</option><option>+ Nouveau client</option></select></div>
+      <div class="form-field" style="margin:0"><label>N° Facture</label><input class="form-inp" value="FAC-013"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-field" style="margin:0"><label>Date d'émission</label><input class="form-inp" type="date"></div>
+      <div class="form-field" style="margin:0"><label>Date d'échéance</label><input class="form-inp" type="date"></div>
+    </div>
+    <div class="form-field"><label>Description de la prestation</label><input class="form-inp" placeholder="Développement site web…"></div>
+    <div class="form-row">
+      <div class="form-field" style="margin:0"><label>Montant HT (€)</label><input class="form-inp" type="number" placeholder="2500"></div>
+      <div class="form-field" style="margin:0"><label>TVA</label><select class="form-inp"><option>20%</option><option>10%</option><option>5.5%</option><option>0%</option></select></div>
+    </div>
+    <div style="background:var(--g-lt);border-radius:10px;padding:12px;margin-bottom:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--g);margin-bottom:4px">⚡ Relances automatiques activées</div>
+      <div style="font-size:11.5px;color:var(--muted)">Si non payée à l'échéance → relances J+3, J+7, J+14 automatiques</div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button class="form-btn form-btn-outline" onclick="closeModal('new-invoice')">Annuler</button>
+      <button class="form-btn form-btn-green" onclick="createInvoice()">Créer et envoyer →</button>
+    </div>
+  </div>
+</div>
+
+<!-- NEW CLIENT -->
+<div class="modal-overlay" id="modal-new-client">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('new-client')">✕</button>
+    <div class="modal-title">Nouveau client</div>
+    <div class="form-row">
+      <div class="form-field" style="margin:0"><label>Nom / Société</label><input class="form-inp" placeholder="Acme SAS"></div>
+      <div class="form-field" style="margin:0"><label>Contact</label><input class="form-inp" placeholder="Marie Martin"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-field" style="margin:0"><label>Email</label><input class="form-inp" placeholder="contact@acme.com"></div>
+      <div class="form-field" style="margin:0"><label>Téléphone</label><input class="form-inp" placeholder="+33 6…"></div>
+    </div>
+    <div class="form-field"><label>Adresse</label><input class="form-inp" placeholder="5 Avenue Montaigne, Paris"></div>
+    <div class="form-row">
+      <div class="form-field" style="margin:0"><label>SIRET (optionnel)</label><input class="form-inp" placeholder="12345678901234"></div>
+      <div class="form-field" style="margin:0"><label>WhatsApp</label><input class="form-inp" placeholder="+33 6…"></div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:6px">
+      <button class="form-btn form-btn-outline" onclick="closeModal('new-client')">Annuler</button>
+      <button class="form-btn form-btn-green" onclick="createClient()">Ajouter le client →</button>
+    </div>
+  </div>
+</div>
+
+<!-- NEW QUOTE -->
+<div class="modal-overlay" id="modal-new-quote">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('new-quote')">✕</button>
+    <div class="modal-title">Nouveau devis</div>
+    <div class="form-row">
+      <div class="form-field" style="margin:0"><label>Client</label><select class="form-inp"><option>Agence Créative SAS</option><option>TechCorp SARL</option></select></div>
+      <div class="form-field" style="margin:0"><label>N° Devis</label><input class="form-inp" value="DEV-009"></div>
+    </div>
+    <div class="form-field"><label>Objet de la mission</label><input class="form-inp" placeholder="Création d'un site e-commerce"></div>
+    <div class="form-row">
+      <div class="form-field" style="margin:0"><label>Montant HT (€)</label><input class="form-inp" type="number" placeholder="3500"></div>
+      <div class="form-field" style="margin:0"><label>Acompte (%)</label><input class="form-inp" type="number" value="30"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-field" style="margin:0"><label>Valable jusqu'au</label><input class="form-inp" type="date"></div>
+      <div class="form-field" style="margin:0"><label>Délai de réalisation</label><input class="form-inp" placeholder="4 semaines"></div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:6px">
+      <button class="form-btn form-btn-outline" onclick="closeModal('new-quote')">Annuler</button>
+      <button class="form-btn form-btn-green" onclick="toast('Devis créé et envoyé !');closeModal('new-quote')">Créer et envoyer →</button>
+    </div>
+  </div>
+</div>
+
+<!-- NEW CONTRACT -->
+<div class="modal-overlay" id="modal-new-contract">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('new-contract')">✕</button>
+    <div class="modal-title">Générer un contrat IA</div>
+    <div class="form-field"><label>Type de contrat</label><select class="form-inp"><option>Contrat Freelance</option><option>NDA — Confidentialité</option><option>CGV</option><option>Contrat Prestataire-Client</option></select></div>
+    <div class="form-row">
+      <div class="form-field" style="margin:0"><label>Votre nom / société</label><input class="form-inp" value="Jean Dupont Studio"></div>
+      <div class="form-field" style="margin:0"><label>Nom du client</label><input class="form-inp" placeholder="Acme SAS"></div>
+    </div>
+    <div class="form-field"><label>Objet de la mission</label><input class="form-inp" placeholder="Développement application mobile"></div>
+    <div class="form-row">
+      <div class="form-field" style="margin:0"><label>Montant HT (€)</label><input class="form-inp" placeholder="5000"></div>
+      <div class="form-field" style="margin:0"><label>Délai</label><input class="form-inp" placeholder="6 semaines"></div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:6px">
+      <button class="form-btn form-btn-outline" onclick="closeModal('new-contract')">Annuler</button>
+      <button class="form-btn form-btn-green" onclick="toast('Contrat généré par IA !');closeModal('new-contract')">Générer avec IA →</button>
+    </div>
+  </div>
+</div>
+
+<!-- FILTER TAB STYLES -->
+<style>
+.filter-tab{padding:7px 16px;border-radius:99px;font-size:13px;font-weight:600;border:1.5px solid var(--line2);background:var(--white);color:var(--muted);cursor:pointer;transition:all .15s;font-family:'Figtree',sans-serif}
+.filter-tab:hover{border-color:var(--g);color:var(--g)}
+.filter-tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.page-wrap{width:100%;display:flex;flex-direction:column;min-height:100%}
+</style>
+
+<script>
+/* ══════════════════════════════════════
+   DATA
+══════════════════════════════════════ */
+const INVOICES = [
+  {id:'FAC-012',client:'Agence Créative SAS',amount:'€2 400',date:'15/01/2025',due:'14/02/2025',status:'paid'},
+  {id:'FAC-011',client:'TechCorp SARL',amount:'€1 850',date:'10/01/2025',due:'09/02/2025',status:'paid'},
+  {id:'FAC-010',client:'StartupXYZ',amount:'€850',date:'05/01/2025',due:'04/02/2025',status:'late'},
+  {id:'FAC-009',client:'Design Studio',amount:'€3 200',date:'01/01/2025',due:'31/01/2025',status:'pending'},
+  {id:'FAC-008',client:'Agence Créative SAS',amount:'€1 600',date:'20/12/2024',due:'19/01/2025',status:'paid'},
+  {id:'FAC-007',client:'Consultant Pro',amount:'€2 200',date:'15/12/2024',due:'14/01/2025',status:'pending'},
+  {id:'FAC-006',client:'TechCorp SARL',amount:'€4 100',date:'01/12/2024',due:'31/12/2024',status:'paid'},
+  {id:'FAC-005',client:'StartupXYZ',amount:'€980',date:'15/11/2024',due:'15/12/2024',status:'paid'},
+];
+
+const QUOTES = [
+  {id:'DEV-008',client:'TechCorp SARL',subject:'Application mobile React Native',amount:'€8 500',valid:'28/02/2025',status:'pending'},
+  {id:'DEV-007',client:'Nouveau Client',subject:'Audit SEO complet',amount:'€2 400',valid:'15/02/2025',status:'pending'},
+  {id:'DEV-006',client:'Agence Créative',subject:'Refonte site corporate',amount:'€5 200',valid:'10/02/2025',status:'accepted'},
+  {id:'DEV-005',client:'Design Studio',subject:'Identité visuelle',amount:'€3 800',valid:'05/02/2025',status:'accepted'},
+  {id:'DEV-004',client:'StartupXYZ',subject:'Dashboard analytics',amount:'€4 500',valid:'20/01/2025',status:'refused'},
+];
+
+const CLIENTS = [
+  {name:'Agence Créative SAS',contact:'Marie Martin',email:'marie@agence.com',phone:'+33 6 12 34 56 78',revenue:'€8 200',invoices:4,status:'active'},
+  {name:'TechCorp SARL',contact:'Pierre Durand',email:'pierre@techcorp.fr',phone:'+33 6 98 76 54 32',revenue:'€6 450',invoices:3,status:'active'},
+  {name:'StartupXYZ',contact:'Sophie Chen',email:'sophie@startupxyz.io',phone:'+33 6 11 22 33 44',revenue:'€4 800',invoices:5,status:'late'},
+  {name:'Design Studio',contact:'Lucas Bernard',email:'lucas@design.fr',phone:'+33 6 55 66 77 88',revenue:'€3 200',invoices:2,status:'active'},
+  {name:'Consultant Pro',contact:'Emma Petit',email:'emma@consultpro.fr',phone:'+33 6 44 55 66 77',revenue:'€2 200',invoices:2,status:'active'},
+  {name:'Innovation Lab',contact:'Thomas Morel',email:'thomas@innolab.fr',phone:'+33 6 33 44 55 66',revenue:'€1 800',invoices:1,status:'new'},
+];
+
+const PAYMENTS = [
+  {date:'28/01/2025',client:'Agence Créative SAS',invoice:'FAC-012',amount:'€2 400',method:'Virement',status:'paid'},
+  {date:'25/01/2025',client:'TechCorp SARL',invoice:'FAC-011',amount:'€1 850',method:'Virement',status:'paid'},
+  {date:'20/01/2025',client:'Agence Créative SAS',invoice:'FAC-008',amount:'€1 600',method:'Stripe',status:'paid'},
+  {date:'15/01/2025',client:'TechCorp SARL',invoice:'FAC-006',amount:'€4 100',method:'Virement',status:'paid'},
+  {date:'10/01/2025',client:'StartupXYZ',invoice:'FAC-005',amount:'€980',method:'Stripe',status:'paid'},
+];
+
+const CONTRACTS = [
+  {type:'Freelance',client:'TechCorp SARL',mission:'App mobile React Native',date:'20/01/2025',status:'signed'},
+  {type:'NDA',client:'Nouveau Client',mission:'Projet confidentiel',date:'15/01/2025',status:'sent'},
+  {type:'Freelance',client:'Agence Créative',mission:'Refonte site corporate',date:'10/01/2025',status:'signed'},
+  {type:'CGV',client:'—',mission:'Conditions générales',date:'01/01/2025',status:'active'},
+];
+
+const RELANCES = [
+  {client:'StartupXYZ',invoice:'FAC-043',amount:'€850',late:'14 jours',last:'J+7 — 21/01',next:'J+14 — 28/01'},
+  {client:'Design Studio',invoice:'FAC-009',amount:'€3 200',late:'7 jours',last:'J+3 — 22/01',next:'J+7 — 29/01'},
+];
+
+/* ══════════════════════════════════════
+   STATUS BADGE
+══════════════════════════════════════ */
+function statusBadge(s) {
+  const map = {
+    paid:'<span class="badge badge-green">✓ Payée</span>',
+    pending:'<span class="badge badge-or">⏳ En attente</span>',
+    late:'<span class="badge badge-red">🚨 En retard</span>',
+    sent:'<span class="badge badge-blue">📤 Envoyé</span>',
+    accepted:'<span class="badge badge-green">✓ Accepté</span>',
+    refused:'<span class="badge badge-red">✕ Refusé</span>',
+    signed:'<span class="badge badge-green">✓ Signé</span>',
+    active:'<span class="badge badge-green">✓ Actif</span>',
+    new:'<span class="badge badge-blue">Nouveau</span>',
+  };
+  return map[s] || s;
+}
+
+/* ══════════════════════════════════════
+   RENDER TABLES
+══════════════════════════════════════ */
+function renderDashboardTable() {
+  const tbody = document.getElementById('dashboard-inv-table');
+  if (!tbody) return;
+  tbody.innerHTML = INVOICES.slice(0,5).map(inv => `
+    <tr onclick="toast('Facture ${inv.id} — ${inv.client}')">
+      <td><strong>${inv.id}</strong></td>
+      <td>${inv.client}</td>
+      <td><strong>${inv.amount}</strong></td>
+      <td style="color:var(--muted)">${inv.date}</td>
+      <td style="color:var(--muted)">${inv.due}</td>
+      <td>${statusBadge(inv.status)}</td>
+      <td><button style="background:var(--g-lt);color:var(--g);border:none;border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:'Figtree',sans-serif" onclick="event.stopPropagation();toast('PDF généré !')">PDF</button></td>
+    </tr>`).join('');
+}
+
+function renderInvoiceTable(filter='all') {
+  const tbody = document.getElementById('invoice-table');
+  if (!tbody) return;
+  const list = filter === 'all' ? INVOICES : INVOICES.filter(i => i.status === filter);
+  tbody.innerHTML = list.map(inv => `
+    <tr onclick="toast('${inv.id} — ${inv.client}')">
+      <td><strong style="color:var(--g)">${inv.id}</strong></td>
+      <td>${inv.client}</td>
+      <td><strong>${inv.amount}</strong></td>
+      <td style="color:var(--muted)">${inv.date}</td>
+      <td style="color:${inv.status==='late'?'var(--red)':'var(--muted)'};font-weight:${inv.status==='late'?700:400}">${inv.due}</td>
+      <td>${statusBadge(inv.status)}</td>
+      <td style="display:flex;gap:5px;align-items:center">
+        <button style="background:var(--g-lt);color:var(--g);border:none;border-radius:6px;padding:4px 9px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Figtree',sans-serif" onclick="event.stopPropagation();toast('PDF généré !')">PDF</button>
+        <button style="background:var(--or-lt);color:#9a6500;border:none;border-radius:6px;padding:4px 9px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Figtree',sans-serif" onclick="event.stopPropagation();toast('Email envoyé à ${inv.client} !')">✉</button>
+        ${inv.status!=='paid'?`<button style="background:#25D366;color:#fff;border:none;border-radius:6px;padding:4px 9px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Figtree',sans-serif" onclick="event.stopPropagation();toast('WhatsApp ouvert !')">WA</button>`:''}
+      </td>
+    </tr>`).join('');
+}
+
+function renderQuoteTable() {
+  const tbody = document.getElementById('quote-table');
+  if (!tbody) return;
+  tbody.innerHTML = QUOTES.map(q => `
+    <tr onclick="toast('${q.id}')">
+      <td><strong style="color:var(--g)">${q.id}</strong></td>
+      <td>${q.client}</td>
+      <td>${q.subject}</td>
+      <td><strong>${q.amount}</strong></td>
+      <td style="color:var(--muted)">${q.valid}</td>
+      <td>${statusBadge(q.status)}</td>
+      <td>
+        <button style="background:var(--g-lt);color:var(--g);border:none;border-radius:6px;padding:4px 9px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Figtree',sans-serif" onclick="event.stopPropagation();toast('Devis envoyé !')">Envoyer</button>
+        ${q.status==='accepted'?`<button style="background:var(--or-lt);color:#9a6500;border:none;border-radius:6px;padding:4px 9px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Figtree',sans-serif;margin-left:4px" onclick="event.stopPropagation();toast('Conversion en facture !')">→ Facture</button>`:''}
+      </td>
+    </tr>`).join('');
+}
+
+function renderClientsGrid() {
+  const grid = document.getElementById('clients-grid');
+  if (!grid) return;
+  grid.innerHTML = CLIENTS.map(c => `
+    <div class="card" style="cursor:pointer;transition:all .2s" onclick="toast('Client : ${c.name}')" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='var(--sh-md)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div style="width:40px;height:40px;border-radius:10px;background:var(--g-lt);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--g);flex-shrink:0">${c.name[0]}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.name}</div>
+          <div style="font-size:11.5px;color:var(--muted)">${c.contact}</div>
+        </div>
+        ${statusBadge(c.status)}
+      </div>
+      <div style="font-size:11.5px;color:var(--muted);margin-bottom:3px">📧 ${c.email}</div>
+      <div style="font-size:11.5px;color:var(--muted);margin-bottom:12px">📱 ${c.phone}</div>
+      <div style="display:flex;justify-content:space-between;padding-top:10px;border-top:1px solid var(--line)">
+        <div style="text-align:center"><div style="font-size:10px;color:var(--muted)">CA total</div><div style="font-family:'Lora',serif;font-size:16px;font-weight:700;color:var(--g)">${c.revenue}</div></div>
+        <div style="text-align:center"><div style="font-size:10px;color:var(--muted)">Factures</div><div style="font-family:'Lora',serif;font-size:16px;font-weight:700">${c.invoices}</div></div>
+        <div style="display:flex;gap:5px;align-items:center">
+          <button style="background:var(--g);color:#fff;border:none;border-radius:7px;padding:5px 9px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Figtree',sans-serif" onclick="event.stopPropagation();openModal('new-invoice')">Facturer</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderRelanceTable() {
+  const tbody = document.getElementById('relance-table');
+  if (!tbody) return;
+  tbody.innerHTML = RELANCES.map(r => `
+    <tr>
+      <td><strong>${r.client}</strong></td>
+      <td style="color:var(--g)">${r.invoice}</td>
+      <td><strong style="color:var(--red)">${r.amount}</strong></td>
+      <td><span class="badge badge-red">${r.late}</span></td>
+      <td style="color:var(--muted)">${r.last}</td>
+      <td><strong style="color:var(--or)">${r.next}</strong></td>
+      <td><button style="background:var(--or-lt);color:#9a6500;border:none;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:'Figtree',sans-serif" onclick="toast('Relance manuelle envoyée à ${r.client} !')">Relancer maintenant</button></td>
+    </tr>`).join('');
+}
+
+function renderRelanceHistory() {
+  const el = document.getElementById('relance-history');
+  if (!el) return;
+  const items = [
+    {day:'Aujourd\'hui 09:00',client:'StartupXYZ',type:'J+14',channel:'Email',status:'sent'},
+    {day:'Hier 14:30',client:'Design Studio',type:'J+7',channel:'WhatsApp',status:'sent'},
+    {day:'22/01 10:00',client:'StartupXYZ',type:'J+7',channel:'Email + WA',status:'sent'},
+    {day:'18/01 09:00',client:'Design Studio',type:'J+3',channel:'Email',status:'sent'},
+    {day:'15/01 16:00',client:'Agence Créative',type:'Payée ✓',channel:'—',status:'paid'},
+  ];
+  el.innerHTML = items.map(i => `
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)">
+      <div style="width:36px;height:36px;border-radius:8px;background:${i.status==='paid'?'var(--g-lt)':'var(--or-lt)'};color:${i.status==='paid'?'var(--g)':'#9a6500'};font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">${i.type}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12.5px;font-weight:700">${i.client}</div>
+        <div style="font-size:11px;color:var(--muted)">${i.day} · ${i.channel}</div>
+      </div>
+      <span class="badge ${i.status==='paid'?'badge-green':'badge-or'}">${i.status==='paid'?'✓ Payée':'✓ Envoyée'}</span>
+    </div>`).join('');
+}
+
+function renderPaymentTable() {
+  const tbody = document.getElementById('payment-table');
+  if (!tbody) return;
+  tbody.innerHTML = PAYMENTS.map(p => `
+    <tr>
+      <td style="color:var(--muted)">${p.date}</td>
+      <td>${p.client}</td>
+      <td style="color:var(--g)">${p.invoice}</td>
+      <td><strong>${p.amount}</strong></td>
+      <td><span class="badge badge-muted">${p.method}</span></td>
+      <td>${statusBadge(p.status)}</td>
+    </tr>`).join('');
+}
+
+function renderContractTable() {
+  const tbody = document.getElementById('contract-table');
+  if (!tbody) return;
+  tbody.innerHTML = CONTRACTS.map(c => `
+    <tr onclick="toast('Contrat ${c.type} — ${c.client}')">
+      <td><span class="badge badge-blue">${c.type}</span></td>
+      <td>${c.client}</td>
+      <td style="color:var(--muted)">${c.mission}</td>
+      <td style="color:var(--muted)">${c.date}</td>
+      <td>${statusBadge(c.status)}</td>
+      <td><button style="background:var(--g-lt);color:var(--g);border:none;border-radius:6px;padding:4px 9px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Figtree',sans-serif" onclick="event.stopPropagation();toast('PDF téléchargé !')">PDF</button></td>
+    </tr>`).join('');
+}
+
+function renderRevenueChart() {
+  const el = document.getElementById('revenue-chart');
+  if (!el) return;
+  const vals = [3200,2800,4100,3800,5750,5200];
+  const max = Math.max(...vals);
+  el.innerHTML = vals.map((v,i) => `
+    <div class="chart-bar-wrap">
+      <div class="chart-bar ${i===vals.length-1?'active':''}" style="height:${Math.round((v/max)*68)+4}px" title="€${v.toLocaleString('fr-FR')}"></div>
+    </div>`).join('');
+}
+
+/* ══════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════ */
+const PAGES = ['dashboard','factures','devis','clients','relances','paiements','contrats','analytics','parametres'];
+
+function goPage(id) {
+  PAGES.forEach(p => {
+    const el = document.getElementById('page-'+p);
+    const nav = document.getElementById('nav-'+p);
+    if (el) el.style.display = p===id ? 'flex' : 'none';
+    if (nav) nav.classList.toggle('on', p===id);
+  });
+  // Render data on navigate
+  if (id==='dashboard') { renderDashboardTable(); renderRevenueChart(); }
+  if (id==='factures') renderInvoiceTable();
+  if (id==='devis') renderQuoteTable();
+  if (id==='clients') renderClientsGrid();
+  if (id==='relances') { renderRelanceTable(); renderRelanceHistory(); }
+  if (id==='paiements') renderPaymentTable();
+  if (id==='contrats') renderContractTable();
+}
+
+/* ══════════════════════════════════════
+   FILTER
+══════════════════════════════════════ */
+function setInvFilter(f, btn) {
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderInvoiceTable(f);
+}
+function filterInvoices(q) { renderInvoiceTable('all'); }
+
+/* ══════════════════════════════════════
+   MODALS
+══════════════════════════════════════ */
+function openModal(id) {
+  document.getElementById('modal-'+id)?.classList.add('open');
+}
+function closeModal(id) {
+  document.getElementById('modal-'+id)?.classList.remove('open');
+}
+document.addEventListener('click', e => {
+  document.querySelectorAll('.modal-overlay.open').forEach(m => {
+    if (e.target === m) m.classList.remove('open');
+  });
+});
+
+/* ══════════════════════════════════════
+   ACTIONS
+══════════════════════════════════════ */
+function createInvoice() {
+  closeModal('new-invoice');
+  toast('✓ Facture créée et envoyée ! Relances automatiques activées.');
+}
+function createClient() {
+  closeModal('new-client');
+  toast('✓ Client ajouté avec succès !');
+  renderClientsGrid();
+}
+
+/* ══════════════════════════════════════
+   AUTH
+══════════════════════════════════════ */
+function doLogin() {
+  document.getElementById('auth-login').classList.add('hidden');
+  document.getElementById('auth-register').classList.add('hidden');
+  const app = document.getElementById('app');
+  app.style.display = 'flex';
+  goPage('dashboard');
+  toast('✓ Connecté ! Bienvenue dans FacturePilot.');
+}
+function doLogout() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('auth-login').classList.remove('hidden');
+}
+function showRegister() {
+  document.getElementById('auth-login').classList.add('hidden');
+  document.getElementById('auth-register').classList.remove('hidden');
+}
+function showLogin() {
+  document.getElementById('auth-register').classList.add('hidden');
+  document.getElementById('auth-login').classList.remove('hidden');
+}
+
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+function toast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3200);
+}
+
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded', () => {
+  // Auto-login for demo
+  renderDashboardTable();
+  renderRevenueChart();
+});
+</script>
+</body>
+</html>
